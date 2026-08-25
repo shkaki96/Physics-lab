@@ -67,6 +67,108 @@ export default function SoundSpeedSim({ lang, onLogMeasurement }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const animFrameRef = useRef<number | null>(null);
 
+  const t = {
+    ar: {
+      movableReservoir: 'مستودع الماء المتحرك',
+      title: 'تعيين سرعة الصوت باستخدام أنبوب الرنين المغلق وعمود الماء',
+      strikeFork: 'طرق الشوكة الرنانة 🔔', // غير موثّق بمصدر
+      airColumnL: 'طول عمود الهواء (L)',
+      measuredSpeed: 'سرعة الصوت المقاسة (v)',
+      theoreticalSpeed: 'سرعة الصوت النظرية',
+      endCorrection: 'تصحيح النهاية (0.6r)',
+      procedureTitle: 'طريقة تعيين سرعة الصوت عملياً:',
+      procedureDesc: 'توضع الشوكة الرنانة المهتزة عند فوهة الأنبوب، ويتم خفض مستودع الماء تدريجياً لزيادة طول عمود الهواء L حتى يُسمع أعلى تضخيم للصوت (موضع الرنين الأول L₁ ≈ λ/4 - c). وعند خفضه أكثر نصل للرنين الثاني (L₂ ≈ 3λ/4 - c). نحسب الطول الموجي λ = 2(L₂ - L₁) وسرعة الصوت v = f · λ بدقة بالغة وبدون الاعتماد على تصحيح النهاية.',
+      controlHeader: 'الشوكة الرنانة ومستوى الماء',
+      selectFork: 'اختيار الشوكة الرنانة القياسية:',
+      theoreticalPos: 'مواضع الرنين المحسوبة (L₁ و L₂):',
+      firstResonance: 'الرنين الأول L₁',
+      secondResonance: 'الرنين الثاني L₂',
+      waterLevelHeight: 'ارتفاع الماء في الأنبوب',
+      ambientTemp: 'درجة حرارة الهواء المحيط (T)',
+      loggedSuccess: 'تم تسجيل القياس في دفتر المختبر!', // غير موثّق بمصدر
+      logButton: 'تسجيل سرعة الصوت المقاسة',
+    },
+    en: {
+      movableReservoir: 'Movable Reservoir',
+      title: 'Speed of Sound via Closed Resonance Tube & Water Column',
+      strikeFork: 'Strike Fork 🔔', // غير موثّق بمصدر
+      airColumnL: 'Air Column Length (L)',
+      measuredSpeed: 'Measured Speed of Sound (v)',
+      theoreticalSpeed: 'Theoretical Speed of Sound',
+      endCorrection: 'End Correction (0.6r)',
+      procedureTitle: 'Experimental Procedure:',
+      procedureDesc: 'Hold vibrating fork over open top, lower water level to find 1st resonance (L1 ≈ λ/4 - c) and 2nd resonance (L2 ≈ 3λ/4 - c). Compute wavelength λ = 2(L2 - L1) and speed of sound v = f · λ independent of end correction.',
+      controlHeader: 'Tuning Fork & Water Level',
+      selectFork: 'Select Tuning Fork:',
+      theoreticalPos: 'Theoretical Resonance Positions:',
+      firstResonance: '1st Resonance L₁',
+      secondResonance: '2nd Resonance L₂',
+      waterLevelHeight: 'Water Column Height',
+      ambientTemp: 'Ambient Air Temperature (T)',
+      loggedSuccess: 'Logged to Lab Notebook!', // غير موثّق بمصدر
+      logButton: 'Log Measured Speed of Sound',
+    },
+    ku: {
+      movableReservoir: 'خەزێنەی ئاوی گوێزراوە',
+      title: 'دیاریکردنی خێراییی دەنگ بە بۆریی ڕەنین و ستوونی ئاو',
+      strikeFork: 'لێدانی چەنگاڵی دەنگدار 🔔', // غير موثّق بمصدر
+      airColumnL: 'درێژیی ستوونی هەوا (L)',
+      measuredSpeed: 'خێراییی دەنگی پێوراو (v)',
+      theoreticalSpeed: 'خێراییی دەنگی بیردۆزی',
+      endCorrection: 'ڕاستکردنەوەی سەر (0.6r)',
+      procedureTitle: 'ڕێگەی دیاریکردنی خێراییی دەنگ بە شێوەی کرداری:',
+      procedureDesc: 'چەنگاڵی دەنگداری لەرراو دەخرێتە سەر دەمی بۆرییەکە، و خەزێنەی ئاوەکە هێدی هێدی دێنرێتە خوارەوە بۆ زیادکردنی درێژیی ستوونی هەوا L تاوەکو بەرزترین دەنگدانەوە دەبيسرێت (شوێنی دەنگدانەوەی یەکەم L₁ ≈ λ/4 - c). لەگەڵ هێنانيەخوارەوەی زیاتر دەگەینە دەنگدانەوەی دووەم (L₂ ≈ 3λ/4 - c). درێژیی شەپۆل λ = 2(L₂ - L₁) و خێراییی دەنگ v = f · λ بە وردیی دەپێوین.',
+      controlHeader: 'چەنگاڵی دەنگدار و ئاستی ئاو',
+      selectFork: 'هەڵبژاردنی چەنگاڵی دەنگداری سنوردار (پێوەر):',
+      theoreticalPos: 'شوێنەکانی دەنگدانەوەی ئەژمارکراو (L₁ و L₂):',
+      firstResonance: 'دەنگدانەوەی یەکەم L₁',
+      secondResonance: 'دەنگدانەوەی دووەم L₂',
+      waterLevelHeight: 'بەرزیی ئاو لە بۆریدا',
+      ambientTemp: 'پلەی گەرمیی هەوای دەوروبەر (T)',
+      loggedSuccess: 'پێوانەکە لە دەفتەری تاقیگەدا تۆمارکرا!', // غير موثّق بمصدر
+      logButton: 'تۆمارکردنی خێراییی دەنگی پێوراو',
+    },
+    kmr: {
+      movableReservoir: 'Rezervuarê avê yê gerok',
+      title: 'Diyarkirina leza dengî bi boriyan dengvedanê û stûna avê',
+      strikeFork: 'Lêdana çengala dengdar 🔔', // غير موثّق بمصدر
+      airColumnL: 'Dirêjahiya stûna hewayê (L)',
+      measuredSpeed: 'Leza dengî ya pîvawî (v)',
+      theoreticalSpeed: 'Leza dengî ya teorîk',
+      endCorrection: 'Rastkirina serî (0.6r)',
+      procedureTitle: 'Rêbaza diyarkirina leza dengî bi rengê pratîkî:',
+      procedureDesc: 'Çengala dengdar a hejandî li ser devê boriyê tê danîn, û rezervuarê avê hêdî hêdî tê daxistin ji bo zêdekirina dirêjahiya stûna hewayê L heta ku dengvedana herî bilind tê bihîstin (cihê dengvedana yekem L₁ ≈ λ/4 - c). Dema daxistina zêdetir em digihêjin dengvedana duyem (L₂ ≈ 3λ/4 - c). Dirêjahiya pêlê λ = 2(L₂ - L₁) û leza dengî v = f · λ bipîvin.',
+      controlHeader: 'Çengala dengdar û asta avê',
+      selectFork: 'Hilbijartina çengala dengdar a standard:',
+      theoreticalPos: 'Cihên dengvedanê yên hesabkirî (L₁ û L₂):',
+      firstResonance: 'Dengvedana yekem L₁',
+      secondResonance: 'Dengvedana duyem L₂',
+      waterLevelHeight: 'Bilindahiya avê di boriyê de',
+      ambientTemp: 'Pileya germahiya hewaya derdorê (T)',
+      loggedSuccess: 'Pîvan di deftera labê de hat tomarkirin!', // غير موثّق بمصدر
+      logButton: 'Tomarkirina leza dengî ya pîvawî',
+    },
+  }[lang] || {
+    movableReservoir: 'مستودع الماء المتحرك',
+    title: 'تعيين سرعة الصوت باستخدام أنبوب الرنين المغلق وعمود الماء',
+    strikeFork: 'طرق الشوكة الرنانة 🔔',
+    airColumnL: 'طول عمود الهواء (L)',
+    measuredSpeed: 'سرعة الصوت المقاسة (v)',
+    theoreticalSpeed: 'سرعة الصوت النظرية',
+    endCorrection: 'تصحيح النهاية (0.6r)',
+    procedureTitle: 'طريقة تعيين سرعة الصوت عملياً:',
+    procedureDesc: 'توضع الشوكة الرنانة المهتزة عند فوهة الأنبوب، ويتم خفض مستودع الماء تدريجياً لزيادة طول عمود الهواء L حتى يُسمع أعلى تضخيم للصوت (موضع الرنين الأول L₁ ≈ λ/4 - c). وعند خفضه أكثر نصل للرنين الثاني (L₂ ≈ 3λ/4 - c). نحسب الطول الموجي λ = 2(L₂ - L₁) وسرعة الصوت v = f · λ بدقة بالغة وبدون الاعتماد على تصحيح النهاية.',
+    controlHeader: 'الشوكة الرنانة ومستوى الماء',
+    selectFork: 'اختيار الشوكة الرنانة القياسية:',
+    theoreticalPos: 'مواضع الرنين المحسوبة (L₁ و L₂):',
+    firstResonance: 'الرنين الأول L₁',
+    secondResonance: 'الرنين الثاني L₂',
+    waterLevelHeight: 'ارتفاع الماء في الأنبوب',
+    ambientTemp: 'درجة حرارة الهواء المحيط (T)',
+    loggedSuccess: 'تم تسجيل القياس في دفتر المختبر!',
+    logButton: 'تسجيل سرعة الصوت المقاسة',
+  };
+
   // Sound strike effect
   const strikeFork = () => {
     setIsStriking(true);
@@ -288,7 +390,7 @@ export default function SoundSpeedSim({ lang, onLogMeasurement }: Props) {
       ctx.fillStyle = '#cbd5e1';
       ctx.font = '10px sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText(lang === 'ar' ? 'مستودع الماء المتحرك' : 'Movable Reservoir', resX, resY - 8);
+      ctx.fillText(t.movableReservoir, resX, resY - 8);
 
       animFrameRef.current = requestAnimationFrame(render);
     };
@@ -297,7 +399,7 @@ export default function SoundSpeedSim({ lang, onLogMeasurement }: Props) {
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
-  }, [waterLevel, selectedFork, isStriking, isAtResonance, airColumnLength, resonanceIntensity, lang]);
+  }, [waterLevel, selectedFork, isStriking, isAtResonance, airColumnLength, resonanceIntensity, lang, t]);
 
   const snapToL1 = () => {
     const targetWater = totalTubeLength - resonantL1;
@@ -342,7 +444,7 @@ export default function SoundSpeedSim({ lang, onLogMeasurement }: Props) {
               </div>
               <div>
                 <h3 className="text-base font-bold text-zinc-100">
-                  {lang === 'ar' ? 'تعيين سرعة الصوت باستخدام أنبوب الرنين المغلق وعمود الماء' : lang === 'ku' ? 'دیاریکردنی خێرایی دەنگ بە بۆریی داخراو و ستوونی ئاو' : 'Speed of Sound via Closed Resonance Tube & Water Column'}
+                  {t.title}
                 </h3>
                 <p className="text-xs text-zinc-400 font-mono">
                   v = 4(L + 0.6r) f • v_theo = {theoreticalSpeedOfSound.toFixed(1)} m/s at {temperatureC}°C
@@ -356,7 +458,7 @@ export default function SoundSpeedSim({ lang, onLogMeasurement }: Props) {
                 className="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-500 hover:to-indigo-500 text-white flex items-center gap-1.5 shadow-lg shadow-sky-900/30 transition-all"
               >
                 <Volume2 className="w-4 h-4" />
-                <span>{lang === 'ar' ? 'طرق الشوكة الرنانة 🔔' : 'Strike Fork 🔔'}</span>
+                <span>{t.strikeFork}</span>
               </button>
             </div>
           </div>
@@ -368,28 +470,28 @@ export default function SoundSpeedSim({ lang, onLogMeasurement }: Props) {
           {/* Real-time Measurements Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3">
             <div className="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/60 text-center">
-              <div className="text-[11px] text-zinc-400">{lang === 'ar' ? 'طول عمود الهواء (L)' : 'Air Column (L)'}</div>
+              <div className="text-[11px] text-zinc-400">{t.airColumnL}</div>
               <div className="text-base font-bold font-mono text-sky-400">
                 {(airColumnLength * 100).toFixed(1)} <span className="text-xs text-zinc-400">cm</span>
               </div>
             </div>
 
             <div className="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/60 text-center">
-              <div className="text-[11px] text-zinc-400">{lang === 'ar' ? 'سرعة الصوت المقاسة (v)' : 'Measured Speed (v)'}</div>
+              <div className="text-[11px] text-zinc-400">{t.measuredSpeed}</div>
               <div className="text-base font-bold font-mono text-emerald-400">
                 {expSpeedOfSound.toFixed(1)} <span className="text-xs text-zinc-400">m/s</span>
               </div>
             </div>
 
             <div className="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/60 text-center">
-              <div className="text-[11px] text-zinc-400">{lang === 'ar' ? 'سرعة الصوت النظرية' : 'Theoretical Speed'}</div>
+              <div className="text-[11px] text-zinc-400">{t.theoreticalSpeed}</div>
               <div className="text-base font-bold font-mono text-amber-400">
                 {theoreticalSpeedOfSound.toFixed(1)} <span className="text-xs text-zinc-400">m/s</span>
               </div>
             </div>
 
             <div className="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/60 text-center">
-              <div className="text-[11px] text-zinc-400">{lang === 'ar' ? 'تصحيح النهاية (0.6r)' : 'End Correction (c)'}</div>
+              <div className="text-[11px] text-zinc-400">{t.endCorrection}</div>
               <div className="text-base font-bold font-mono text-purple-400">
                 {(endCorrection * 100).toFixed(2)} <span className="text-xs text-zinc-400">cm</span>
               </div>
@@ -401,12 +503,10 @@ export default function SoundSpeedSim({ lang, onLogMeasurement }: Props) {
         <div className="p-4 rounded-2xl bg-sky-950/20 border border-sky-800/30 text-xs text-zinc-300 space-y-2">
           <div className="font-semibold text-sky-300 flex items-center gap-1.5">
             <Gauge className="w-4 h-4" />
-            <span>{lang === 'ar' ? 'طريقة تعيين سرعة الصوت عملياً:' : 'Experimental Procedure:'}</span>
+            <span>{t.procedureTitle}</span>
           </div>
           <p>
-            {lang === 'ar'
-              ? 'توضع الشوكة الرنانة المهتزة عند فوهة الأنبوب، ويتم خفض مستودع الماء تدريجياً لزيادة طول عمود الهواء L حتى يُسمع أعلى تضخيم للصوت (موضع الرنين الأول L₁ ≈ λ/4 - c). وعند خفضه أكثر نصل للرنين الثاني (L₂ ≈ 3λ/4 - c). نحسب الطول الموجي λ = 2(L₂ - L₁) وسرعة الصوت v = f · λ بدقة بالغة وبدون الاعتماد على تصحيح النهاية.'
-              : 'Hold vibrating fork over open top, lower water level to find 1st resonance (L1 ≈ λ/4 - c) and 2nd resonance (L2 ≈ 3λ/4 - c). Compute wavelength λ = 2(L2 - L1) and speed of sound v = f · λ independent of end correction.'}
+            {t.procedureDesc}
           </p>
         </div>
       </div>
@@ -415,12 +515,12 @@ export default function SoundSpeedSim({ lang, onLogMeasurement }: Props) {
       <div className="space-y-4">
         <div className="rounded-2xl bg-zinc-900 border border-zinc-800 p-5 shadow-xl space-y-5">
           <h4 className="text-sm font-bold text-zinc-200 pb-2 border-b border-zinc-800">
-            {lang === 'ar' ? 'الشوكة الرنانة ومستوى الماء' : 'Tuning Fork & Water Level'}
+            {t.controlHeader}
           </h4>
 
           {/* Tuning Fork Selector */}
           <div className="space-y-1.5">
-            <label className="text-xs text-zinc-400">{lang === 'ar' ? 'اختيار الشوكة الرنانة القياسية:' : 'Select Tuning Fork:'}</label>
+            <label className="text-xs text-zinc-400">{t.selectFork}</label>
             <div className="grid grid-cols-2 gap-1.5 text-xs">
               {TUNING_FORKS.map((fork) => (
                 <button
@@ -440,20 +540,20 @@ export default function SoundSpeedSim({ lang, onLogMeasurement }: Props) {
 
           {/* Resonance Quick Snaps */}
           <div className="space-y-1.5 pt-2 border-t border-zinc-800">
-            <label className="text-xs text-zinc-400">{lang === 'ar' ? 'مواضع الرنين المحسوبة (L₁ و L₂):' : 'Theoretical Resonance Positions:'}</label>
+            <label className="text-xs text-zinc-400">{t.theoreticalPos}</label>
             <div className="grid grid-cols-2 gap-2 text-xs">
               <button
                 onClick={snapToL1}
                 className="p-2 rounded-xl bg-zinc-950 border border-zinc-800 text-sky-400 hover:bg-zinc-800 font-mono text-center"
               >
-                <div>{lang === 'ar' ? 'الرنين الأول L₁' : '1st Resonance L₁'}</div>
+                <div>{t.firstResonance}</div>
                 <div className="font-bold">{(resonantL1 * 100).toFixed(1)} cm</div>
               </button>
               <button
                 onClick={snapToL2}
                 className="p-2 rounded-xl bg-zinc-950 border border-zinc-800 text-sky-400 hover:bg-zinc-800 font-mono text-center"
               >
-                <div>{lang === 'ar' ? 'الرنين الثاني L₂' : '2nd Resonance L₂'}</div>
+                <div>{t.secondResonance}</div>
                 <div className="font-bold">{(resonantL2 * 100).toFixed(1)} cm</div>
               </button>
             </div>
@@ -462,7 +562,7 @@ export default function SoundSpeedSim({ lang, onLogMeasurement }: Props) {
           {/* Water Level Slider */}
           <div className="space-y-1 pt-2 border-t border-zinc-800">
             <div className="flex justify-between text-xs">
-              <span className="text-zinc-400">{lang === 'ar' ? 'ارتفاع الماء في الأنبوب' : 'Water Level Height'}</span>
+              <span className="text-zinc-400">{t.waterLevelHeight}</span>
               <span className="font-mono text-cyan-400 font-bold">{(waterLevel * 100).toFixed(1)} cm</span>
             </div>
             <input
@@ -479,7 +579,7 @@ export default function SoundSpeedSim({ lang, onLogMeasurement }: Props) {
           {/* Air Temperature Slider */}
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
-              <span className="text-zinc-400">{lang === 'ar' ? 'درجة حرارة الهواء المحيط (T)' : 'Air Temperature (T)'}</span>
+              <span className="text-zinc-400">{t.ambientTemp}</span>
               <span className="font-mono text-amber-400 font-bold">{temperatureC}°C</span>
             </div>
             <input
@@ -504,9 +604,7 @@ export default function SoundSpeedSim({ lang, onLogMeasurement }: Props) {
           >
             <BookmarkCheck className="w-4 h-4" />
             <span>
-              {logged
-                ? (lang === 'ar' ? 'تم تسجيل القياس في دفتر المختبر!' : 'Logged to Lab Notebook!')
-                : (lang === 'ar' ? 'تسجيل سرعة الصوت المقاسة' : 'Log Speed of Sound')}
+              {logged ? t.loggedSuccess : t.logButton}
             </span>
           </button>
         </div>

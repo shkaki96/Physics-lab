@@ -17,6 +17,113 @@ const SURFACES: Record<SurfaceType, { nameAr: string; nameEn: string; muS: numbe
 };
 
 export default function SledFrictionSim({ lang, onLogMeasurement }: Props) {
+  const t = {
+    ar: {
+      title: 'سباق التزلج وقوانين الاحتكاك الساكن والحركي',
+      desc: 'مقارنة قوى الاحتكاك الساكن الأقصى fs = μs·N وقوة الاحتكاك الحركي fk = μk·N وحساب التسارع وسرعة الانزلاق عبر أسطح الجليد والخشب والعشب والرمل.',
+      resetPosition: 'إعادة ضبط الموقع', // غير موثّق بمصدر
+      logged: 'تم التسجيل في الدفتر ✓', // غير موثّق بمصدر
+      log: 'تسجيل في دفتر المختبر', // غير موثّق بمصدر
+      controlsTitle: 'معايير الاحتكاك والدفع', // غير موثّق بمصدر
+      surfaceType: 'نوع سطح المسار:',
+      massLabel: 'كتلة الصندوق (m):',
+      pushForceLabel: 'قوة الدفع المطبقة (F_push):',
+      staticLimit: 'حد الاحتكاك الساكن (fs,max)',
+      kineticFriction: 'الاحتكاك الحركي (fk)',
+      acceleration: 'التسارع الناتج (a)',
+      normalForce: 'القوة العمودية (N)',
+      surfaces: {
+        ice: 'جليد أملس (Ice)',
+        wood: 'خشب مصقول (Wood)',
+        grass: 'عشب طبيعي (Grass)',
+        sand: 'رمل / أسفلت (Sand)',
+      },
+    },
+    en: {
+      title: 'Sled Friction Race (Static & Kinetic)',
+      desc: 'Comparing static friction threshold fs = μs·N with kinetic sliding friction fk = μk·N across varied terrains.',
+      resetPosition: 'Reset Position', // غير موثّق بمصدر
+      logged: 'Logged ✓', // غير موثّق بمصدر
+      log: 'Log Measurement', // غير موثّق بمصدر
+      controlsTitle: 'Friction & Push Controls', // غير موثّق بمصدر
+      surfaceType: 'Track Surface Type:',
+      massLabel: 'Sled Mass (m):',
+      pushForceLabel: 'Push Force (F_push):',
+      staticLimit: 'Static Limit (fs,max)',
+      kineticFriction: 'Kinetic Friction (fk)',
+      acceleration: 'Acceleration (a)',
+      normalForce: 'Normal Force (N)',
+      surfaces: {
+        ice: 'Smooth Ice',
+        wood: 'Polished Wood',
+        grass: 'Natural Grass',
+        sand: 'Rough Sand',
+      },
+    },
+    ku: {
+      title: 'پێشبڕکێی خلیسکێنە و یاساکانی لێکخشاندن',
+      desc: 'بەراوردکردنی هێزی لێکخشاندنی نەجووڵاو و جووڵاو لەسەر ڕووی جیاواز وەک سەهۆڵ، دار و گیا.',
+      resetPosition: 'گەڕاندنەوەی شوێن', // غير موثّق بمصدر
+      logged: 'تۆمارکرا لە دەفتەر ✓', // غير موثّق بمصدر
+      log: 'تۆمارکردنی پێوانە', // غير موثّق بمصدر
+      controlsTitle: 'کۆنترۆڵەکانی لێکخشاندن و پاڵنان', // غير موثّق بمصدر
+      surfaceType: 'جۆری ڕووی ڕێڕەو:',
+      massLabel: 'بارستەی سندوقەکە (m):',
+      pushForceLabel: 'هێزی پاڵنانی سەپێنراو (F_push):',
+      staticLimit: 'سنووری لێکخشاندنی سكونی (fs,max)',
+      kineticFriction: 'لێکخشاندنی جووڵەیی (fk)',
+      acceleration: 'تاودانی ئاکام (a)',
+      normalForce: 'هێزی ئەستوون (N)',
+      surfaces: {
+        ice: 'سەهۆڵی لوس',
+        wood: 'داری لوس',
+        grass: 'گیا',
+        sand: 'لم / ئاسفالت',
+      },
+    },
+    kmr: {
+      title: 'Pêşbirka Xilîskînê û Qanûnên Lêkdanê',
+      desc: 'Berdewambûna hêza lêkdana sekinî fs = μs·N û hêza lêkdana tevgerî fk = μk·N li ser erdên cûda.',
+      resetPosition: 'Zivirandina شوێنê', // غير موثّق بمصدر
+      logged: 'Hat tomarkirin ✓', // غير موثّق بمصدر
+      log: 'Tomarkirina pîvanê', // غير موثّق بمصدر
+      controlsTitle: 'Kontrolên lêkdan û paldanê', // غير موثّق بمصدر
+      surfaceType: 'Cûreyê rûyê rêyê:',
+      massLabel: 'Baristeya sindoqê (m):',
+      pushForceLabel: 'Hêza paldanê ya sepandî (F_push):',
+      staticLimit: 'Sînorê lêkdana sekinî (fs,max)',
+      kineticFriction: 'Lêkdana tevgerî (fk)',
+      acceleration: 'Lezkirin (a)',
+      normalForce: 'Hêza stûnî (N)',
+      surfaces: {
+        ice: 'Cemed',
+        wood: 'Dar',
+        grass: 'Giya',
+        sand: 'Xem',
+      },
+    },
+  }[lang] || {
+    title: 'سباق التزلج وقوانين الاحتكاك الساكن والحركي',
+    desc: 'مقارنة قوى الاحتكاك الساكن الأقصى fs = μs·N وقوة الاحتكاك الحركي fk = μk·N وحساب التسارع وسرعة الانزلاق عبر أسطح الجليد والخشب والعشب والرمل.',
+    resetPosition: 'إعادة ضبط الموقع',
+    logged: 'تم التسجيل في الدفتر ✓',
+    log: 'تسجيل في دفتر المختبر',
+    controlsTitle: 'معايير الاحتكاك والدفع',
+    surfaceType: 'نوع سطح المسار:',
+    massLabel: 'كتلة الصندوق (m):',
+    pushForceLabel: 'قوة الدفع المطبقة (F_push):',
+    staticLimit: 'حد الاحتكاك الساكن (fs,max)',
+    kineticFriction: 'الاحتكاك الحركي (fk)',
+    acceleration: 'التسارع الناتج (a)',
+    normalForce: 'القوة العمودية (N)',
+    surfaces: {
+      ice: 'جليد أملس (Ice)',
+      wood: 'خشب مصقول (Wood)',
+      grass: 'عشب طبيعي (Grass)',
+      sand: 'رمل / أسفلت (Sand)',
+    },
+  };
+
   const [surface, setSurface] = useState<SurfaceType>('wood');
   const [sledMassKg, setSledMassKg] = useState<number>(20); // kg
   const [pushForceN, setPushForceN] = useState<number>(100); // N
@@ -248,17 +355,9 @@ export default function SledFrictionSim({ lang, onLogMeasurement }: Props) {
         <div>
           <h2 className="text-base sm:text-lg font-bold text-zinc-100 flex items-center gap-2">
             <Scale className="w-5 h-5 text-indigo-400" />
-            <span>
-              {lang === 'ar' ? 'سباق التزلج وقوانين الاحتكاك الساكن والحركي (Sled Friction)' : lang === 'ku' ? 'پێشبڕکێی خلیسکێنە و یاساکانی لێکخشاندن' : 'Sled Friction Race (Static & Kinetic)'}
-            </span>
+            <span>{t.title}</span>
           </h2>
-          <p className="text-xs text-zinc-400 mt-1 max-w-2xl">
-            {lang === 'ar'
-              ? 'مقارنة قوى الاحتكاك الساكن الأقصى fs = μs·N وقوة الاحتكاك الحركي fk = μk·N وحساب التسارع وسرعة الانزلاق عبر أسطح الجليد والخشب والعشب والرمل.'
-              : lang === 'ku'
-              ? 'بەراوردکردنی هێزی لێکخشاندنی نەجووڵاو و جووڵاو لەسەر ڕووی جیاواز وەک سەهۆڵ، دار و گیا.'
-              : 'Comparing static friction threshold fs = μs·N with kinetic sliding friction fk = μk·N across varied terrains.'}
-          </p>
+          <p className="text-xs text-zinc-400 mt-1 max-w-2xl">{t.desc}</p>
         </div>
 
         <div className="flex items-center gap-2">
@@ -271,7 +370,7 @@ export default function SledFrictionSim({ lang, onLogMeasurement }: Props) {
           <button
             onClick={handleReset}
             className="p-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700"
-            title="Reset Position"
+            title={t.resetPosition}
           >
             <RotateCcw className="w-4 h-4" />
           </button>
@@ -284,7 +383,7 @@ export default function SledFrictionSim({ lang, onLogMeasurement }: Props) {
             }`}
           >
             <BookmarkCheck className="w-4 h-4" />
-            <span>{logged ? (lang === 'ar' ? 'تم التسجيل في الدفتر ✓' : 'Logged ✓') : (lang === 'ar' ? 'تسجيل في دفتر المختبر' : 'Log Measurement')}</span>
+            <span>{logged ? t.logged : t.log}</span>
           </button>
         </div>
       </div>
@@ -296,14 +395,14 @@ export default function SledFrictionSim({ lang, onLogMeasurement }: Props) {
           <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
             <span className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
               <Sliders className="w-4 h-4 text-indigo-400" />
-              {lang === 'ar' ? 'معايير الاحتكاك والدفع' : 'Friction & Push Controls'}
+              {t.controlsTitle}
             </span>
           </div>
 
           {/* Surface Type Selector */}
           <div>
             <label className="text-xs text-zinc-400 block mb-1.5">
-              {lang === 'ar' ? 'نوع سطح المسار:' : 'Track Surface Type:'}
+              {t.surfaceType}
             </label>
             <div className="grid grid-cols-2 gap-1.5">
               {(Object.keys(SURFACES) as SurfaceType[]).map((st) => (
@@ -316,7 +415,7 @@ export default function SledFrictionSim({ lang, onLogMeasurement }: Props) {
                       : 'bg-zinc-800 text-zinc-400 border-zinc-700 hover:text-zinc-200'
                   }`}
                 >
-                  <div>{lang === 'ar' ? SURFACES[st].nameAr : SURFACES[st].nameEn}</div>
+                  <div>{t.surfaces[st]}</div>
                   <div className="text-[10px] text-zinc-500 font-mono">μs={SURFACES[st].muS}, μk={SURFACES[st].muK}</div>
                 </button>
               ))}
@@ -326,7 +425,7 @@ export default function SledFrictionSim({ lang, onLogMeasurement }: Props) {
           {/* Sled Mass Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'كتلة الصندوق (m):' : 'Sled Mass (m):'}</span>
+              <span className="text-zinc-400">{t.massLabel}</span>
               <span className="font-mono text-indigo-400 font-semibold">{sledMassKg} kg</span>
             </div>
             <input
@@ -343,7 +442,7 @@ export default function SledFrictionSim({ lang, onLogMeasurement }: Props) {
           {/* Push Force Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'قوة الدفع المطبقة (F_push):' : 'Push Force (F_push):'}</span>
+              <span className="text-zinc-400">{t.pushForceLabel}</span>
               <span className="font-mono text-emerald-400 font-semibold">{pushForceN} N</span>
             </div>
             <input
@@ -373,7 +472,7 @@ export default function SledFrictionSim({ lang, onLogMeasurement }: Props) {
             {/* Max Static Friction */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'حد الاحتكاك الساكن (fs,max)' : 'Static Limit (fs,max)'}
+                {t.staticLimit}
               </span>
               <div className="text-xl font-bold font-mono text-rose-400">
                 {maxStaticFrictionN.toFixed(1)} <span className="text-xs text-zinc-400">N</span>
@@ -384,7 +483,7 @@ export default function SledFrictionSim({ lang, onLogMeasurement }: Props) {
             {/* Kinetic Friction fk */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'الاحتكاك الحركي (fk)' : 'Kinetic Friction (fk)'}
+                {t.kineticFriction}
               </span>
               <div className="text-xl font-bold font-mono text-amber-400">
                 {kineticFrictionN.toFixed(1)} <span className="text-xs text-zinc-400">N</span>
@@ -395,7 +494,7 @@ export default function SledFrictionSim({ lang, onLogMeasurement }: Props) {
             {/* Acceleration a */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'التسارع الناتج (a)' : 'Acceleration (a)'}
+                {t.acceleration}
               </span>
               <div className={`text-xl font-bold font-mono ${willMove ? 'text-emerald-400' : 'text-zinc-500'}`}>
                 {acceleration.toFixed(2)} <span className="text-xs text-zinc-400">m/s²</span>
@@ -406,7 +505,7 @@ export default function SledFrictionSim({ lang, onLogMeasurement }: Props) {
             {/* Normal Force N */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'القوة العمودية (N)' : 'Normal Force (N)'}
+                {t.normalForce}
               </span>
               <div className="text-xl font-bold font-mono text-sky-400">
                 {normalForceN.toFixed(1)} <span className="text-xs text-zinc-400">N</span>

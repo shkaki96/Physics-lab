@@ -10,8 +10,125 @@ interface Props {
 
 export default function ArcLengthSim({ lang, onLogMeasurement }: Props) {
   const t = {
-    title: lang === 'ar' ? 'العلاقة بين الزاوية بالراديان وطول القوس (s = r θ)' : lang === 'ku' ? 'پەیوەندی نێوان گۆشە بە ڕادیان و درێژی کەوانە (s = r θ)' : 'Arc Length vs Radian Angle (s = r θ)',
-    shortDesc: lang === 'ar' ? 'التحقق الهندسي والفيزيائي من تعريف الراديان، قياس طول القوس s، السرعة الخطية والزاوية v = r ω.' : lang === 'ku' ? 'سەلماندنی پێناسەی ڕادیان، پێوانی درێژی کەوانە s، خێرایی هێڵی و گۆشەیی v = r ω.' : 'Geometric & physical verification of radian angle definition, arc length measurement s = r θ, and linear vs angular velocity.',
+    ar: {
+      title: 'العلاقة بين الزاوية بالراديان وطول القوس (s = r θ)',
+      subTitle: 'التحقق من العلاقة بين الزاوية وطول القوس (s = r θ)',
+      shortDesc: 'التحقق الهندسي والفيزيائي من تعريف الراديان، قياس طول القوس s، السرعة الخطية والزاوية v = r ω.',
+      dragPrompt: 'اسحب النقطة البرتقالية على المحيط لتغيير الزاوية ورؤية طول القوس وفردِه', // غير موثّق بمصدر
+      pause: 'إيقاف', // غير موثّق بمصدر
+      rotate: 'دوران مستمر', // غير موثّق بمصدر
+      angleRadLabel: 'الزاوية (θ بالراديان)',
+      arcLengthLabel: 'طول القوس المقاس (s)',
+      linearVelLabel: 'السرعة الخطية (v = rω)',
+      sectorAreaLabel: 'مساحة القطاع الدائري (A)',
+      physicsDefTitle: 'التعريف الفيزيائي للراديان وطول القوس:',
+      physicsDefText: 'الراديان هو الزاوية المركزية التي يقابلها قوس طوله يساوي نصف قطر الدائرة بالضبط (عندما s = r تكون θ = 1 rad). وبالتالي العلاقة العامة هي: s = r · θ (حيث θ بالراديان). والسرعة المماسية الخطية v ترتبط بالسرعة الزاوية ω عبر v = r · ω.',
+      controlsTitle: 'المعاملات وضوابط التجربة', // غير موثّق بمصدر
+      radiusLabel: 'نصف القطر (r)',
+      angleDegLabel: 'الزاوية بالدرجات (θ°)',
+      standardPresetsLabel: 'زوايا قياسية شائعة بالراديان:',
+      angularVelLabel: 'السرعة الزاوية (ω)',
+      showUnrolledLabel: 'عرض فرد القوس إلى خط مستقيم للمقارنة', // غير موثّق بمصدر
+      showVectorsLabel: 'عرض متجه السرعة المماسية (v)', // غير موثّق بمصدر
+      loggedMsg: 'تم تسجيل القياس في دفتر المختبر!', // غير موثّق بمصدر
+      logBtn: 'تسجيل القياس في دفتر المختبر', // غير موثّق بمصدر
+      unrolledTrackLabel: 'فرد القوس في خط مستقيم', // غير موثّق بمصدر
+    },
+    en: {
+      title: 'Arc Length vs Radian Angle (s = r θ)',
+      subTitle: 'Arc Length vs Radian Angle (s = r θ)',
+      shortDesc: 'Geometric & physical verification of radian angle definition, arc length measurement s = r θ, and linear vs angular velocity.',
+      dragPrompt: 'Drag the orange handle along the circle to vary angle θ and arc length s', // غير موثّق بمصدر
+      pause: 'Pause', // غير موثّق بمصدر
+      rotate: 'Rotate', // غير موثّق بمصدر
+      angleRadLabel: 'Angle θ (rad)',
+      arcLengthLabel: 'Arc Length (s)',
+      linearVelLabel: 'Linear Velocity (v)',
+      sectorAreaLabel: 'Sector Area (A)',
+      physicsDefTitle: 'Physics Definition of Radian & Arc Length:',
+      physicsDefText: 'One radian is the central angle subtended by an arc equal in length to the radius (s = r => θ = 1 rad). Therefore, the general arc length is s = r · θ. Tangential velocity is v = r · ω.',
+      controlsTitle: 'Experiment Controls', // غير موثّق بمصدر
+      radiusLabel: 'Radius (r)',
+      angleDegLabel: 'Angle in Degrees (θ°)',
+      standardPresetsLabel: 'Standard Radian Presets:',
+      angularVelLabel: 'Angular Velocity (ω)',
+      showUnrolledLabel: 'Show unrolled linear arc comparison', // غير موثّق بمصدر
+      showVectorsLabel: 'Show tangential velocity vector (v)', // غير موثّق بمصدر
+      loggedMsg: 'Logged to Lab Notebook!', // غير موثّق بمصدر
+      logBtn: 'Log Measurement to Notebook', // غير موثّق بمصدر
+      unrolledTrackLabel: 'Unrolled Arc Line (s)', // غير موثّق بمصدر
+    },
+    ku: {
+      title: 'پەیوەندی نێوان گۆشە بە ڕادیان و درێژی کەوانە (s = r θ)',
+      subTitle: 'پەیوەندی نێوان گۆشە و درێژی کەوانە (s = r θ)',
+      shortDesc: 'سەلماندنی پێناسەی ڕادیان، پێوانی درێژی کەوانە s، خێرایی هێڵی و گۆشەیی v = r ω.',
+      dragPrompt: 'خاڵە پرتەقاڵییەکە ڕابکێشە بۆ گۆڕینی گۆشە و بینینی درێژی کەوانە', // غير موثّق بمصدر
+      pause: 'وەستاندن', // غير موثّق بمصدر
+      rotate: 'خولانەوەی بەردەوام', // غير موثّق بمصدر
+      angleRadLabel: 'گۆشە (θ بە ڕادیان)',
+      arcLengthLabel: 'درێژی کەوانەی پێوراو (s)',
+      linearVelLabel: 'خێرایی هێڵی (v = rω)',
+      sectorAreaLabel: 'ڕووبەری کەرتی بازنەیی (A)',
+      physicsDefTitle: 'پێناسەی فیزیایی ڕادیان و درێژی کەوانە:',
+      physicsDefText: 'ڕادیان بریتییە لەو گۆشە ناوەندییەی کە درێژی کەوانەکەی یەکسانە بە نیوەتیرەی بازنەکە (کاتێک s = r ئەوا θ = 1 rad). کەواتە هاوکێشەی گشتی بریتییە لە s = r · θ.',
+      controlsTitle: 'کۆنترۆڵ و پارامیتەرەکان', // غير موثّق بمصدر
+      radiusLabel: 'نیوەتیرە (r)',
+      angleDegLabel: 'گۆشە بە پلە (θ°)',
+      standardPresetsLabel: 'گۆشە پێوانەیییەکان بە ڕادیان:',
+      angularVelLabel: 'خێرایی گۆشەیی (ω)',
+      showUnrolledLabel: 'ڕاکێشانی کەوانەکە بە شێوەی ڕاستەهێڵ بۆ بەراوردکردن', // غير موثّق بمصدر
+      showVectorsLabel: 'نیشاندانی ئاڕاستەبڕی خێرایی مەیلی (v)', // غير موثّق بمصدر
+      loggedMsg: 'تۆمارکرا لە دەفتەری تاقیگە!', // غير موثّق بمصدر
+      logBtn: 'تۆمارکردنی پێوانە لە دەفتەر', // غير موثّق بمصدر
+      unrolledTrackLabel: 'ڕاکێشانی کەوانەکە بە ڕاستەهێڵ', // غير موثّق بمصدر
+    },
+    kmr: {
+      title: 'Têkiliya goşeya radyenê û dirêjahiya kevanê (s = r θ)',
+      subTitle: 'Têkiliya goşeya radyenê û dirêjahiya kevanê (s = r θ)',
+      shortDesc: 'Sera rastkirina pênaseya radyenê, pîvandina dirêjahiya kevanê s û leza hêlî û goşeyî v = r ω.',
+      dragPrompt: 'Xala porteqalî bikşîne ji bo guherandina goşeyê û dîtina dirêjahiya kevanê', // غير موثّق بمصدر
+      pause: 'Pewstandin', // غير موثّق بمصدر
+      rotate: 'Zevira berdewam', // غير موثّق بمصدر
+      angleRadLabel: 'Goşe (θ bi radyen)',
+      arcLengthLabel: 'Dirêjahiya kevanê (s)',
+      linearVelLabel: 'Leza hêlî (v = rω)',
+      sectorAreaLabel: 'Rûberê sektora çerxî (A)',
+      physicsDefTitle: 'Pênaseya fîzîkî ya radyen û dirêjahiya kevanê:',
+      physicsDefText: 'Yek radyen goşeya navendî ye ku kevana beramberî wê yekcar di dirêjiya nîvçerxa çerxê de ye (s = r => θ = 1 rad). Têkiliya giştî s = r · θ ye û leza hêlî v = r · ω ye.',
+      controlsTitle: 'Kontrol û parametreyên azmûnê', // غير موثّق بمصدر
+      radiusLabel: 'Nîvçerx (r)',
+      angleDegLabel: 'Goşe bi dereceyan (θ°)',
+      standardPresetsLabel: 'Goşeyên standard bi radyen:',
+      angularVelLabel: 'Leza goşeyî (ω)',
+      showUnrolledLabel: 'Nîşandana veguhastina kevanê bo hêla rast', // غير موثّق بمصدر
+      showVectorsLabel: 'Nîşandana vektorê leza masiyî (v)', // غير موثّق بمصدر
+      loggedMsg: 'Hat tomarkirin di defterê de!', // غير موثّق بمصدر
+      logBtn: 'Tomarkirina pîvanê di defterê de', // غير موثّق بمصدر
+      unrolledTrackLabel: 'Hêla kevana veguhastî (s)', // غير موثّق بمصدر
+    },
+  }[lang] || {
+    title: 'العلاقة بين الزاوية بالراديان وطول القوس (s = r θ)',
+    subTitle: 'التحقق من العلاقة بين الزاوية وطول القوس (s = r θ)',
+    shortDesc: 'التحقق الهندسي والفيزيائي من تعريف الراديان، قياس طول القوس s، السرعة الخطية والزاوية v = r ω.',
+    dragPrompt: 'اسحب النقطة البرتقالية على المحيط لتغيير الزاوية ورؤية طول القوس وفردِه',
+    pause: 'إيقاف',
+    rotate: 'دوران مستمر',
+    angleRadLabel: 'الزاوية (θ بالراديان)',
+    arcLengthLabel: 'طول القوس المقاس (s)',
+    linearVelLabel: 'السرعة الخطية (v = rω)',
+    sectorAreaLabel: 'مساحة القطاع الدائري (A)',
+    physicsDefTitle: 'التعريف الفيزيائي للراديان وطول القوس:',
+    physicsDefText: 'الراديان هو الزاوية المركزية التي يقابلها قوس طوله يساوي نصف قطر الدائرة بالضبط (عندما s = r تكون θ = 1 rad). وبالتالي العلاقة العامة هي: s = r · θ (حيث θ بالراديان). والسرعة المماسية الخطية v ترتبط بالسرعة الزاوية ω عبر v = r · ω.',
+    controlsTitle: 'المعاملات وضوابط التجربة',
+    radiusLabel: 'نصف القطر (r)',
+    angleDegLabel: 'الزاوية بالدرجات (θ°)',
+    standardPresetsLabel: 'زوايا قياسية شائعة بالراديان:',
+    angularVelLabel: 'السرعة الزاوية (ω)',
+    showUnrolledLabel: 'عرض فرد القوس إلى خط مستقيم للمقارنة',
+    showVectorsLabel: 'عرض متجه السرعة المماسية (v)',
+    loggedMsg: 'تم تسجيل القياس في دفتر المختبر!',
+    logBtn: 'تسجيل القياس في دفتر المختبر',
+    unrolledTrackLabel: 'فرد القوس في خط مستقيم',
   };
 
   // Parameters
@@ -266,9 +383,9 @@ export default function ArcLengthSim({ lang, onLogMeasurement }: Props) {
 
       ctx.fillStyle = '#94a3b8';
       ctx.font = '11px sans-serif';
-      ctx.fillText(lang === 'ar' ? 'فرد القوس في خط مستقيم' : lang === 'ku' ? 'ڕاکێشانی کەوانەکە بە شێوەی ڕاستەهێڵ' : 'Unrolled Arc Line (s)', trackStartX - 40, trackStartY + 25);
+      ctx.fillText(t.unrolledTrackLabel, trackStartX - 40, trackStartY + 25);
     }
-  }, [radius, angleDeg, angularVelocity, isRotating, showUnrolled, showVectors, lang]);
+  }, [radius, angleDeg, angularVelocity, isRotating, showUnrolled, showVectors, lang, t.unrolledTrackLabel]);
 
   // Dragging on canvas to adjust angle
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -354,10 +471,10 @@ export default function ArcLengthSim({ lang, onLogMeasurement }: Props) {
               </div>
               <div>
                 <h3 className="text-base font-bold text-zinc-100">
-                  {lang === 'ar' ? 'التحقق من العلاقة بين الزاوية وطول القوس (s = r θ)' : lang === 'ku' ? 'پەیوەندی نێوان گۆشە و درێژی کەوانە (s = r θ)' : 'Arc Length vs Radian Angle (s = r θ)'}
+                  {t.subTitle}
                 </h3>
                 <p className="text-xs text-zinc-400">
-                  {lang === 'ar' ? 'اسحب النقطة البرتقالية على المحيط لتغيير الزاوية ورؤية طول القوس وفردِه' : lang === 'ku' ? 'خاڵە پرتەقاڵییەکە ڕابکێشە بۆ گۆڕینی گۆشە و بینینی درێژی کەوانە' : 'Drag the orange handle along the circle to vary angle θ and arc length s'}
+                  {t.dragPrompt}
                 </p>
               </div>
             </div>
@@ -372,7 +489,7 @@ export default function ArcLengthSim({ lang, onLogMeasurement }: Props) {
                 }`}
               >
                 {isRotating ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 text-emerald-400" />}
-                <span>{isRotating ? (lang === 'ar' ? 'إيقاف' : 'Pause') : (lang === 'ar' ? 'دوران مستمر' : 'Rotate')}</span>
+                <span>{isRotating ? t.pause : t.rotate}</span>
               </button>
 
               <button
@@ -407,28 +524,28 @@ export default function ArcLengthSim({ lang, onLogMeasurement }: Props) {
           {/* Live Metrics Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3">
             <div className="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/60 text-center">
-              <div className="text-[11px] text-zinc-400">{lang === 'ar' ? 'الزاوية (θ بالراديان)' : 'Angle θ (rad)'}</div>
+              <div className="text-[11px] text-zinc-400">{t.angleRadLabel}</div>
               <div className="text-lg font-bold font-mono text-sky-400">
                 {angleRad.toFixed(3)} <span className="text-xs text-zinc-400">rad ({(angleRad / Math.PI).toFixed(2)}π)</span>
               </div>
             </div>
 
             <div className="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/60 text-center">
-              <div className="text-[11px] text-zinc-400">{lang === 'ar' ? 'طول القوس المقاس (s)' : 'Arc Length (s)'}</div>
+              <div className="text-[11px] text-zinc-400">{t.arcLengthLabel}</div>
               <div className="text-lg font-bold font-mono text-amber-400">
                 {theoreticalArcLength.toFixed(3)} <span className="text-xs text-zinc-400">m</span>
               </div>
             </div>
 
             <div className="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/60 text-center">
-              <div className="text-[11px] text-zinc-400">{lang === 'ar' ? 'السرعة الخطية (v = rω)' : 'Linear Velocity (v)'}</div>
+              <div className="text-[11px] text-zinc-400">{t.linearVelLabel}</div>
               <div className="text-lg font-bold font-mono text-emerald-400">
                 {linearSpeed.toFixed(2)} <span className="text-xs text-zinc-400">m/s</span>
               </div>
             </div>
 
             <div className="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/60 text-center">
-              <div className="text-[11px] text-zinc-400">{lang === 'ar' ? 'مساحة القطاع الدائري (A)' : 'Sector Area (A)'}</div>
+              <div className="text-[11px] text-zinc-400">{t.sectorAreaLabel}</div>
               <div className="text-lg font-bold font-mono text-purple-400">
                 {sectorArea.toFixed(3)} <span className="text-xs text-zinc-400">m²</span>
               </div>
@@ -440,15 +557,9 @@ export default function ArcLengthSim({ lang, onLogMeasurement }: Props) {
         <div className="p-4 rounded-2xl bg-sky-950/20 border border-sky-800/30 text-xs text-zinc-300 space-y-2">
           <div className="font-semibold text-sky-300 flex items-center gap-1.5">
             <Compass className="w-4 h-4" />
-            <span>{lang === 'ar' ? 'التعريف الفيزيائي للراديان وطول القوس:' : lang === 'ku' ? 'پێناسەی فیزیایی ڕادیان و درێژی کەوانە:' : 'Physics Definition of Radian & Arc Length:'}</span>
+            <span>{t.physicsDefTitle}</span>
           </div>
-          <p>
-            {lang === 'ar'
-              ? 'الراديان هو الزاوية المركزية التي يقابلها قوس طوله يساوي نصف قطر الدائرة بالضبط (عندما s = r تكون θ = 1 rad). وبالتالي العلاقة العامة هي: s = r · θ (حيث θ بالراديان). والسرعة المماسية الخطية v ترتبط بالسرعة الزاوية ω عبر v = r · ω.'
-              : lang === 'ku'
-              ? 'ڕادیان بریتییە لەو گۆشە ناوەندییەی کە درێژی کەوانەکەی یەکسانە بە نیوەتیرەی بازنەکە (کاتێک s = r ئەوا θ = 1 rad). کەواتە هاوکێشەی گشتی بریتییە لە s = r · θ.'
-              : 'One radian is the central angle subtended by an arc equal in length to the radius (s = r => θ = 1 rad). Therefore, the general arc length is s = r · θ. Tangential velocity is v = r · ω.'}
-          </p>
+          <p>{t.physicsDefText}</p>
         </div>
       </div>
 
@@ -456,13 +567,13 @@ export default function ArcLengthSim({ lang, onLogMeasurement }: Props) {
       <div className="space-y-4">
         <div className="rounded-2xl bg-zinc-900 border border-zinc-800 p-5 shadow-xl space-y-5">
           <h4 className="text-sm font-bold text-zinc-200 pb-2 border-b border-zinc-800">
-            {lang === 'ar' ? 'المعاملات وضوابط التجربة' : lang === 'ku' ? 'کۆنترۆڵ و پارامیتەرەکان' : 'Experiment Controls'}
+            {t.controlsTitle}
           </h4>
 
           {/* Radius Control */}
           <div className="space-y-2">
             <div className="flex justify-between text-xs">
-              <span className="text-zinc-400">{lang === 'ar' ? 'نصف القطر (r)' : 'Radius (r)'}</span>
+              <span className="text-zinc-400">{t.radiusLabel}</span>
               <span className="font-mono text-sky-400 font-bold">{radius.toFixed(2)} m</span>
             </div>
             <input
@@ -479,7 +590,7 @@ export default function ArcLengthSim({ lang, onLogMeasurement }: Props) {
           {/* Angle in Degrees Control */}
           <div className="space-y-2">
             <div className="flex justify-between text-xs">
-              <span className="text-zinc-400">{lang === 'ar' ? 'الزاوية بالدرجات (θ°)' : 'Angle in Degrees (θ°)'}</span>
+              <span className="text-zinc-400">{t.angleDegLabel}</span>
               <span className="font-mono text-amber-400 font-bold">{angleDeg.toFixed(0)}°</span>
             </div>
             <input
@@ -495,7 +606,7 @@ export default function ArcLengthSim({ lang, onLogMeasurement }: Props) {
 
           {/* Preset Radian Angle Buttons */}
           <div className="space-y-1.5">
-            <label className="text-xs text-zinc-400">{lang === 'ar' ? 'زوايا قياسية شائعة بالراديان:' : 'Standard Radian Presets:'}</label>
+            <label className="text-xs text-zinc-400">{t.standardPresetsLabel}</label>
             <div className="grid grid-cols-3 gap-1.5 text-xs">
               <button onClick={() => setPresetAngle(Math.PI / 6)} className="px-2 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 hover:bg-zinc-700 font-mono">π/6 (30°)</button>
               <button onClick={() => setPresetAngle(Math.PI / 4)} className="px-2 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 hover:bg-zinc-700 font-mono">π/4 (45°)</button>
@@ -509,7 +620,7 @@ export default function ArcLengthSim({ lang, onLogMeasurement }: Props) {
           {/* Angular Velocity Control */}
           <div className="space-y-2 pt-2 border-t border-zinc-800">
             <div className="flex justify-between text-xs">
-              <span className="text-zinc-400">{lang === 'ar' ? 'السرعة الزاوية (ω)' : 'Angular Velocity (ω)'}</span>
+              <span className="text-zinc-400">{t.angularVelLabel}</span>
               <span className="font-mono text-emerald-400 font-bold">{angularVelocity.toFixed(1)} rad/s</span>
             </div>
             <input
@@ -532,7 +643,7 @@ export default function ArcLengthSim({ lang, onLogMeasurement }: Props) {
                 onChange={(e) => setShowUnrolled(e.target.checked)}
                 className="rounded border-zinc-700 text-sky-500 focus:ring-0 bg-zinc-800"
               />
-              <span>{lang === 'ar' ? 'عرض فرد القوس إلى خط مستقيم للمقارنة' : 'Show unrolled linear arc comparison'}</span>
+              <span>{t.showUnrolledLabel}</span>
             </label>
 
             <label className="flex items-center gap-2 cursor-pointer text-zinc-300">
@@ -542,7 +653,7 @@ export default function ArcLengthSim({ lang, onLogMeasurement }: Props) {
                 onChange={(e) => setShowVectors(e.target.checked)}
                 className="rounded border-zinc-700 text-emerald-500 focus:ring-0 bg-zinc-800"
               />
-              <span>{lang === 'ar' ? 'عرض متجه السرعة المماسية (v)' : 'Show tangential velocity vector (v)'}</span>
+              <span>{t.showVectorsLabel}</span>
             </label>
           </div>
 
@@ -556,11 +667,7 @@ export default function ArcLengthSim({ lang, onLogMeasurement }: Props) {
             }`}
           >
             <BookmarkCheck className="w-4 h-4" />
-            <span>
-              {logged
-                ? (lang === 'ar' ? 'تم تسجيل القياس في دفتر المختبر!' : 'Logged to Lab Notebook!')
-                : (lang === 'ar' ? 'تسجيل القياس في دفتر المختبر' : 'Log Measurement to Notebook')}
-            </span>
+            <span>{logged ? t.loggedMsg : t.logBtn}</span>
           </button>
         </div>
       </div>

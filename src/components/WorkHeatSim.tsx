@@ -8,6 +8,103 @@ interface Props {
 }
 
 export default function WorkHeatSim({ lang, onLogMeasurement }: Props) {
+  const t = {
+    ar: {
+      title: 'الشغل والحرارة والقانون الأول للديناميكا الحرارية (Work & Heat)',
+      description: 'دراسة المكافئ الميكانيكي للحرارة لتجربة جول: تحويل الشغل الميكانيكي W = F·d والحرارة Q = m·c·ΔT إلى طاقة داخلية ΔU.',
+      loggedSuccess: 'تم التسجيل في الدفتر ✓', // غير موثّق بمصدر
+      logButton: 'تسجيل في دفتر المختبر', // غير موثّق بمصدر
+      internalEnergy: 'التغير بالطاقة الداخلية (ΔU)',
+      mechanicalWork: 'الشغل الميكانيكي (W)',
+      thermalHeat: 'الحرارة المضافة (Q)',
+      finalTemperature: 'الحرارة النهائية (T_f)',
+      workHeatParameters: 'معايير الشغل والحرارة', // غير موثّق بمصدر
+      waterMass: 'كتلة الماء (m):',
+      mechanicalForce: 'قوة الشغل الميكانيكي (F):',
+      displacement: 'مسافة الإزاحة (d):',
+      addedHeat: 'حرارة اللهب المضافة (Q):',
+      initialTemp: 'درجة الحرارة الابتدائية (T₀):',
+      standardPresets: 'حالات تجريبية قياسية:', // غير موثّق بمصدر
+      pureWork: 'شغل ميكانيكي فقط (جول)', // غير موثّق بمصدر
+      pureHeat: 'حرارة لهب فقط (Q)', // غير موثّق بمصدر
+    },
+    en: {
+      title: 'Work & Heat (1st Law of Thermodynamics)',
+      description: 'Joule’s mechanical equivalent of heat: converting mechanical work W=F·d and thermal heat Q=mcΔT into internal energy ΔU.',
+      loggedSuccess: 'Logged ✓', // غير موثّق بمصدر
+      logButton: 'Log Measurement', // غير موثّق بمصدر
+      internalEnergy: 'Internal Energy Change (ΔU)',
+      mechanicalWork: 'Mechanical Work (W)',
+      thermalHeat: 'Thermal Heat (Q)',
+      finalTemperature: 'Final Temperature (T_f)',
+      workHeatParameters: 'Work & Heat Parameters', // غير موثّق بمصدر
+      waterMass: 'Water Mass (m):',
+      mechanicalForce: 'Mechanical Force (F):',
+      displacement: 'Displacement (d):',
+      addedHeat: 'Added Heat (Q):',
+      initialTemp: 'Initial Temperature (T₀):',
+      standardPresets: 'Standard Presets:', // غير موثّق بمصدر
+      pureWork: 'Pure Work (Joule)', // غير موثّق بمصدر
+      pureHeat: 'Pure Heat (Flame)', // غير موثّق بمصدر
+    },
+    ku: {
+      title: 'ئیش و گەرمی و یاسای یەکەمی داینامیکی گەرمی',
+      description: 'لێکۆڵینەوە لە هاوتای میکانیکی بۆ گەرمی و گۆڕینی ئیش و گەرمی بۆ وزەی ناوەکی بەپێی یاسای جول.',
+      loggedSuccess: 'لە دەفتەردا تۆمارکرا ✓', // غير موثّق بمصدر
+      logButton: 'تۆمارکردن لە دەفتەری تاقیگەدا', // غير موثّق بمصدر
+      internalEnergy: 'گۆڕانی وزەی ناوەکی (ΔU)',
+      mechanicalWork: 'ئیشی میکانیکی (W)',
+      thermalHeat: 'گەرمیی زیادکراو (Q)',
+      finalTemperature: 'پلەی گەرمیی کۆتایی (T_f)',
+      workHeatParameters: 'پێوەرەکانی ئیش و گەرمی', // غير موثّق بمصدر
+      waterMass: 'بارستەی ئاو (m):',
+      mechanicalForce: 'هێزی ئیشی میکانیکی (F):',
+      displacement: 'دووریی لادان (d):',
+      addedHeat: 'گەرمیی کڵپەی زیادکراو (Q):',
+      initialTemp: 'پلەی گەرمیی دەستپێک (T₀):',
+      standardPresets: 'بارە تاقیکارییە پێوەرییەکان:', // غير موثّق بمصدر
+      pureWork: 'تەنها ئیشی میکانیکی (جول)', // غير موثّق بمصدر
+      pureHeat: 'تەنها گەرمیی کڵپە (Q)', // غير موثّق بمصدر
+    },
+    kmr: {
+      title: 'Karkirin û Germî û Qanûna Yekem a Termodînamîkê',
+      description: 'Lêkolîna li ser hevtaya mekanîkî ya germiyê: veguherandina karê mekanîkî W=F·d û germiya Q=mcΔT bo enerjiya navxweyî ΔU.',
+      loggedSuccess: 'Di defterê de hat tomarkirin ✓', // غير موثّق بمصدر
+      logButton: 'Tomarkirina pîvanê di deftera labê de', // غير موثّق بمصدر
+      internalEnergy: 'Guherîna enerjiya navxweyî (ΔU)',
+      mechanicalWork: 'Karê mekanîkî (W)',
+      thermalHeat: 'Germiya zêdekirî (Q)',
+      finalTemperature: 'Pileya germahiya dawî (T_f)',
+      workHeatParameters: 'Pîvanên kar û germiyê', // غير موثّق بمصدر
+      waterMass: 'Baristeya avê (m):',
+      mechanicalForce: 'Hêza karê mekanîkî (F):',
+      displacement: 'Masafeya veguhestinê (d):',
+      addedHeat: 'Germiya agirê zêdekirî (Q):',
+      initialTemp: 'Pileya germahiya destpêkê (T₀):',
+      standardPresets: 'Reşadên standard ên ezmûnî:', // غير موثّق بمصدر
+      pureWork: 'Tenê karê mekanîkî (Joule)', // غير موثّق بمصدر
+      pureHeat: 'Tenê germiya agirê (Q)', // غير موثّق بمصدر
+    },
+  }[lang] || {
+    title: 'الشغل والحرارة والقانون الأول للديناميكا الحرارية (Work & Heat)',
+    description: 'دراسة المكافئ الميكانيكي للحرارة لتجربة جول: تحويل الشغل الميكانيكي W = F·d والحرارة Q = m·c·ΔT إلى طاقة داخلية ΔU.',
+    loggedSuccess: 'تم التسجيل في الدفتر ✓',
+    logButton: 'تسجيل في دفتر المختبر',
+    internalEnergy: 'التغير بالطاقة الداخلية (ΔU)',
+    mechanicalWork: 'الشغل الميكانيكي (W)',
+    thermalHeat: 'الحرارة المضافة (Q)',
+    finalTemperature: 'الحرارة النهائية (T_f)',
+    workHeatParameters: 'معايير الشغل والحرارة',
+    waterMass: 'كتلة الماء (m):',
+    mechanicalForce: 'قوة الشغل الميكانيكي (F):',
+    displacement: 'مسافة الإزاحة (d):',
+    addedHeat: 'حرارة اللهب المضافة (Q):',
+    initialTemp: 'درجة الحرارة الابتدائية (T₀):',
+    standardPresets: 'حالات تجريبية قياسية:',
+    pureWork: 'شغل ميكانيكي فقط (جول)',
+    pureHeat: 'حرارة لهب فقط (Q)',
+  };
+
   // Inputs
   const [waterMassKg, setWaterMassKg] = useState<number>(1.0); // kg
   const [appliedForceN, setAppliedForceN] = useState<number>(200); // N (paddle wheel or piston force)
@@ -279,15 +376,11 @@ export default function WorkHeatSim({ lang, onLogMeasurement }: Props) {
           <h2 className="text-base sm:text-lg font-bold text-zinc-100 flex items-center gap-2">
             <Flame className="w-5 h-5 text-amber-400" />
             <span>
-              {lang === 'ar' ? 'الشغل والحرارة والقانون الأول للديناميكا الحرارية (Work & Heat)' : lang === 'ku' ? 'ئیش و گەرمی و یاسای یەکەمی داینامیکی گەرمی' : 'Work & Heat (1st Law of Thermodynamics)'}
+              {t.title}
             </span>
           </h2>
           <p className="text-xs text-zinc-400 mt-1 max-w-2xl">
-            {lang === 'ar'
-              ? 'دراسة المكافئ الميكانيكي للحرارة لتجربة جول: تحويل الشغل الميكانيكي W = F·d والحرارة Q = m·c·ΔT إلى طاقة داخلية ΔU.'
-              : lang === 'ku'
-              ? 'لێکۆڵینەوە لە هاوتای میکانیکی بۆ گەرمی و گۆڕینی ئیش و گەرمی بۆ وزەی ناوەکی بەپێی یاسای جول.'
-              : 'Joule’s mechanical equivalent of heat: converting mechanical work W=F·d and thermal heat Q=mcΔT into internal energy ΔU.'}
+            {t.description}
           </p>
         </div>
 
@@ -307,7 +400,7 @@ export default function WorkHeatSim({ lang, onLogMeasurement }: Props) {
             }`}
           >
             <BookmarkCheck className="w-4 h-4" />
-            <span>{logged ? (lang === 'ar' ? 'تم التسجيل في الدفتر ✓' : 'Logged ✓') : (lang === 'ar' ? 'تسجيل في دفتر المختبر' : 'Log Measurement')}</span>
+            <span>{logged ? t.loggedSuccess : t.logButton}</span>
           </button>
         </div>
       </div>
@@ -330,7 +423,7 @@ export default function WorkHeatSim({ lang, onLogMeasurement }: Props) {
             {/* Total Energy Added ΔU */}
             <div className="p-3.5 rounded-xl bg-gradient-to-br from-amber-950/40 via-zinc-900 to-rose-950/40 border border-amber-700/60 space-y-1">
               <span className="text-[10px] text-amber-300 uppercase font-semibold">
-                {lang === 'ar' ? 'التغير بالطاقة الداخلية (ΔU)' : 'Internal Energy (ΔU)'}
+                {t.internalEnergy}
               </span>
               <div className="text-xl font-bold font-mono text-amber-300">
                 {totalEnergyAddedJ.toFixed(0)} <span className="text-xs text-zinc-400">J</span>
@@ -341,7 +434,7 @@ export default function WorkHeatSim({ lang, onLogMeasurement }: Props) {
             {/* Mechanical Work W */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'الشغل الميكانيكي (W)' : 'Mechanical Work (W)'}
+                {t.mechanicalWork}
               </span>
               <div className="text-xl font-bold font-mono text-indigo-400">
                 {mechanicalWorkJ.toFixed(0)} <span className="text-xs text-zinc-400">J</span>
@@ -352,7 +445,7 @@ export default function WorkHeatSim({ lang, onLogMeasurement }: Props) {
             {/* Heat Added Q */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'الحرارة المضافة (Q)' : 'Thermal Heat (Q)'}
+                {t.thermalHeat}
               </span>
               <div className="text-xl font-bold font-mono text-rose-400">
                 {burnerHeatJ.toFixed(0)} <span className="text-xs text-zinc-400">J</span>
@@ -363,7 +456,7 @@ export default function WorkHeatSim({ lang, onLogMeasurement }: Props) {
             {/* Final Temperature */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'الحرارة النهائية (T_f)' : 'Final Temperature (T_f)'}
+                {t.finalTemperature}
               </span>
               <div className="text-xl font-bold font-mono text-emerald-400">
                 {currentTempC.toFixed(2)} <span className="text-xs text-zinc-400">°C</span>
@@ -378,14 +471,14 @@ export default function WorkHeatSim({ lang, onLogMeasurement }: Props) {
           <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
             <span className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
               <Sliders className="w-4 h-4 text-amber-400" />
-              {lang === 'ar' ? 'معايير الشغل والحرارة' : 'Work & Heat Parameters'}
+              {t.workHeatParameters}
             </span>
           </div>
 
           {/* Water Mass Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'كتلة الماء (m):' : 'Water Mass (m):'}</span>
+              <span className="text-zinc-400">{t.waterMass}</span>
               <span className="font-mono text-sky-400 font-semibold">{waterMassKg.toFixed(1)} kg</span>
             </div>
             <input
@@ -402,7 +495,7 @@ export default function WorkHeatSim({ lang, onLogMeasurement }: Props) {
           {/* Mechanical Force Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'قوة الشغل الميكانيكي (F):' : 'Mechanical Force (F):'}</span>
+              <span className="text-zinc-400">{t.mechanicalForce}</span>
               <span className="font-mono text-indigo-400 font-semibold">{appliedForceN} N</span>
             </div>
             <input
@@ -419,7 +512,7 @@ export default function WorkHeatSim({ lang, onLogMeasurement }: Props) {
           {/* Displacement Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'مسافة الإزاحة (d):' : 'Displacement (d):'}</span>
+              <span className="text-zinc-400">{t.displacement}</span>
               <span className="font-mono text-indigo-300 font-semibold">{displacementM.toFixed(1)} m</span>
             </div>
             <input
@@ -436,7 +529,7 @@ export default function WorkHeatSim({ lang, onLogMeasurement }: Props) {
           {/* Burner Thermal Heat (Q) Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'حرارة اللهب المضافة (Q):' : 'Added Heat (Q):'}</span>
+              <span className="text-zinc-400">{t.addedHeat}</span>
               <span className="font-mono text-rose-400 font-semibold">{burnerHeatJ} J</span>
             </div>
             <input
@@ -453,7 +546,7 @@ export default function WorkHeatSim({ lang, onLogMeasurement }: Props) {
           {/* Initial Temperature */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'درجة الحرارة الابتدائية (T₀):' : 'Initial Temperature (T₀):'}</span>
+              <span className="text-zinc-400">{t.initialTemp}</span>
               <span className="font-mono text-emerald-400 font-semibold">{initialTempC} °C</span>
             </div>
             <input
@@ -470,7 +563,7 @@ export default function WorkHeatSim({ lang, onLogMeasurement }: Props) {
           {/* Quick Presets */}
           <div>
             <span className="text-[10px] text-zinc-400 block mb-1.5">
-              {lang === 'ar' ? 'حالات تجريبية قياسية:' : 'Standard Presets:'}
+              {t.standardPresets}
             </span>
             <div className="flex flex-wrap gap-1.5">
               <button
@@ -481,7 +574,7 @@ export default function WorkHeatSim({ lang, onLogMeasurement }: Props) {
                 }}
                 className="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[11px] font-mono border border-zinc-700/60"
               >
-                {lang === 'ar' ? 'شغل ميكانيكي فقط (جول)' : 'Pure Work (Joule)'}
+                {t.pureWork}
               </button>
               <button
                 onClick={() => {
@@ -491,7 +584,7 @@ export default function WorkHeatSim({ lang, onLogMeasurement }: Props) {
                 }}
                 className="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[11px] font-mono border border-zinc-700/60"
               >
-                {lang === 'ar' ? 'حرارة لهب فقط (Q)' : 'Pure Heat (Flame)'}
+                {t.pureHeat}
               </button>
             </div>
           </div>

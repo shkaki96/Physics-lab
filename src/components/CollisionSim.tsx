@@ -12,6 +12,50 @@ export default function CollisionSim({ lang, onLogMeasurement }: Props) {
   const t = TRANSLATIONS[lang].experiments.collision;
   const controls = TRANSLATIONS[lang].controls;
 
+  const localTranslations = {
+    ar: {
+      varMomentum: 'كمية الحركة الكلية بعد التصادم (P_total)',
+      collisionOccurred: 'تم التصادم!',
+      elastic: 'مرن',
+      inelastic: 'عديم المرونة',
+      cartsConfig: 'معايير العربتين', // غير موثّق بمصدر
+      calculatedFinalVel: 'السرعات المحسوبة بعد التصادم', // غير موثّق بمصدر
+      noteText: (eVal: number, initP: string, keL: string) =>
+        `تجربة تصادم في بعد واحد (e = ${eVal}). كمية الحركة الابتدائية = ${initP} kg·m/s، والمفقود من الطاقة الحركية = ${keL} J.`,
+    },
+    en: {
+      varMomentum: 'Total Post-Collision Momentum (P_total)',
+      collisionOccurred: 'Collision Occurred!',
+      elastic: 'Elastic',
+      inelastic: 'Inelastic',
+      cartsConfig: 'Glider Carts Configuration', // غير موثّق بمصدر
+      calculatedFinalVel: 'Calculated Final Velocities', // غير موثّق بمصدر
+      noteText: (eVal: number, initP: string, keL: string) =>
+        `1D Glider collision trial (e = ${eVal}). Initial momentum = ${initP} kg·m/s, KE lost = ${keL} J.`,
+    },
+    ku: {
+      varMomentum: 'تەوژمی گشتی دوای پێکدادان (P_total)',
+      collisionOccurred: 'پێکدادان ڕوویدا!',
+      elastic: 'نەرم (إلاستيك)',
+      inelastic: 'نا-نەرم',
+      cartsConfig: 'ڕێکخستنی عەرەبانەکان', // غير موثّق بمصدر
+      calculatedFinalVel: 'خێراییە ئەژمارکراوەکانی دوای پێکدادان', // غير موثّق بمصدر
+      noteText: (eVal: number, initP: string, keL: string) =>
+        `تاقیکردنەوەی پێکدادان لە یەک دووریدا (e = ${eVal}). تەوژمی سەرەتایی = ${initP} kg·m/s، وزەی وندبوو = ${keL} J.`, // غير موثّق بمصدر
+    },
+    kmr: {
+      varMomentum: 'Mementoma giştî ya piştî lihevketinê (P_total)',
+      collisionOccurred: 'Lihevketin çêbû!',
+      elastic: 'Elastîk',
+      inelastic: 'Ne-elastîk',
+      cartsConfig: 'Mîhengên erebokên glide', // غير موثّق بمصدر
+      calculatedFinalVel: 'Lezên hesabkirî yên piştî lihevketinê', // غير موثّق بمصدر
+      noteText: (eVal: number, initP: string, keL: string) =>
+        `Ceribandina lihevketinê di yek rehendî de (e = ${eVal}). Mementoma destpêkê = ${initP} kg·m/s, KE ya windabûyî = ${keL} J.`, // غير موثّق بمصدر
+    },
+  };
+  const tText = localTranslations[lang] || localTranslations['ar'];
+
   // Parameters
   const [mass1, setMass1] = useState<number>(1.0); // kg
   const [mass2, setMass2] = useState<number>(2.0); // kg
@@ -314,7 +358,7 @@ export default function CollisionSim({ lang, onLogMeasurement }: Props) {
   const handleLog = () => {
     onLogMeasurement({
       experiment: 'collision',
-      variableName: lang === 'ar' ? 'كمية الحركة الكلية بعد التصادم (P_total)' : 'Total Post-Collision Momentum (P_total)',
+      variableName: tText.varMomentum,
       measuredValue: Number((m1 * liveV1 + m2 * liveV2).toFixed(3)),
       theoreticalValue: Number(initialMomentum.toFixed(3)),
       unit: 'kg·m/s',
@@ -328,10 +372,7 @@ export default function CollisionSim({ lang, onLogMeasurement }: Props) {
         'Final v2': `${theoreticalV2Final.toFixed(2)} m/s`,
       },
       equation: 'm₁u₁ + m₂u₂ = m₁v₁ + m₂v₂',
-      notes:
-        lang === 'ar'
-          ? `تجربة تصادم في بعد واحد (e = ${restitution}). كمية الحركة الابتدائية = ${initialMomentum.toFixed(2)} kg·m/s، والمفقود من الطاقة الحركية = ${keLost.toFixed(2)} J.`
-          : `1D Glider collision trial with restitution e = ${restitution}.`,
+      notes: tText.noteText(restitution, initialMomentum.toFixed(2), keLost.toFixed(2)),
     });
     setLogged(true);
     setTimeout(() => setLogged(false), 2000);
@@ -370,7 +411,7 @@ export default function CollisionSim({ lang, onLogMeasurement }: Props) {
           {/* Collided Alert */}
           {hasCollided && (
             <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs font-semibold animate-pulse">
-              💥 {lang === 'ar' ? 'تم التصادم!' : 'Collision Occurred!'}
+              💥 {tText.collisionOccurred}
             </div>
           )}
         </div>
@@ -408,7 +449,7 @@ export default function CollisionSim({ lang, onLogMeasurement }: Props) {
                 restitution === 1.0 ? 'bg-sky-500/20 border-sky-500 text-sky-200 font-bold' : 'bg-zinc-800 border-zinc-700 text-zinc-400'
               }`}
             >
-              e = 1.0 ({lang === 'ar' ? 'مرن' : 'Elastic'})
+              e = 1.0 ({tText.elastic})
             </button>
             <button
               onClick={() => setRestitution(0.0)}
@@ -416,7 +457,7 @@ export default function CollisionSim({ lang, onLogMeasurement }: Props) {
                 restitution === 0.0 ? 'bg-rose-500/20 border-rose-500 text-rose-200 font-bold' : 'bg-zinc-800 border-zinc-700 text-zinc-400'
               }`}
             >
-              e = 0.0 ({lang === 'ar' ? 'عديم المرونة' : 'Inelastic'})
+              e = 0.0 ({tText.inelastic})
             </button>
           </div>
         </div>
@@ -452,7 +493,7 @@ export default function CollisionSim({ lang, onLogMeasurement }: Props) {
         <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-4">
           <h3 className="text-xs font-bold text-zinc-300 uppercase tracking-wider flex items-center gap-1.5">
             <Gauge className="w-3.5 h-3.5 text-rose-400" />
-            <span>{lang === 'ar' ? 'معايير العربتين' : 'Glider Carts Configuration'}</span>
+            <span>{tText.cartsConfig}</span>
           </h3>
 
           {/* Cart 1 Config */}
@@ -555,7 +596,7 @@ export default function CollisionSim({ lang, onLogMeasurement }: Props) {
 
         {/* Theoretical Result Box */}
         <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-2 text-xs font-mono">
-          <span className="text-zinc-400 block font-sans font-bold">{lang === 'ar' ? 'السرعات المحسوبة بعد التصادم' : 'Calculated Final Velocities'}</span>
+          <span className="text-zinc-400 block font-sans font-bold">{tText.calculatedFinalVel}</span>
           <div className="p-2.5 rounded-xl bg-zinc-950 border border-zinc-800 space-y-1">
             <div className="flex justify-between text-sky-300">
               <span>v₁' (Final Cart 1):</span>

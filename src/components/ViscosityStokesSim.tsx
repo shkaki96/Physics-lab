@@ -10,21 +10,115 @@ interface Props {
 type LiquidType = 'water' | 'oil' | 'glycerin' | 'honey';
 type SphereMaterialType = 'steel' | 'aluminum' | 'glass' | 'lead';
 
-const LIQUIDS: Record<LiquidType, { nameAr: string; nameEn: string; eta: number; rho: number; color: string }> = {
-  water: { nameAr: 'ماء نقي (Water)', nameEn: 'Pure Water', eta: 0.001, rho: 1000, color: 'rgba(56, 189, 248, 0.4)' },
-  oil: { nameAr: 'زيت محركات (Engine Oil)', nameEn: 'Engine Oil', eta: 0.085, rho: 920, color: 'rgba(234, 179, 8, 0.55)' },
-  glycerin: { nameAr: 'جلسرين نقي (Glycerin)', nameEn: 'Glycerin', eta: 0.95, rho: 1260, color: 'rgba(244, 114, 182, 0.45)' },
-  honey: { nameAr: 'عسل طبيعي (Honey)', nameEn: 'Pure Honey', eta: 10.0, rho: 1420, color: 'rgba(245, 158, 11, 0.75)' },
+interface LiquidData {
+  nameAr: string;
+  nameEn: string;
+  nameKu: string;
+  nameKmr: string;
+  eta: number;
+  rho: number;
+  color: string;
+}
+
+interface SphereData {
+  nameAr: string;
+  nameEn: string;
+  nameKu: string;
+  nameKmr: string;
+  rho: number;
+  color: string;
+}
+
+const LIQUIDS: Record<LiquidType, LiquidData> = {
+  water: { nameAr: 'ماء نقي (Water)', nameEn: 'Pure Water', nameKu: 'ئاوی پەتی (Water)', nameKmr: 'Ava Paqij (Water)', eta: 0.001, rho: 1000, color: 'rgba(56, 189, 248, 0.4)' },
+  oil: { nameAr: 'زيت محركات (Engine Oil)', nameEn: 'Engine Oil', nameKu: 'ڕۆنی مۆتۆر (Engine Oil)', nameKmr: 'Rûnê Motora (Engine Oil)', eta: 0.085, rho: 920, color: 'rgba(234, 179, 8, 0.55)' },
+  glycerin: { nameAr: 'جلسرين نقي (Glycerin)', nameEn: 'Glycerin', nameKu: 'گلیسیرینی پەتی (Glycerin)', nameKmr: 'Glîserîn (Glycerin)', eta: 0.95, rho: 1260, color: 'rgba(244, 114, 182, 0.45)' },
+  honey: { nameAr: 'عسل طبيعي (Honey)', nameEn: 'Pure Honey', nameKu: 'هەنگوینی سروشتی (Honey)', nameKmr: 'Hengivê Xirokî (Honey)', eta: 10.0, rho: 1420, color: 'rgba(245, 158, 11, 0.75)' },
 };
 
-const SPHERES: Record<SphereMaterialType, { nameAr: string; nameEn: string; rho: number; color: string }> = {
-  steel: { nameAr: 'فولاذ (Steel)', nameEn: 'Steel Sphere', rho: 7850, color: '#94a3b8' },
-  aluminum: { nameAr: 'ألمنيوم (Aluminum)', nameEn: 'Aluminum Sphere', rho: 2700, color: '#cbd5e1' },
-  glass: { nameAr: 'زجاج (Glass)', nameEn: 'Glass Sphere', rho: 2500, color: '#38bdf8' },
-  lead: { nameAr: 'رصاص (Lead)', nameEn: 'Lead Sphere', rho: 11340, color: '#64748b' },
+const SPHERES: Record<SphereMaterialType, SphereData> = {
+  steel: { nameAr: 'فولاذ (Steel)', nameEn: 'Steel Sphere', nameKu: 'تۆپی فۆڵاد (Steel)', nameKmr: 'Goga Pola (Steel)', rho: 7850, color: '#94a3b8' },
+  aluminum: { nameAr: 'ألمنيوم (Aluminum)', nameEn: 'Aluminum Sphere', nameKu: 'تۆپی ئەلومینیۆم (Aluminum)', nameKmr: 'Goga Alyumînyumê (Aluminum)', rho: 2700, color: '#cbd5e1' },
+  glass: { nameAr: 'زجاج (Glass)', nameEn: 'Glass Sphere', nameKu: 'تۆپی شووشە (Glass)', nameKmr: 'Goga Camê (Glass)', rho: 2500, color: '#38bdf8' },
+  lead: { nameAr: 'رصاص (Lead)', nameEn: 'Lead Sphere', nameKu: 'تۆپی سۆرب (Lead)', nameKmr: 'Goga Qurşûmê (Lead)', rho: 11340, color: '#64748b' },
 };
 
 export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
+  const localT = {
+    ar: {
+      title: 'اللزوجة وقانون ستوكس والسرعة الحدية',
+      subtitle: 'سقوط الكرات المعدنية في الموائع اللزجة (ماء، زيت، جلسرين، عسل) وحساب قوة مقاومة المائع Fd = 6πηrv والسرعة الحدية vt = 2r²g(ρs - ρf)/(9η).',
+      logged: 'تم التسجيل في الدفتر ✓',
+      logMeasurement: 'تسجيل في دفتر المختبر',
+      controlsTitle: 'معايير السائل والكرة الساقطة',
+      liquidLabel: 'نوع السائل واللزوجة (η):',
+      sphereMaterialLabel: 'مادة الكرة الساقطة:',
+      radiusLabel: 'نصف قطر الكرة (r):',
+      terminalSpeedCard: 'السرعة الحدية (vt)',
+      stokesDragCard: 'قوة مقاومة المائع (Fd)',
+      viscosityCard: 'معامل اللزوجة (η)',
+      apparentWeightCard: 'الوزن الظاهري (W - Fb)',
+      varTerminalVel: 'السرعة الحدية vt (قانون ستوكس للزوجة)', // غير موثّق بمصدر
+      notesLog: 'تجربة ستوكس للموائع لحساب اللزوجة والسرعة الحدية للكرة الساقطة.', // غير موثّق بمصدر
+      dragCanvasLabel: 'Fd (مقاومة)', // غير موثّق بمصدر
+      resetPosition: 'إعادة ضبط الموقع', // غير موثّق بمصدر
+    },
+    en: {
+      title: "Viscosity & Stokes' Law (Terminal Velocity)",
+      subtitle: 'Falling sphere viscometer calculating terminal velocity vt = 2r²g(Δρ)/(9η) and Stokes drag resistance Fd = 6πηrv.',
+      logged: 'Logged ✓',
+      logMeasurement: 'Log Measurement',
+      controlsTitle: 'Liquid & Sphere Controls',
+      liquidLabel: 'Liquid & Viscosity (η):',
+      sphereMaterialLabel: 'Sphere Material:',
+      radiusLabel: 'Sphere Radius (r):',
+      terminalSpeedCard: 'Terminal Speed (vt)',
+      stokesDragCard: 'Stokes Drag (Fd)',
+      viscosityCard: 'Viscosity (η)',
+      apparentWeightCard: 'Apparent Weight',
+      varTerminalVel: 'Terminal Velocity vt (Stokes’ Law of Viscosity)', // غير موثّق بمصدر
+      notesLog: "Stokes' Law fluid mechanics experiment determining fluid viscosity through terminal falling speed of micro spheres in viscous columns.", // غير موثّق بمصدر
+      dragCanvasLabel: 'Fd (Drag)', // غير موثّق بمصدر
+      resetPosition: 'Reset Position', // غير موثّق بمصدر
+    },
+    ku: {
+      title: 'خەستی و یاسای ستۆکس و خێرایی کۆتایی',
+      subtitle: 'کەوتنی تۆپە کانزاییەکان لەناو شلە جیاوازەکاندا و دیاریکردنی خێرایی کۆتایی بەپێی یاسای ستۆکس Fd = 6πηrv.',
+      logged: 'تۆمارکرا ✓',
+      logMeasurement: 'تۆمارکردن لە دەفتەر',
+      controlsTitle: 'تایبەتمەندییەکانی شلە و تۆپەکە',
+      liquidLabel: 'جۆری شلە و خەستی (η):',
+      sphereMaterialLabel: 'ماددەی تۆپەکە:',
+      radiusLabel: 'نیوەتیرەی تۆپەکە (r):',
+      terminalSpeedCard: 'خێرایی کۆتایی (vt)',
+      stokesDragCard: 'هێزی بەرهەڵستی شلە (Fd)',
+      viscosityCard: 'هاوکۆلکەی خەستی (η)',
+      apparentWeightCard: 'کێشی دیار (W - Fb)',
+      varTerminalVel: 'خێرایی کۆتایی vt (یاسای ستۆکس)', // غير موثّق بمصدر
+      notesLog: 'تاقیکردنەوەی خەستیی شلەکان و دیاریکردنی خێرایی کۆتایی تۆپە کەوتووەکە.', // غير موثّق بمصدر
+      dragCanvasLabel: 'Fd (بەرهەڵستی)', // غير موثّق بمصدر
+      resetPosition: 'ڕێکخستنەوەی شوێن', // غير موثّق بمصدر
+    },
+    kmr: {
+      title: 'Lîncbûn û Zagona Stoks (Leza Dawî)',
+      subtitle: 'Kevitina gogên metalî di nava şilekên lînc de û hesabkirina hêza xwegiriyê Fd = 6πηrv û leza dawî vt = 2r²g(ρs - ρf)/(9η).',
+      logged: 'Tomaarkirî ✓',
+      logMeasurement: 'Pîvanê Tomar Bikin',
+      controlsTitle: 'Taybetmendiyên Şilek û Gogê',
+      liquidLabel: 'Cureyê Şilekê û Lîncbûn (η):',
+      sphereMaterialLabel: 'Madeya Gogê:',
+      radiusLabel: 'Nîveçapa Gogê (r):',
+      terminalSpeedCard: 'Leza Dawî (vt)',
+      stokesDragCard: 'Hêza Xwegiriyê (Fd)',
+      viscosityCard: 'Asta Lîncbûnê (η)',
+      apparentWeightCard: 'Giraniya Xuyanî (W - Fb)',
+      varTerminalVel: 'Leza Dawî vt (Zagona Stoks)', // غير موثّق بمصدر
+      notesLog: 'Taqîkirina lîncbûna şilekê û pîvandina leza dawî a goga kevtî.', // غير موثّق بمصدر
+      dragCanvasLabel: 'Fd (Xwegirî)', // غير موثّق بمصدر
+      resetPosition: 'Meqamê Nû Bikin', // غير موثّق بمصدر
+    },
+  }[lang];
+
   const [liquid, setLiquid] = useState<LiquidType>('glycerin');
   const [sphereMaterial, setSphereMaterial] = useState<SphereMaterialType>('steel');
   const [radiusMm, setRadiusMm] = useState<number>(3.0); // mm
@@ -179,7 +273,7 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
     ctx.stroke();
 
     ctx.fillStyle = '#f59e0b';
-    ctx.fillText('Fd (Drag)', ballX - 58, ballY - 26);
+    ctx.fillText(localT.dragCanvasLabel, ballX - 58, ballY - 26);
 
     // 3. Buoyancy Force F_b (Up)
     ctx.strokeStyle = '#38bdf8';
@@ -199,15 +293,15 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
   const handleLog = () => {
     onLogMeasurement({
       experiment: 'viscosity_stokes',
-      variableName: 'Terminal Velocity vt (Stokes’ Law of Viscosity)',
+      variableName: localT.varTerminalVel,
       measuredValue: Number((terminalVelocityMps * 100).toFixed(2)),
       theoreticalValue: Number((((2 * Math.pow(radiusM, 2) * g * deltaRho) / (9 * eta)) * 100).toFixed(2)),
       unit: 'cm/s',
       parameters: {
-        'Liquid Fluid': LIQUIDS[liquid].nameEn,
+        'Liquid Fluid': lang === 'ar' ? LIQUIDS[liquid].nameAr : lang === 'ku' ? LIQUIDS[liquid].nameKu : lang === 'kmr' ? LIQUIDS[liquid].nameKmr : LIQUIDS[liquid].nameEn,
         'Liquid Viscosity η': `${eta} Pa·s`,
         'Fluid Density ρ_f': `${rhoFluid} kg/m³`,
-        'Sphere Material': SPHERES[sphereMaterial].nameEn,
+        'Sphere Material': lang === 'ar' ? SPHERES[sphereMaterial].nameAr : lang === 'ku' ? SPHERES[sphereMaterial].nameKu : lang === 'kmr' ? SPHERES[sphereMaterial].nameKmr : SPHERES[sphereMaterial].nameEn,
         'Sphere Density ρ_s': `${rhoSphere} kg/m³`,
         'Sphere Radius r': `${radiusMm} mm`,
         'Stokes Drag Force Fd': `${stokesDragForceN.toExponential(3)} N`,
@@ -215,7 +309,7 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
         'Terminal Velocity vt': `${(terminalVelocityMps * 100).toFixed(2)} cm/s`,
       },
       equation: `vt = [2 · r² · g · (ρ_s - ρ_f)] / (9 · η) = ${(terminalVelocityMps * 100).toFixed(2)} cm/s, Fd = 6π·η·r·vt`,
-      notes: `Stokes' Law fluid mechanics experiment determining fluid viscosity through terminal falling speed of micro spheres in viscous columns.`,
+      notes: localT.notesLog,
     });
     setLogged(true);
     setTimeout(() => setLogged(false), 2000);
@@ -228,16 +322,10 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
         <div>
           <h2 className="text-base sm:text-lg font-bold text-zinc-100 flex items-center gap-2">
             <Droplets className="w-5 h-5 text-amber-400" />
-            <span>
-              {lang === 'ar' ? 'اللزوجة وقانون ستوكس والسرعة الحدية (Viscosity & Stokes)' : lang === 'ku' ? 'خەستی و یاسای ستۆکس و خێرایی کۆتایی' : 'Viscosity & Stokes’ Law (Terminal Velocity)'}
-            </span>
+            <span>{localT.title}</span>
           </h2>
           <p className="text-xs text-zinc-400 mt-1 max-w-2xl">
-            {lang === 'ar'
-              ? 'سقوط الكرات المعدنية في الموائع اللزجة (ماء، زيت، جلسرين، عسل) وحساب قوة مقاومة المائع Fd = 6πηrv والسرعة الحدية vt = 2r²g(ρs - ρf)/(9η).'
-              : lang === 'ku'
-              ? 'کەوتنی تۆپە کانزاییەکان لەناو شلە جیاوازەکاندا و دیاریکردنی خێرایی کۆتایی بەپێی یاسای ستۆکس.'
-              : 'Falling sphere viscometer calculating terminal velocity vt = 2r²g(Δρ)/(9η) and Stokes drag resistance Fd = 6πηrv.'}
+            {localT.subtitle}
           </p>
         </div>
 
@@ -251,7 +339,7 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
           <button
             onClick={handleReset}
             className="p-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700"
-            title="Reset Position"
+            title={localT.resetPosition}
           >
             <RotateCcw className="w-4 h-4" />
           </button>
@@ -264,7 +352,7 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
             }`}
           >
             <BookmarkCheck className="w-4 h-4" />
-            <span>{logged ? (lang === 'ar' ? 'تم التسجيل في الدفتر ✓' : 'Logged ✓') : (lang === 'ar' ? 'تسجيل في دفتر المختبر' : 'Log Measurement')}</span>
+            <span>{logged ? localT.logged : localT.logMeasurement}</span>
           </button>
         </div>
       </div>
@@ -276,14 +364,14 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
           <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
             <span className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
               <Sliders className="w-4 h-4 text-amber-400" />
-              {lang === 'ar' ? 'معايير السائل والكرة الساقطة' : 'Liquid & Sphere Controls'}
+              {localT.controlsTitle}
             </span>
           </div>
 
           {/* Liquid Selector */}
           <div>
             <label className="text-xs text-zinc-400 block mb-1.5">
-              {lang === 'ar' ? 'نوع السائل واللزوجة (η):' : 'Liquid & Viscosity (η):'}
+              {localT.liquidLabel}
             </label>
             <div className="grid grid-cols-2 gap-1.5">
               {(Object.keys(LIQUIDS) as LiquidType[]).map((liq) => (
@@ -296,7 +384,7 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
                       : 'bg-zinc-800 text-zinc-400 border-zinc-700 hover:text-zinc-200'
                   }`}
                 >
-                  <div>{lang === 'ar' ? LIQUIDS[liq].nameAr : LIQUIDS[liq].nameEn}</div>
+                  <div>{lang === 'ar' ? LIQUIDS[liq].nameAr : lang === 'ku' ? LIQUIDS[liq].nameKu : lang === 'kmr' ? LIQUIDS[liq].nameKmr : LIQUIDS[liq].nameEn}</div>
                   <div className="text-[10px] text-zinc-500 font-mono">η = {LIQUIDS[liq].eta} Pa·s</div>
                 </button>
               ))}
@@ -306,7 +394,7 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
           {/* Sphere Material Selector */}
           <div>
             <label className="text-xs text-zinc-400 block mb-1.5">
-              {lang === 'ar' ? 'مادة الكرة الساقطة:' : 'Sphere Material:'}
+              {localT.sphereMaterialLabel}
             </label>
             <div className="grid grid-cols-2 gap-1.5">
               {(Object.keys(SPHERES) as SphereMaterialType[]).map((mat) => (
@@ -319,7 +407,7 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
                       : 'bg-zinc-800 text-zinc-400 border-zinc-700 hover:text-zinc-200'
                   }`}
                 >
-                  <div>{lang === 'ar' ? SPHERES[mat].nameAr : SPHERES[mat].nameEn}</div>
+                  <div>{lang === 'ar' ? SPHERES[mat].nameAr : lang === 'ku' ? SPHERES[mat].nameKu : lang === 'kmr' ? SPHERES[mat].nameKmr : SPHERES[mat].nameEn}</div>
                   <div className="text-[10px] text-zinc-500 font-mono">ρ = {SPHERES[mat].rho} kg/m³</div>
                 </button>
               ))}
@@ -329,7 +417,7 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
           {/* Sphere Radius Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'نصف قطر الكرة (r):' : 'Sphere Radius (r):'}</span>
+              <span className="text-zinc-400">{localT.radiusLabel}</span>
               <span className="font-mono text-amber-400 font-semibold">{radiusMm.toFixed(1)} mm</span>
             </div>
             <input
@@ -359,7 +447,7 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
             {/* Terminal Velocity */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'السرعة الحدية (vt)' : 'Terminal Speed (vt)'}
+                {localT.terminalSpeedCard}
               </span>
               <div className="text-xl font-bold font-mono text-amber-400">
                 {(terminalVelocityMps * 100).toFixed(2)} <span className="text-xs text-zinc-400">cm/s</span>
@@ -370,7 +458,7 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
             {/* Stokes Drag Force */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'قوة مقاومة المائع (Fd)' : 'Stokes Drag (Fd)'}
+                {localT.stokesDragCard}
               </span>
               <div className="text-xl font-bold font-mono text-rose-400">
                 {(stokesDragForceN * 1000).toFixed(3)} <span className="text-xs text-zinc-400">mN</span>
@@ -381,18 +469,20 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
             {/* Viscosity η */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'معامل اللزوجة (η)' : 'Viscosity (η)'}
+                {localT.viscosityCard}
               </span>
               <div className="text-xl font-bold font-mono text-sky-400">
                 {eta} <span className="text-xs text-zinc-400">Pa·s</span>
               </div>
-              <span className="text-[9px] text-zinc-500 font-mono">{LIQUIDS[liquid].nameEn}</span>
+              <span className="text-[9px] text-zinc-500 font-mono">
+                {lang === 'ar' ? LIQUIDS[liquid].nameAr : lang === 'ku' ? LIQUIDS[liquid].nameKu : lang === 'kmr' ? LIQUIDS[liquid].nameKmr : LIQUIDS[liquid].nameEn}
+              </span>
             </div>
 
             {/* Net Gravity - Buoyancy */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'الوزن الظاهري (W - Fb)' : 'Apparent Weight'}
+                {localT.apparentWeightCard}
               </span>
               <div className="text-xl font-bold font-mono text-emerald-400">
                 {((gravityForceN - buoyancyForceN) * 1000).toFixed(3)} <span className="text-xs text-zinc-400">mN</span>

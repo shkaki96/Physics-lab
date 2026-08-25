@@ -141,9 +141,12 @@ export const ChargesFieldsSim: React.FC<ChargesFieldsSimProps> = ({ lang }) => {
   const t = {
     ar: {
       title: 'الشحنات والمجالات الكهروستاتيكية (E = kQ / r²)',
+      subtitle: 'مختبر الفيزياء الكهرومغناطيسية', // غير موثّق بمصدر
       addPos: 'إضافة شحنة موجبة (+1 nC)',
       addNeg: 'إضافة شحنة سالبة (-1 nC)',
       toggleVectors: 'إظهار شبكة المتجهات',
+      hideVectors: 'إخفاء شبكة المتجهات', // غير موثّق بمصدر
+      manageCharges: 'إدارة الشحنات النقطية:', // غير موثّق بمصدر
       sensorHeader: 'مجس قياس المجال والجهد (Voltmeter Sensor)',
       clickToPlaceSensor: 'انقر فوق أي نقطة في اللوحة لوضع المجس وقياس المجال والجهد',
       potential: 'الجهد الكهربائي (V)',
@@ -152,9 +155,12 @@ export const ChargesFieldsSim: React.FC<ChargesFieldsSimProps> = ({ lang }) => {
     },
     en: {
       title: 'Charges and Fields Lab (E = kQ / r²)',
+      subtitle: 'Electromagnetism Physics Lab', // غير موثّق بمصدر
       addPos: 'Add Positive (+1 nC)',
       addNeg: 'Add Negative (-1 nC)',
       toggleVectors: 'Toggle Vector Grid',
+      hideVectors: 'Hide Vector Grid', // غير موثّق بمصدر
+      manageCharges: 'Point Charge Control:', // غير موثّق بمصدر
       sensorHeader: 'Field & Potential Sensor Probe',
       clickToPlaceSensor: 'Click anywhere on canvas to move sensor probe',
       potential: 'Electric Potential (V)',
@@ -163,9 +169,12 @@ export const ChargesFieldsSim: React.FC<ChargesFieldsSimProps> = ({ lang }) => {
     },
     ku: {
       title: 'بارگەکان و بوارە کارەباییەکان',
+      subtitle: 'تاقیگەی فیزیا', // غير موثّق بمصدر
       addPos: 'زیادکردنی بارگەی ئەرێنی (+)',
       addNeg: 'زیادکردنی بارگەی نەرێنی (-)',
       toggleVectors: 'پیشاندانی تیشکەکان',
+      hideVectors: 'شاردنەوەی تیشکەکان', // غير موثّق بمصدر
+      manageCharges: 'بەڕێوەبردنی بارگەکان:', // غير موثّق بمصدر
       sensorHeader: 'ئامێری پێوانەکردنی بوار',
       clickToPlaceSensor: 'کرتە بکە بۆ دانانی ئامێری پێوانە',
       potential: 'پۆتەنشیاڵ (V)',
@@ -174,9 +183,12 @@ export const ChargesFieldsSim: React.FC<ChargesFieldsSimProps> = ({ lang }) => {
     },
     kmr: {
       title: 'Barg û Qadên Elektrîkê (E = kQ / r²)',
+      subtitle: 'Laboratûwara Fîzîkê', // غير موثّق بمصدر
       addPos: 'Barga Erênî Zêde Bike (+)',
       addNeg: 'Barga Neyînî Zêde Bike (-)',
       toggleVectors: 'Nîşandana Tîrên Qadê',
+      hideVectors: 'Veqetandina Tîrên Qadê', // غير موثّق بمصدر
+      manageCharges: 'Rêveberiya Bargan:', // غير موثّق بمصدر
       sensorHeader: 'Sensora Qadê û Potansiyelê',
       clickToPlaceSensor: 'Ji bo pîvanê li ser tabloyê bitikîne',
       potential: 'Potansiyela Elektrîkî (V)',
@@ -194,7 +206,7 @@ export const ChargesFieldsSim: React.FC<ChargesFieldsSimProps> = ({ lang }) => {
           </div>
           <div>
             <h2 className="text-lg sm:text-xl font-bold text-white">{t.title}</h2>
-            <p className="text-xs text-slate-400 font-mono">CLUSTER B • SIMULATION 9</p>
+            <p className="text-xs text-slate-400 font-mono">{t.subtitle}</p>
           </div>
         </div>
 
@@ -229,7 +241,7 @@ export const ChargesFieldsSim: React.FC<ChargesFieldsSimProps> = ({ lang }) => {
         <div className="lg:col-span-4 space-y-4">
           {/* Add Charges */}
           <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-3">
-            <span className="text-xs font-semibold text-slate-300 block">إدارة الشحنات النقطية:</span>
+            <span className="text-xs font-semibold text-slate-300 block">{t.manageCharges}</span>
             <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={() => addCharge(1)}
@@ -251,7 +263,7 @@ export const ChargesFieldsSim: React.FC<ChargesFieldsSimProps> = ({ lang }) => {
               onClick={() => setShowVectors(!showVectors)}
               className="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold border border-slate-700 transition-colors"
             >
-              {showVectors ? 'إخفاء شبكة المتجهات' : t.toggleVectors}
+              {showVectors ? t.hideVectors : t.toggleVectors}
             </button>
           </div>
 

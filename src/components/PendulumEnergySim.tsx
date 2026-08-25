@@ -10,6 +10,116 @@ interface Props {
 }
 
 export default function PendulumEnergySim({ lang, onLogMeasurement }: Props) {
+  const translations = {
+    ar: {
+      title: 'التحقق من حفظ الطاقة باستخدام النواس البسيط (E = K + U)',
+      subTitle: 'التحقق من حفظ الطاقة باستخدام النواس البسيط (E = K + U)',
+      shortDesc: 'دراسة التحول بين طاقة الوضع الحركية والوضع في النواس البسيط',
+      start: 'تشغيل', // غير موثّق بمصدر
+      pause: 'إيقاف', // غير موثّق بمصدر
+      photogateVelLabel: 'سرعة البوابة الضوئية (v_max)',
+      bottomKELabel: 'طاقة الحركة عند القاع (K_max)',
+      initialPELabel: 'طاقة الوضع الابتدائية (U_0)',
+      periodLabel: 'الزمن الدوري (T)',
+      proofTitle: 'البرهان الفيزيائي لقانون حفظ الطاقة الميكانيكية:',
+      proofText: 'عند إفلات البندول من أقصى زاوية θ₀، تكون طاقة الحركة صفراً وتكون الطاقة كلها طاقة وضع: E = U_max = m·g·h_max = m·g·L(1 - cos θ₀). وعند مروره بأدنى نقطة (موضع الاتزان h=0)، تتحول طاقة الوضع بالكامل إلى طاقة حركة: K_max = ½ m v_max² = E. وبالتالي فإن السرعة عند القاع تساوي دائماً v = √(2 g h_max).',
+      controlsTitle: 'عناصر التحكم بالبندول', // غير موثّق بمصدر
+      lengthLabel: 'طول الخيط (L)',
+      massLabel: 'كتلة الكرة (m)',
+      angleLabel: 'زاوية الإفلات الابتدائية (θ₀)',
+      dampingLabel: 'مقاومة الهواء (التخميد)',
+      conservativeZero: '0 (نظام محافظ تام)', // غير موثّق بمصدر
+      gravityLabel: 'تسارع الجاذبية الكوكبية (g):',
+      loggedMsg: 'تم تسجيل القياس في دفتر المختبر!', // غير موثّق بمصدر
+      logBtn: 'تسجيل حفظ الطاقة وسرعة القاع', // غير موثّق بمصدر
+      photogateLabel: 'PHOTOGATE', // غير موثّق بمصدر
+      varEnergyVel: 'حفظ الطاقة الميكانيكية وسرعة القاع', // غير موثّق بمصدر
+    },
+    en: {
+      title: 'Conservation of Mechanical Energy in Simple Pendulum (E = K + U)',
+      subTitle: 'Conservation of Mechanical Energy in Simple Pendulum',
+      shortDesc: 'Study energy conversion between kinetic and potential energy in a simple pendulum.',
+      start: 'Start', // غير موثّق بمصدر
+      pause: 'Pause', // غير موثّق بمصدر
+      photogateVelLabel: 'Photogate Velocity',
+      bottomKELabel: 'Bottom Kinetic Energy',
+      initialPELabel: 'Initial Potential Energy',
+      periodLabel: 'Period (T)',
+      proofTitle: 'Physical Proof of Energy Conservation:',
+      proofText: 'At release angle θ₀, K=0 and all energy is potential: E = U = m·g·h = m·g·L(1 - cos θ₀). At the lowest point (h=0), potential energy converts completely into kinetic energy: K = ½ m v² = E. Hence, bottom velocity is v = √(2 g h).',
+      controlsTitle: 'Pendulum Parameters', // غير موثّق بمصدر
+      lengthLabel: 'String Length (L)',
+      massLabel: 'Bob Mass (m)',
+      angleLabel: 'Release Angle (θ₀)',
+      dampingLabel: 'Air Resistance (Damping)',
+      conservativeZero: '0 (Conservative)', // غير موثّق بمصدر
+      gravityLabel: 'Planetary Gravity (g):',
+      loggedMsg: 'Logged to Lab Notebook!', // غير موثّق بمصدر
+      logBtn: 'Log Energy Conservation Data', // غير موثّق بمصدر
+      photogateLabel: 'PHOTOGATE', // غير موثّق بمصدر
+      varEnergyVel: 'Total Energy & Bottom Velocity', // غير موثّق بمصدر
+    },
+    ku: {
+      title: 'سەلماندنی پاراستنی وزە بە بەکارهێنانی پاندۆڵی سادە (E = K + U)',
+      subTitle: 'سەلماندنی پاراستنی وزە بە بەکارهێنانی پاندۆڵی سادە (E = K + U)',
+      shortDesc: 'لێکۆڵینەوە لە گۆڕانکاری نێوان وزەی جووڵە و وزەی شاراوە لە پاندۆڵی سادەدا.',
+      start: 'دەستپێکردن', // غير موثّق بمصدر
+      pause: 'وەستاندن', // غير موثّق بمصدر
+      photogateVelLabel: 'خێرایی دەروازەی ڕووناکی (v_max)',
+      bottomKELabel: 'وزەی جووڵە لە نزمترین خاڵدا (K_max)',
+      initialPELabel: 'وزەی شاراوەی سەرەتایی (U_0)',
+      periodLabel: 'خولی ڕوودان (T)',
+      proofTitle: 'سەلماندنی فیزیایی بۆ یاسای پاراستنی وزەی ميكانيكی:',
+      proofText: 'لە گۆشەی بەردان θ₀ وزەی جووڵە سفرە؛ E = U_max = m·g·h_max. لە نزمترین خاڵدا وزەی شاراوە بەتەواوی دەبێتە وزەی جووڵە: K_max = ½ m v_max² = E.',
+      controlsTitle: 'دەستکاریکردنی تایبەتمەندییەکانی پاندۆڵ', // غير موثّق بمصدر
+      lengthLabel: 'درێژی پەتەکە (L)',
+      massLabel: 'بارستەی تۆپەکە (m)',
+      angleLabel: 'گۆشەی بەرپێدانی سەرەتایی (θ₀)',
+      dampingLabel: 'بەرگری هەوا (کوژاندنەوە)',
+      conservativeZero: '0 (سیستەمی پارێزراو)', // غير موثّق بمصدر
+      gravityLabel: 'تاودانی کێشکردنی گەڕەستێرەیی (g):',
+      loggedMsg: 'تۆمارکرا لە دەفتەری تاقیگە!', // غير موثّق بمصدر
+      logBtn: 'تۆمارکردنی پاراستنی وزە و خێرایی نزمترین خاڵ', // غير موثّق بمصدر
+      photogateLabel: 'PHOTOGATE', // غير موثّق بمصدر
+      varEnergyVel: 'پاراستنی وزەی ميكانيكی و خێرایی نزمترین خاڵ', // غير موثّق بمصدر
+    },
+    kmr: {
+      title: 'Ispatkirina parastina anarjiyê bi karanîna pandula sade (E = K + U)',
+      subTitle: 'Ispatkirina parastina anarjiyê bi karanîna pandula sade (E = K + U)',
+      shortDesc: 'Lêkolîna guherîna anarjiya tewereyî û anarjiya tevgerê di pandula sade de.',
+      start: 'Destpêkirin', // غير موثّق بمصدر
+      pause: 'Pewstandin', // غير موثّق بمصدر
+      photogateVelLabel: 'Leza dergehê ronahiyê (v_max)',
+      bottomKELabel: 'Anarjiya tevgerê li binî (K_max)',
+      initialPELabel: 'Anarjiya tewereyî ya destpêkê (U_0)',
+      periodLabel: 'Dema dewranê (T)',
+      proofTitle: 'Ispata fîzîkî ya yasaya parastina anarjiya mekanîkî:',
+      proofText: 'Di goşeya berdanê θ₀ de K=0 ye û hemi anarjî U_max = m·g·h_max e. Li xala herî jêr (h=0) anarjiya tewereyî dibe anarjiya tevgerê: K_max = ½ m v_max² = E.',
+      controlsTitle: 'Parametreyên pandulê', // غير موثّق بمصدر
+      lengthLabel: 'Dirêjiya benik (L)',
+      massLabel: 'Massa gogê (m)',
+      angleLabel: 'Goşeya berdanê ya destpêkê (θ₀)',
+      dampingLabel: 'Berxwedana hewayê (Dempyasyon)',
+      conservativeZero: '0 (Sîstema parastî)', // غير موثّق بمصدر
+      gravityLabel: 'Cilveya kîşkirina gerstêrkan (g):',
+      loggedMsg: 'Hat tomarkirin di defterê de!', // غير موثّق بمصدر
+      logBtn: 'Tomarkirina parastina anarjiyê û leza binî', // غير موثّق بمصدر
+      photogateLabel: 'PHOTOGATE', // غير موثّق بمصدر
+      varEnergyVel: 'Parastina anarjiya mekanîkî û leza binî', // غير موثّق بمصدر
+    },
+  };
+  const t = translations[lang] || translations['ar'];
+
+  const getPlanetName = (p: typeof PLANETS[0]) => {
+    const planetNames: Record<string, string> = {
+      ar: p.nameAr,
+      ku: p.nameKu,
+      kmr: p.nameKmr || p.nameEn,
+      en: p.nameEn,
+    };
+    return planetNames[lang] || p.nameAr;
+  };
+
   // Parameters
   const [length, setLength] = useState<number>(1.5); // meters (L)
   const [mass, setMass] = useState<number>(1.0); // kg (m)
@@ -218,7 +328,7 @@ export default function PendulumEnergySim({ lang, onLogMeasurement }: Props) {
       ctx.fillStyle = '#4ade80';
       ctx.font = 'bold 10px sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('PHOTOGATE', pivotX, lowestY + 30);
+      ctx.fillText(t.photogateLabel, pivotX, lowestY + 30);
     }
 
     // Pendulum String
@@ -321,7 +431,7 @@ export default function PendulumEnergySim({ lang, onLogMeasurement }: Props) {
         gravity: `${currentG.toFixed(2)} m/s²`,
         initialAngle: `${initialAngleDeg}°`,
       },
-      variableName: 'Total Energy & Bottom Velocity',
+      variableName: t.varEnergyVel,
       measuredValue: Number(photogateKE.toFixed(3)),
       theoreticalValue: Number(initialTotalEnergy.toFixed(3)),
       unit: 'J',
@@ -344,7 +454,7 @@ export default function PendulumEnergySim({ lang, onLogMeasurement }: Props) {
               </div>
               <div>
                 <h3 className="text-base font-bold text-zinc-100">
-                  {lang === 'ar' ? 'التحقق من حفظ الطاقة باستخدام النواس البسيط (E = K + U)' : lang === 'ku' ? 'سەلماندنی پاراستنی وزە بە بەکارهێنانی پاندۆڵی سادە' : 'Conservation of Mechanical Energy in Simple Pendulum'}
+                  {t.subTitle}
                 </h3>
                 <p className="text-xs text-zinc-400 font-mono">
                   T = 2π√(L/g) = {theoreticalPeriod.toFixed(2)}s • E_total = {initialTotalEnergy.toFixed(2)} J
@@ -362,7 +472,7 @@ export default function PendulumEnergySim({ lang, onLogMeasurement }: Props) {
                 }`}
               >
                 {isRunning ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-                <span>{isRunning ? (lang === 'ar' ? 'إيقاف' : 'Pause') : (lang === 'ar' ? 'تشغيل' : 'Start')}</span>
+                <span>{isRunning ? t.pause : t.start}</span>
               </button>
 
               <button
@@ -391,28 +501,28 @@ export default function PendulumEnergySim({ lang, onLogMeasurement }: Props) {
           {/* Photogate & Real-time Metrics */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3">
             <div className="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/60 text-center">
-              <div className="text-[11px] text-zinc-400">{lang === 'ar' ? 'سرعة البوابة الضوئية (v_max)' : 'Photogate Velocity'}</div>
+              <div className="text-[11px] text-zinc-400">{t.photogateVelLabel}</div>
               <div className="text-base font-bold font-mono text-emerald-400">
                 {photogateSpeed.toFixed(3)} <span className="text-xs text-zinc-400">m/s</span>
               </div>
             </div>
 
             <div className="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/60 text-center">
-              <div className="text-[11px] text-zinc-400">{lang === 'ar' ? 'طاقة الحركة عند القاع (K_max)' : 'Bottom Kinetic Energy'}</div>
+              <div className="text-[11px] text-zinc-400">{t.bottomKELabel}</div>
               <div className="text-base font-bold font-mono text-emerald-400">
                 {photogateKE.toFixed(3)} <span className="text-xs text-zinc-400">J</span>
               </div>
             </div>
 
             <div className="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/60 text-center">
-              <div className="text-[11px] text-zinc-400">{lang === 'ar' ? 'طاقة الوضع الابتدائية (U_0)' : 'Initial Potential Energy'}</div>
+              <div className="text-[11px] text-zinc-400">{t.initialPELabel}</div>
               <div className="text-base font-bold font-mono text-sky-400">
                 {initialTotalEnergy.toFixed(3)} <span className="text-xs text-zinc-400">J</span>
               </div>
             </div>
 
             <div className="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/60 text-center">
-              <div className="text-[11px] text-zinc-400">{lang === 'ar' ? 'الزمن الدوري (T)' : 'Period (T)'}</div>
+              <div className="text-[11px] text-zinc-400">{t.periodLabel}</div>
               <div className="text-base font-bold font-mono text-amber-400">
                 {theoreticalPeriod.toFixed(2)} <span className="text-xs text-zinc-400">s</span>
               </div>
@@ -424,13 +534,9 @@ export default function PendulumEnergySim({ lang, onLogMeasurement }: Props) {
         <div className="p-4 rounded-2xl bg-emerald-950/20 border border-emerald-800/30 text-xs text-zinc-300 space-y-2">
           <div className="font-semibold text-emerald-300 flex items-center gap-1.5">
             <BookmarkCheck className="w-4 h-4" />
-            <span>{lang === 'ar' ? 'البرهان الفيزيائي لقانون حفظ الطاقة الميكانيكية:' : 'Physical Proof of Energy Conservation:'}</span>
+            <span>{t.proofTitle}</span>
           </div>
-          <p>
-            {lang === 'ar'
-              ? 'عند إفلات البندول من أقصى زاوية θ₀، تكون طاقة الحركة صفراً وتكون الطاقة كلها طاقة وضع: E = U_max = m·g·h_max = m·g·L(1 - cos θ₀). وعند مروره بأدنى نقطة (موضع الاتزان h=0)، تتحول طاقة الوضع بالكامل إلى طاقة حركة: K_max = ½ m v_max² = E. وبالتالي فإن السرعة عند القاع تساوي دائماً v = √(2 g h_max).'
-              : 'At release angle θ₀, K=0 and all energy is potential: E = U = m·g·h = m·g·L(1 - cos θ₀). At the lowest point (h=0), potential energy converts completely into kinetic energy: K = ½ m v² = E. Hence, bottom velocity is v = √(2 g h).'}
-          </p>
+          <p>{t.proofText}</p>
         </div>
       </div>
 
@@ -438,13 +544,13 @@ export default function PendulumEnergySim({ lang, onLogMeasurement }: Props) {
       <div className="space-y-4">
         <div className="rounded-2xl bg-zinc-900 border border-zinc-800 p-5 shadow-xl space-y-5">
           <h4 className="text-sm font-bold text-zinc-200 pb-2 border-b border-zinc-800">
-            {lang === 'ar' ? 'عناصر التحكم بالبندول' : 'Pendulum Parameters'}
+            {t.controlsTitle}
           </h4>
 
           {/* Length Control */}
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
-              <span className="text-zinc-400">{lang === 'ar' ? 'طول الخيط (L)' : 'String Length (L)'}</span>
+              <span className="text-zinc-400">{t.lengthLabel}</span>
               <span className="font-mono text-sky-400 font-bold">{length.toFixed(2)} m</span>
             </div>
             <input
@@ -461,7 +567,7 @@ export default function PendulumEnergySim({ lang, onLogMeasurement }: Props) {
           {/* Mass Control */}
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
-              <span className="text-zinc-400">{lang === 'ar' ? 'كتلة الكرة (m)' : 'Bob Mass (m)'}</span>
+              <span className="text-zinc-400">{t.massLabel}</span>
               <span className="font-mono text-zinc-200 font-bold">{mass.toFixed(1)} kg</span>
             </div>
             <input
@@ -478,7 +584,7 @@ export default function PendulumEnergySim({ lang, onLogMeasurement }: Props) {
           {/* Initial Release Angle */}
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
-              <span className="text-zinc-400">{lang === 'ar' ? 'زاوية الإفلات الابتدائية (θ₀)' : 'Release Angle (θ₀)'}</span>
+              <span className="text-zinc-400">{t.angleLabel}</span>
               <span className="font-mono text-amber-400 font-bold">{initialAngleDeg}°</span>
             </div>
             <input
@@ -495,8 +601,8 @@ export default function PendulumEnergySim({ lang, onLogMeasurement }: Props) {
           {/* Damping toggle (conservative vs non-conservative) */}
           <div className="space-y-1 pt-2 border-t border-zinc-800">
             <div className="flex justify-between text-xs">
-              <span className="text-zinc-400">{lang === 'ar' ? 'مقاومة الهواء (التخميد)' : 'Air Resistance (Damping)'}</span>
-              <span className="font-mono text-rose-400 font-bold">{damping === 0 ? (lang === 'ar' ? '0 (نظام محافظ تام)' : '0 (Conservative)') : damping.toFixed(2)}</span>
+              <span className="text-zinc-400">{t.dampingLabel}</span>
+              <span className="font-mono text-rose-400 font-bold">{damping === 0 ? t.conservativeZero : damping.toFixed(2)}</span>
             </div>
             <input
               type="range"
@@ -511,7 +617,7 @@ export default function PendulumEnergySim({ lang, onLogMeasurement }: Props) {
 
           {/* Planet Gravity Selector */}
           <div className="space-y-1.5 pt-2 border-t border-zinc-800">
-            <label className="text-xs text-zinc-400">{lang === 'ar' ? 'تسارع الجاذبية الكوكبية (g):' : 'Planetary Gravity (g):'}</label>
+            <label className="text-xs text-zinc-400">{t.gravityLabel}</label>
             <select
               value={selectedPlanet}
               onChange={(e) => setSelectedPlanet(e.target.value)}
@@ -519,7 +625,7 @@ export default function PendulumEnergySim({ lang, onLogMeasurement }: Props) {
             >
               {PLANETS.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {lang === 'ar' ? p.nameAr : lang === 'ku' ? p.nameKu : p.nameEn} ({p.g} m/s²)
+                  {getPlanetName(p)} ({p.g} m/s²)
                 </option>
               ))}
             </select>
@@ -535,11 +641,7 @@ export default function PendulumEnergySim({ lang, onLogMeasurement }: Props) {
             }`}
           >
             <BookmarkCheck className="w-4 h-4" />
-            <span>
-              {logged
-                ? (lang === 'ar' ? 'تم تسجيل القياس في دفتر المختبر!' : 'Logged to Lab Notebook!')
-                : (lang === 'ar' ? 'تسجيل حفظ الطاقة وسرعة القاع' : 'Log Energy Conservation Data')}
-            </span>
+            <span>{logged ? t.loggedMsg : t.logBtn}</span>
           </button>
         </div>
       </div>

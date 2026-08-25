@@ -8,6 +8,101 @@ interface Props {
 }
 
 export default function AngledMirrorsSim({ lang, onLogMeasurement }: Props) {
+  const localT = {
+    ar: {
+      title: 'المرايا المستوية المائلة بزاوية',
+      subtitle: 'دراسة الانعكاس المتعدد للضوء وحساب عدد الصور الخيالية المتكونة بقانون N = (360° / θ) - 1.',
+      logged: 'تم التسجيل في الدفتر ✓',
+      logMeasurement: 'تسجيل في دفتر المختبر',
+      controlsTitle: 'زاوية وموضع الجسم',
+      angleLabel: 'الزاوية بين المرآتين (θ):',
+      standardAnglesLabel: 'زوايا نموذجية قياسية:',
+      objectSectorRatioLabel: 'موضع الجسم النسبي داخل الزاوية:',
+      objectDistanceLabel: 'بعد الجسم عن رأس الزاوية (r):',
+      showRaysLabel: 'إظهار مسار الأشعة المنعكسة:',
+      showImageCircleLabel: 'إظهار دائرة الصور الخيالية:',
+      numImagesCard: 'عدد الصور المتكونة (N)',
+      imagesUnit: 'صور',
+      totalVisibleCard: 'إجمالي الأجسام المرئية',
+      ratioCard: 'نسبة التقسيم (360°/θ)',
+      reflectionLawCard: 'قانون الانعكاس',
+      mirror1Canvas: 'المرآة 1 (M₁)', // غير موثّق بمصدر
+      mirror2Canvas: 'المرآة 2 (M₂)', // غير موثّق بمصدر
+      objectCanvas: 'الجسم (O)', // غير موثّق بمصدر
+      varNumImages: 'عدد الصور الخيالية (N)', // غير موثّق بمصدر
+      notesLog: 'محاكاة الانعكاسات المتعددة في المرايا المائلة.', // غير موثّق بمصدر
+    },
+    en: {
+      title: 'Two Flat Mirrors at an Angle (Kaleidoscope)',
+      subtitle: 'Multi-reflection ray tracing and virtual image count formula N = (360° / θ) - 1.',
+      logged: 'Logged ✓',
+      logMeasurement: 'Log Measurement',
+      controlsTitle: 'Mirror & Object Angle',
+      angleLabel: 'Angle Between Mirrors (θ):',
+      standardAnglesLabel: 'Standard Test Angles:',
+      objectSectorRatioLabel: 'Object Sector Ratio:',
+      objectDistanceLabel: 'Object Distance (r):',
+      showRaysLabel: 'Show Reflection Rays:',
+      showImageCircleLabel: 'Show Virtual Image Circle:',
+      numImagesCard: 'Virtual Images (N)',
+      imagesUnit: 'images',
+      totalVisibleCard: 'Total Visible Items',
+      ratioCard: '360° / θ',
+      reflectionLawCard: 'Reflection Law',
+      mirror1Canvas: 'Mirror 1 (M₁)', // غير موثّق بمصدر
+      mirror2Canvas: 'Mirror 2 (M₂)', // غير موثّق بمصدر
+      objectCanvas: 'Object (O)', // غير موثّق بمصدر
+      varNumImages: 'Number of Virtual Images (N)', // غير موثّق بمصدر
+      notesLog: 'Multiple reflection kaleidoscope simulation with two flat plane mirrors.', // غير موثّق بمصدر
+    },
+    ku: {
+      title: 'ئاوێنە تەختەکان بە گۆشە و دروستبوونی وێنەکان',
+      subtitle: 'لێکۆڵینەوە لە پێچەوانەبوونەوەی فرەیی ڕووناکی و ژمارەی وێنە خەیاڵییەکان N = (360° / θ) - 1.',
+      logged: 'تۆمارکرا ✓',
+      logMeasurement: 'تۆمارکردن لە دەفتەر',
+      controlsTitle: 'گۆشە و شوێنی تشتەکە',
+      angleLabel: 'گۆشەی نێوان دوو ئاوێنەکە (θ):',
+      standardAnglesLabel: 'گۆشە ستانداردەکان:',
+      objectSectorRatioLabel: 'شوێنی ڕێژەیی تشتەکە لەناو گۆشەکە:',
+      objectDistanceLabel: 'دووری تشتەکە لە سەرەکانی گۆشەکە (r):',
+      showRaysLabel: 'پیشاندانی ئاڕاستەی تیشکە ڕەنگداوەکان:',
+      showImageCircleLabel: 'پیشاندانی بازنەی وێنە خەیاڵییەکان:',
+      numImagesCard: 'ژمارەی وێنە دروستبووەکان (N)',
+      imagesUnit: 'وێنە',
+      totalVisibleCard: 'سەرجەمی تشتە دیارەکان',
+      ratioCard: 'ڕێژەی دابەشکردن (360°/θ)',
+      reflectionLawCard: 'یاسای ڕەنگدانەوە',
+      mirror1Canvas: 'ئاوێنەی ١ (M₁)', // غير موثّق بمصدر
+      mirror2Canvas: 'ئاوێنەی ٢ (M₂)', // غير موثّق بمصدر
+      objectCanvas: 'تشتەکە (O)', // غير موثّق بمصدر
+      varNumImages: 'ژمارەی وێنە خەیاڵییەکان (N)', // غير موثّق بمصدر
+      notesLog: 'تاقیکردنەوەی ڕەنگدانەوەی فرەیی لە ئاوێنە تەختە مایلەکاندا.', // غير موثّق بمصدر
+    },
+    kmr: {
+      title: 'Dû Neynikên Rast ên bi Goşe',
+      subtitle: 'Lêkolîna vajîbûna pircarî ya şewqê û hesabkirina hejmara dîmenên xeyalî N = (360° / θ) - 1.',
+      logged: 'Tomaarkirî ✓',
+      logMeasurement: 'Pîvanê Tomar Bikin',
+      controlsTitle: 'Goşe û Cihê Gewdeyî',
+      angleLabel: 'Goşeya navbera herdû neynikan (θ):',
+      standardAnglesLabel: 'Goşeyên Standard ên Taqîkirinê:',
+      objectSectorRatioLabel: 'Cihê rêjeyî yê gewde di nav goşeyê de:',
+      objectDistanceLabel: 'Dûrahiya gewde ji serê goşeyê (r):',
+      showRaysLabel: 'Rêya tîrêjên vajîbûyî nîşan bide:',
+      showImageCircleLabel: 'Zengila dîmenên xeyalî nîşan bide:',
+      numImagesCard: 'Hejmara Dîmenan (N)',
+      imagesUnit: 'dîmen',
+      totalVisibleCard: 'Tevahiya Gewdeyan',
+      ratioCard: 'Rêjeya Dabeşkirinê (360°/θ)',
+      reflectionLawCard: 'Zagona Vajîbûnê',
+      mirror1Canvas: 'Neynik 1 (M₁)', // غير موثّق بمصدر
+      mirror2Canvas: 'Neynik 2 (M₂)', // غير موثّق بمصدر
+      objectCanvas: 'Gewde (O)', // غير موثّق بمصدر
+      varNumImages: 'Hejmara Dîmenên Xeyalî (N)', // غير موثّق بمصدر
+      notesLog: 'Taqîkirina vajîbûna pircarî bi du neynikên rast ên bi goşe.', // غير موثّق بمصدر
+    },
+  }[lang];
+
   // Parameters
   const [angleDeg, setAngleDeg] = useState<number>(60); // degrees between mirrors (20 to 180)
   const [objectDistance, setObjectDistance] = useState<number>(140); // pixels from vertex
@@ -140,8 +235,8 @@ export default function AngledMirrorsSim({ lang, onLogMeasurement }: Props) {
     // Mirror Names
     ctx.fillStyle = '#f8fafc';
     ctx.font = 'bold 11px sans-serif';
-    ctx.fillText('Mirror 1 (M₁)', vertexX + mirrorLength - 20, vertexY + 20);
-    ctx.fillText('Mirror 2 (M₂)', vertexX + mirrorLength * Math.cos(m2Angle) - 10, vertexY + mirrorLength * Math.sin(m2Angle) - 10);
+    ctx.fillText(localT.mirror1Canvas, vertexX + mirrorLength - 20, vertexY + 20);
+    ctx.fillText(localT.mirror2Canvas, vertexX + mirrorLength * Math.cos(m2Angle) - 10, vertexY + mirrorLength * Math.sin(m2Angle) - 10);
 
     // Object placement inside sector
     const objAngleRad = m1Angle - objectAngleRatio * thetaRad; // angle from 0 towards -theta
@@ -260,25 +355,25 @@ export default function AngledMirrorsSim({ lang, onLogMeasurement }: Props) {
 
     ctx.fillStyle = '#f8fafc';
     ctx.font = 'bold 11px sans-serif';
-    ctx.fillText('Object (O)', objX + 16, objY - 6);
+    ctx.fillText(localT.objectCanvas, objX + 16, objY - 6);
 
-  }, [angleDeg, objectDistance, objectAngleRatio, showRays, showImageCircle, numImages]);
+  }, [angleDeg, objectDistance, objectAngleRatio, showRays, showImageCircle, numImages, localT]);
 
   const handleLog = () => {
     onLogMeasurement({
       experiment: 'angled_mirrors',
-      variableName: 'Number of Virtual Images (N)',
+      variableName: localT.varNumImages,
       measuredValue: numImages,
       theoreticalValue: (360 / angleDeg) - 1,
-      unit: 'images',
+      unit: localT.imagesUnit,
       parameters: {
         'Angle θ': `${angleDeg}°`,
         'Object Distance r': `${objectDistance} px`,
         'Symmetric Divisibility': isSymmetric ? 'Yes (360/θ is integer)' : 'No',
         'Formula': 'N = (360 / θ) - 1',
       },
-      equation: `N = ⌊360° / ${angleDeg}°⌋ - 1 = ${numImages} virtual images`,
-      notes: `Multiple reflection kaleidoscope simulation with two flat plane mirrors at angle ${angleDeg}°.`,
+      equation: `N = ⌊360° / ${angleDeg}°⌋ - 1 = ${numImages} ${localT.imagesUnit}`,
+      notes: localT.notesLog,
     });
     setLogged(true);
     setTimeout(() => setLogged(false), 2000);
@@ -291,16 +386,10 @@ export default function AngledMirrorsSim({ lang, onLogMeasurement }: Props) {
         <div>
           <h2 className="text-base sm:text-lg font-bold text-zinc-100 flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-purple-400" />
-            <span>
-              {lang === 'ar' ? 'المرايا المستوية المائلة بزاوية (Two Flat Mirrors at an Angle)' : lang === 'ku' ? 'ئاوێنە تەختەکان بە گۆشە و دروستبوونی وێنەکان' : 'Two Flat Mirrors at an Angle (Kaleidoscope)'}
-            </span>
+            <span>{localT.title}</span>
           </h2>
           <p className="text-xs text-zinc-400 mt-1 max-w-2xl">
-            {lang === 'ar'
-              ? 'دراسة الانعكاس المتعدد للضوء وحساب عدد الصور الخيالية المتكونة بقانون N = (360° / θ) - 1.'
-              : lang === 'ku'
-              ? 'لێکۆڵینەوە لە پێچەوانەبوونەوەی فرەیی ڕووناکی و ژمارەی وێنە خەیاڵییەکان N = (360° / θ) - 1.'
-              : 'Multi-reflection ray tracing and virtual image count formula N = (360° / θ) - 1.'}
+            {localT.subtitle}
           </p>
         </div>
 
@@ -313,7 +402,7 @@ export default function AngledMirrorsSim({ lang, onLogMeasurement }: Props) {
           }`}
         >
           <BookmarkCheck className="w-4 h-4" />
-          <span>{logged ? (lang === 'ar' ? 'تم التسجيل في الدفتر ✓' : 'Logged ✓') : (lang === 'ar' ? 'تسجيل في دفتر المختبر' : 'Log Measurement')}</span>
+          <span>{logged ? localT.logged : localT.logMeasurement}</span>
         </button>
       </div>
 
@@ -324,14 +413,14 @@ export default function AngledMirrorsSim({ lang, onLogMeasurement }: Props) {
           <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
             <span className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
               <Compass className="w-4 h-4 text-purple-400" />
-              {lang === 'ar' ? 'زاوية وموضع الجسم' : 'Mirror & Object Angle'}
+              {localT.controlsTitle}
             </span>
           </div>
 
           {/* Angle Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'الزاوية بين المرآتين (θ):' : 'Angle Between Mirrors (θ):'}</span>
+              <span className="text-zinc-400">{localT.angleLabel}</span>
               <span className="font-mono text-purple-400 font-semibold">{angleDeg}°</span>
             </div>
             <input
@@ -348,7 +437,7 @@ export default function AngledMirrorsSim({ lang, onLogMeasurement }: Props) {
           {/* Preset Angle Buttons */}
           <div>
             <span className="text-[10px] text-zinc-400 block mb-1.5">
-              {lang === 'ar' ? 'زوايا نموذجية قياسية:' : 'Standard Test Angles:'}
+              {localT.standardAnglesLabel}
             </span>
             <div className="flex flex-wrap gap-1.5">
               {[
@@ -377,7 +466,7 @@ export default function AngledMirrorsSim({ lang, onLogMeasurement }: Props) {
           {/* Object Angular Placement Ratio */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'موضع الجسم النسبي داخل الزاوية:' : 'Object Sector Ratio:'}</span>
+              <span className="text-zinc-400">{localT.objectSectorRatioLabel}</span>
               <span className="font-mono text-sky-400 font-semibold">{(objectAngleRatio * 100).toFixed(0)}%</span>
             </div>
             <input
@@ -394,7 +483,7 @@ export default function AngledMirrorsSim({ lang, onLogMeasurement }: Props) {
           {/* Object Distance Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'بعد الجسم عن رأس الزاوية (r):' : 'Object Distance (r):'}</span>
+              <span className="text-zinc-400">{localT.objectDistanceLabel}</span>
               <span className="font-mono text-emerald-400 font-semibold">{objectDistance} px</span>
             </div>
             <input
@@ -411,7 +500,7 @@ export default function AngledMirrorsSim({ lang, onLogMeasurement }: Props) {
           {/* Visual Toggles */}
           <div className="space-y-2 pt-2 border-t border-zinc-800">
             <div className="flex items-center justify-between text-xs text-zinc-300">
-              <span>{lang === 'ar' ? 'إظهار مسار الأشعة المنعكسة:' : 'Show Reflection Rays:'}</span>
+              <span>{localT.showRaysLabel}</span>
               <input
                 type="checkbox"
                 checked={showRays}
@@ -420,7 +509,7 @@ export default function AngledMirrorsSim({ lang, onLogMeasurement }: Props) {
               />
             </div>
             <div className="flex items-center justify-between text-xs text-zinc-300">
-              <span>{lang === 'ar' ? 'إظهار دائرة الصور الخيالية:' : 'Show Virtual Image Circle:'}</span>
+              <span>{localT.showImageCircleLabel}</span>
               <input
                 type="checkbox"
                 checked={showImageCircle}
@@ -447,10 +536,10 @@ export default function AngledMirrorsSim({ lang, onLogMeasurement }: Props) {
             {/* Number of Images */}
             <div className="p-3.5 rounded-xl bg-gradient-to-br from-purple-950/40 via-zinc-900 to-indigo-950/40 border border-purple-700/60 space-y-1">
               <span className="text-[10px] text-purple-300 uppercase font-semibold">
-                {lang === 'ar' ? 'عدد الصور المتكونة (N)' : 'Virtual Images (N)'}
+                {localT.numImagesCard}
               </span>
               <div className="text-2xl font-bold font-mono text-purple-300">
-                {numImages} <span className="text-xs text-zinc-400">{lang === 'ar' ? 'صور' : 'images'}</span>
+                {numImages} <span className="text-xs text-zinc-400">{localT.imagesUnit}</span>
               </div>
               <span className="text-[9px] text-zinc-500 font-mono">N = (360/θ) - 1</span>
             </div>
@@ -458,7 +547,7 @@ export default function AngledMirrorsSim({ lang, onLogMeasurement }: Props) {
             {/* Total Objects Visible */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'إجمالي الأجسام المرئية' : 'Total Visible Items'}
+                {localT.totalVisibleCard}
               </span>
               <div className="text-2xl font-bold font-mono text-emerald-400">
                 {numImages + 1}
@@ -469,7 +558,7 @@ export default function AngledMirrorsSim({ lang, onLogMeasurement }: Props) {
             {/* Angle Division */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'نسبة التقسيم (360°/θ)' : '360° / θ'}
+                {localT.ratioCard}
               </span>
               <div className="text-lg font-bold font-mono text-sky-400">
                 {(360 / angleDeg).toFixed(2)}
@@ -480,7 +569,7 @@ export default function AngledMirrorsSim({ lang, onLogMeasurement }: Props) {
             {/* Angular Spacing */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'قانون الانعكاس' : 'Reflection Law'}
+                {localT.reflectionLawCard}
               </span>
               <div className="text-sm font-bold font-mono text-amber-400 mt-1">
                 θ_inc = θ_ref

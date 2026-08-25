@@ -112,7 +112,7 @@ export const RutherfordScatteringSim: React.FC<RutherfordScatteringSimProps> = (
       ctx.fillStyle = '#fde68a';
       ctx.font = '10px monospace';
       ctx.textAlign = 'center';
-      ctx.fillText(`+${targetZ}e Nucleus`, nucleusPos.x, nucleusPos.y + 22);
+      ctx.fillText(`+${targetZ}e ${t.nucleusLabel}`, nucleusPos.x, nucleusPos.y + 22);
 
       // Render particles & trails
       particles.forEach((p) => {
@@ -154,6 +154,10 @@ export const RutherfordScatteringSim: React.FC<RutherfordScatteringSimProps> = (
       coulombRepulsion: 'قوة التنافر الكولومي المتبادلة',
       deflectionObservation: 'تنحرف الجسيمات القريبة جداً بزوايا منفرجة ارتدادية حادة (>90°).',
       reset: 'إعادة ضبط الحزمة',
+      play: 'تشغيل الحزمة',
+      pause: 'إيقاف مؤقت',
+      nucleusLabel: 'نواة',
+      alphaBeamSource: 'مصدر حزمة ألفا (α⁺⁺)',
     },
     en: {
       title: 'Rutherford Scattering Lab (F = k q₁q₂ / r²)',
@@ -166,6 +170,10 @@ export const RutherfordScatteringSim: React.FC<RutherfordScatteringSimProps> = (
       coulombRepulsion: 'Coulomb Electrostatic Repulsion',
       deflectionObservation: 'Close trajectories experience sharp back-scattering (>90°).',
       reset: 'Reset Beam',
+      play: 'Fire Beam',
+      pause: 'Pause',
+      nucleusLabel: 'Nucleus',
+      alphaBeamSource: 'Alpha Beam Source (α⁺⁺)',
     },
     ku: {
       title: 'پەرشبوونەوەی ڕەزەرفۆرد (F = k q₁q₂ / r²)',
@@ -178,6 +186,10 @@ export const RutherfordScatteringSim: React.FC<RutherfordScatteringSimProps> = (
       coulombRepulsion: 'هێزی پاڵنانی کۆلۆم',
       deflectionObservation: 'تەنۆلکە نزیکەکان بە گۆشەی گەورە دەگەڕێنەوە.',
       reset: 'ڕێکخستنەوەی تیشک',
+      play: 'لێدانی تیشک',
+      pause: 'وەستان',
+      nucleusLabel: 'ناوک',
+      alphaBeamSource: 'سەرچاوەی تیشکی ئەلفا (α⁺⁺)',
     },
     kmr: {
       title: 'Belavbûna Rutherford (F = k q₁q₂ / r²)',
@@ -190,6 +202,10 @@ export const RutherfordScatteringSim: React.FC<RutherfordScatteringSimProps> = (
       coulombRepulsion: 'Hêza Dûrketinê ya Coulomb',
       deflectionObservation: 'Parçikên pir nêzîk bi goşeyên fireh vedigerin.',
       reset: 'Nûkirina Tîrêjê',
+      play: 'Tîrêj Bide',
+      pause: 'Aram Be',
+      nucleusLabel: 'Dendik',
+      alphaBeamSource: 'Çavkaniya Tîrêja Alfa (α⁺⁺)',
     },
   }[lang];
 
@@ -212,7 +228,7 @@ export const RutherfordScatteringSim: React.FC<RutherfordScatteringSimProps> = (
             className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-lg transition-colors"
           >
             {isRunning ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-            {isRunning ? 'إيقاف مؤقت' : 'تشغيل الحزمة'}
+            {isRunning ? t.pause : t.play}
           </button>
           <button
             onClick={() => setParticles([])}
@@ -234,7 +250,7 @@ export const RutherfordScatteringSim: React.FC<RutherfordScatteringSimProps> = (
             className="w-full h-auto max-h-[340px] rounded-xl bg-slate-950"
           />
           <div className="w-full flex justify-between items-center text-[11px] text-slate-400 px-3 pt-2 font-mono border-t border-slate-800 mt-2">
-            <span>Alpha Beam Source (α⁺⁺)</span>
+            <span>{t.alphaBeamSource}</span>
             <span className="text-amber-400">{t.deflectionObservation}</span>
           </div>
         </div>

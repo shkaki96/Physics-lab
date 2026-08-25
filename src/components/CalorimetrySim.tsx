@@ -11,6 +11,8 @@ interface SolidMaterial {
   id: string;
   nameAr: string;
   nameEn: string;
+  nameKu: string;
+  nameKmr: string;
   specificHeat: number; // J/(g·°C)
   color: string;
 }
@@ -19,25 +21,129 @@ interface LiquidMaterial {
   id: string;
   nameAr: string;
   nameEn: string;
+  nameKu: string;
+  nameKmr: string;
   specificHeat: number; // J/(g·°C)
   color: string;
 }
 
 const SOLIDS: SolidMaterial[] = [
-  { id: 'copper', nameAr: 'النحاس (Copper)', nameEn: 'Copper (Cu)', specificHeat: 0.385, color: '#f59e0b' },
-  { id: 'aluminum', nameAr: 'الألومنيوم (Aluminum)', nameEn: 'Aluminum (Al)', specificHeat: 0.897, color: '#94a3b8' },
-  { id: 'iron', nameAr: 'الحديد (Iron)', nameEn: 'Iron (Fe)', specificHeat: 0.449, color: '#64748b' },
-  { id: 'lead', nameAr: 'الرصاص (Lead)', nameEn: 'Lead (Pb)', specificHeat: 0.129, color: '#475569' },
-  { id: 'gold', nameAr: 'الذهب (Gold)', nameEn: 'Gold (Au)', specificHeat: 0.129, color: '#eab308' },
+  { id: 'copper', nameAr: 'النحاس (Copper)', nameEn: 'Copper (Cu)', nameKu: 'مس (Copper)', nameKmr: 'Sifir (Copper)', specificHeat: 0.385, color: '#f59e0b' },
+  { id: 'aluminum', nameAr: 'الألومنيوم (Aluminum)', nameEn: 'Aluminum (Al)', nameKu: 'ئەلومینیۆم (Aluminum)', nameKmr: 'Alyumînyum (Aluminum)', specificHeat: 0.897, color: '#94a3b8' },
+  { id: 'iron', nameAr: 'الحديد (Iron)', nameEn: 'Iron (Fe)', nameKu: 'ئاسن (Iron)', nameKmr: 'Hesên (Iron)', specificHeat: 0.449, color: '#64748b' },
+  { id: 'lead', nameAr: 'الرصاص (Lead)', nameEn: 'Lead (Pb)', nameKu: 'سۆرب (Lead)', nameKmr: 'Qurşûm (Lead)', specificHeat: 0.129, color: '#475569' },
+  { id: 'gold', nameAr: 'الذهب (Gold)', nameEn: 'Gold (Au)', nameKu: 'ئاڵتوون (Gold)', nameKmr: 'Zêr (Gold)', specificHeat: 0.129, color: '#eab308' },
 ];
 
 const LIQUIDS: LiquidMaterial[] = [
-  { id: 'water', nameAr: 'الماء (Water)', nameEn: 'Water (H₂O)', specificHeat: 4.184, color: '#38bdf8' },
-  { id: 'ethanol', nameAr: 'الإيثانول (Ethanol)', nameEn: 'Ethanol', specificHeat: 2.440, color: '#a78bfa' },
-  { id: 'oil', nameAr: 'زيت نباتي (Oil)', nameEn: 'Vegetable Oil', specificHeat: 1.670, color: '#fbbf24' },
+  { id: 'water', nameAr: 'الماء (Water)', nameEn: 'Water (H₂O)', nameKu: 'ئاو (Water)', nameKmr: 'Av (H₂O)', specificHeat: 4.184, color: '#38bdf8' },
+  { id: 'ethanol', nameAr: 'الإيثانول (Ethanol)', nameEn: 'Ethanol', nameKu: 'ئیتانۆل (Ethanol)', nameKmr: 'Êtanol', specificHeat: 2.440, color: '#a78bfa' },
+  { id: 'oil', nameAr: 'زيت نباتي (Oil)', nameEn: 'Vegetable Oil', nameKu: 'ڕۆنی ڕووەکی (Oil)', nameKmr: 'Rûnê nebatî', specificHeat: 1.670, color: '#fbbf24' },
 ];
 
 export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
+  const localT = {
+    ar: {
+      title: 'محاكاة المسعر الحراري والاتزان الحراري (Calorimetry Lab)',
+      pause: 'إيقاف',
+      play: 'تشغيل',
+      reset: 'إعادة ضبط',
+      log: 'تسجيل القياس',
+      adiabaticBadge: '🌡️ مسعر حراري معزول أديباتيكياً', // غير موثّق بمصدر
+      currentTemp: 'درجة الحرارة الآن:', // غير موثّق بمصدر
+      finalTempCard: 'حرارة الاتزان النهائية (T_f)',
+      heatTransferredCard: 'كمية الحرارة المنقولة (Q)',
+      deltaSolidCard: 'تغير حرارة الجسم (ΔT₁)',
+      deltaLiquidCard: 'تغير حرارة السائل (ΔT₂)',
+      solidTitle: 'عينة الجسم الصلب (مفقود الحرارة)',
+      solidMaterialLabel: 'مادة الجسم الصلب:',
+      solidMassLabel: 'كتلة الجسم (m₁):',
+      solidTempLabel: 'درجة الحرارة الابتدائية (T₁):',
+      liquidTitle: 'سائل المسعر (مكتسب الحرارة)',
+      liquidMaterialLabel: 'نوع السائل:',
+      liquidMassLabel: 'كتلة السائل (m₂):',
+      liquidTempLabel: 'حرارة السائل الابتدائية (T₂):',
+      sampleHeatCapacity: 'السعة الحرارية للجسم (C₁)',
+      liquidHeatCapacity: 'السعة الحرارية للسائل (C₂)',
+      heatCalories: 'الحرارة بالسعر الحراري (Calories)',
+      equilibriumKelvin: 'حرارة الاتزان بالكلفن (K)',
+    },
+    en: {
+      title: 'Calorimetry & Thermal Equilibrium Lab',
+      pause: 'Pause',
+      play: 'Play',
+      reset: 'Reset',
+      log: 'Log',
+      adiabaticBadge: '🌡️ Adiabatic Isolated Calorimeter', // غير موثّق بمصدر
+      currentTemp: 'Current Temp:', // غير موثّق بمصدر
+      finalTempCard: 'Final Temp (T_f)',
+      heatTransferredCard: 'Heat Transferred',
+      deltaSolidCard: 'ΔT Solid',
+      deltaLiquidCard: 'ΔT Liquid',
+      solidTitle: 'Solid Sample (Heat Source)',
+      solidMaterialLabel: 'Material (c₁):',
+      solidMassLabel: 'Solid Mass (m₁):',
+      solidTempLabel: 'Initial Temp (T₁):',
+      liquidTitle: 'Calorimeter Liquid',
+      liquidMaterialLabel: 'Liquid (c₂):',
+      liquidMassLabel: 'Liquid Mass (m₂):',
+      liquidTempLabel: 'Liquid Initial Temp (T₂):',
+      sampleHeatCapacity: 'Sample Heat Capacity (C₁)',
+      liquidHeatCapacity: 'Liquid Heat Capacity (C₂)',
+      heatCalories: 'Heat in Calories',
+      equilibriumKelvin: 'Equilibrium in Kelvin',
+    },
+    ku: {
+      title: 'مۆدێلی کالۆریمیتەر و هاوسەنگی گەرمی',
+      pause: 'وەستان',
+      play: 'دەستپێکردن',
+      reset: 'ڕێکخستنەوە',
+      log: 'تۆمارکردن',
+      adiabaticBadge: '🌡️ کالۆریمیتەری دابڕاوی ئادیاباتیک', // غير موثّق بمصدر
+      currentTemp: 'پلەی گەرمی ئێستا:', // غير موثّق بمصدر
+      finalTempCard: 'پلەی گەرمی هاوسەنگی (T_f)',
+      heatTransferredCard: 'بڕی گەرمی گوازراوە (Q)',
+      deltaSolidCard: 'گۆڕانی گەرمی تەن (ΔT₁)',
+      deltaLiquidCard: 'گۆڕانی گەرمی شلە (ΔT₂)',
+      solidTitle: 'نموونەی تەنی ڕەق (سەرچاوەی گەرمی)',
+      solidMaterialLabel: 'ماددەی تەنی ڕەق:',
+      solidMassLabel: 'بارستەی تەن (m₁):',
+      solidTempLabel: 'پلەی گەرمی سەرەتایی (T₁):',
+      liquidTitle: 'شلەی کالۆریمیتەر (وەرگری گەرمی)',
+      liquidMaterialLabel: 'جۆری شلە:',
+      liquidMassLabel: 'بارستەی شلە (m₂):',
+      liquidTempLabel: 'پلەی گەرمی سەرەتایی شلە (T₂):',
+      sampleHeatCapacity: 'فراوانی گەرمی تەن (C₁)',
+      liquidHeatCapacity: 'فراوانی گەرمی شلە (C₂)',
+      heatCalories: 'گەرمی بە کالۆری',
+      equilibriumKelvin: 'هاوسەنگی بە کەلڤن (K)',
+    },
+    kmr: {
+      title: 'Laboratuwara Kalorîmetriyê û Havserengiyê',
+      pause: 'Westan',
+      play: 'Destpêkirin',
+      reset: 'Nûkirin',
+      log: 'Tomaarkirin',
+      adiabaticBadge: '🌡️ Kalorîmetreya adyabatîk a veqetandî', // غير موثّق بمصدر
+      currentTemp: 'Pileya germahiyê a niha:', // غير موثّق بمصدر
+      finalTempCard: 'Pileya Havserengiyê (T_f)',
+      heatTransferredCard: 'Têhna Veguhastî (Q)',
+      deltaSolidCard: 'Guherîna Têhnê (ΔT₁)',
+      deltaLiquidCard: 'Guherîna Têhnê ya Şilekê (ΔT₂)',
+      solidTitle: 'Nimûneya Madeya Hişk',
+      solidMaterialLabel: 'Madeya hişk (c₁):',
+      solidMassLabel: 'Masa madeya hişk (m₁):',
+      solidTempLabel: 'Pileya germahiyê ya destpêkê (T₁):',
+      liquidTitle: 'Şileka Kalorîmetrê',
+      liquidMaterialLabel: 'Cureyê şilekê (c₂):',
+      liquidMassLabel: 'Masa şilekê (m₂):',
+      liquidTempLabel: 'Pileya destpêkê ya şilekê (T₂):',
+      sampleHeatCapacity: 'Kapasîteya Têhnê ya Madeyê (C₁)',
+      liquidHeatCapacity: 'Kapasîteya Têhnê ya Şilekê (C₂)',
+      heatCalories: 'Têhniya di Kaloriyan de',
+      equilibriumKelvin: 'Havserengiya di Kelvin de (K)',
+    },
+  }[lang];
   const [solidIndex, setSolidIndex] = useState<number>(0);
   const [solidMass, setSolidMass] = useState<number>(100); // g
   const [solidTemp, setSolidTemp] = useState<number>(100); // °C (hot sample)
@@ -101,6 +207,26 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
     return () => cancelAnimationFrame(animationId);
   }, [isPlaying, isSubmerged, finalEquilibriumTemp]);
 
+  const getSolidName = (s: typeof SOLIDS[0]) => {
+    const names: Record<string, string> = {
+      ar: s.nameAr,
+      ku: s.nameKu,
+      kmr: s.nameKmr || s.nameEn,
+      en: s.nameEn,
+    };
+    return names[lang] || s.nameAr;
+  };
+
+  const getLiquidName = (l: typeof LIQUIDS[0]) => {
+    const names: Record<string, string> = {
+      ar: l.nameAr,
+      ku: l.nameKu,
+      kmr: l.nameKmr || l.nameEn,
+      en: l.nameEn,
+    };
+    return names[lang] || l.nameAr;
+  };
+
   const handleReset = () => {
     setElapsedTime(0);
     setCurrentLiquidTemp(liquidTemp);
@@ -112,11 +238,11 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
       onLogMeasurement({
         experiment: 'calorimetry_equilibrium',
         parameters: {
-          Solid_Material: solid.nameEn,
+          Solid_Material: getSolidName(solid),
           Solid_Mass_m1_g: solidMass,
           Solid_Initial_Temp_T1_C: solidTemp,
           Solid_Specific_Heat_c1: solid.specificHeat,
-          Liquid_Material: liquid.nameEn,
+          Liquid_Material: getLiquidName(liquid),
           Liquid_Mass_m2_g: liquidMass,
           Liquid_Initial_Temp_T2_C: liquidTemp,
           Liquid_Specific_Heat_c2: liquid.specificHeat,
@@ -140,13 +266,7 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
           </div>
           <div>
             <h3 className="text-sm font-bold text-white">
-              {lang === 'ar'
-                ? 'محاكاة المسعر الحراري والاتزان الحراري (Calorimetry Lab)'
-                : lang === 'ku'
-                ? 'مۆدێلی کالۆریمیتەر و هاوسەنگی گەرمی'
-                : lang === 'kmr'
-                ? 'Laboratuwara Kalorîmetriyê'
-                : 'Calorimetry & Thermal Equilibrium Lab'}
+              {localT.title}
             </h3>
             <p className="text-xs text-slate-400 font-mono">
               Q_lost = Q_gained &nbsp;|&nbsp; m₁·c₁·(T₁ - T_f) = m₂·c₂·(T_f - T₂)
@@ -162,12 +282,12 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
             }`}
           >
             {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-            <span>{isPlaying ? (lang === 'ar' ? 'إيقاف' : 'Pause') : (lang === 'ar' ? 'تشغيل' : 'Play')}</span>
+            <span>{isPlaying ? localT.pause : localT.play}</span>
           </button>
           <button
             onClick={handleReset}
             className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold flex items-center gap-1 transition-all"
-            title={lang === 'ar' ? 'إعادة ضبط' : 'Reset'}
+            title={localT.reset}
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
@@ -176,7 +296,7 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
             className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow flex items-center gap-1.5 transition-all"
           >
             <Activity className="w-3.5 h-3.5" />
-            <span>{lang === 'ar' ? 'تسجيل القياس' : 'Log'}</span>
+            <span>{localT.log}</span>
           </button>
         </div>
       </div>
@@ -187,11 +307,11 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
           {/* Top Status Badge */}
           <div className="flex items-center justify-between z-10 text-xs flex-wrap gap-2">
             <span className="px-3 py-1 rounded-lg font-bold border bg-indigo-500/20 text-indigo-300 border-indigo-500/40">
-              {lang === 'ar' ? '🌡️ مسعر حراري معزول أديباتيكياً' : '🌡️ Adiabatic Isolated Calorimeter'}
+              {localT.adiabaticBadge}
             </span>
 
             <span className="font-mono text-slate-300 bg-slate-900/80 px-2.5 py-1 rounded-md border border-slate-800">
-              {lang === 'ar' ? 'درجة الحرارة الآن:' : 'Current Temp:'} <strong className="text-amber-400">{currentLiquidTemp.toFixed(2)} °C</strong>
+              {localT.currentTemp} <strong className="text-amber-400">{currentLiquidTemp.toFixed(2)} °C</strong>
             </span>
           </div>
 
@@ -244,7 +364,7 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
                   strokeWidth="0.6"
                 />
                 <text x="0" y="2" fill="#ffffff" fontSize="3" fontWeight="bold" textAnchor="middle">
-                  {solid.nameEn.split(' ')[0]}
+                  {getSolidName(solid).split(' ')[0]}
                 </text>
                 {/* Heat conduction ripple rings */}
                 {Math.abs(currentSolidTemp - currentLiquidTemp) > 0.5 && (
@@ -260,19 +380,19 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl text-center text-xs font-mono">
             <div>
-              <span className="text-slate-400 text-[10px] block">{lang === 'ar' ? 'حرارة الاتزان النهائية (T_f)' : 'Final Temp (T_f)'}</span>
+              <span className="text-slate-400 text-[10px] block">{localT.finalTempCard}</span>
               <span className="text-emerald-400 font-bold">{finalEquilibriumTemp.toFixed(2)} °C</span>
             </div>
             <div>
-              <span className="text-slate-400 text-[10px] block">{lang === 'ar' ? 'كمية الحرارة المنقولة (Q)' : 'Heat Transferred'}</span>
+              <span className="text-slate-400 text-[10px] block">{localT.heatTransferredCard}</span>
               <span className="text-amber-400 font-bold">{totalHeatJoules.toFixed(1)} J</span>
             </div>
             <div>
-              <span className="text-slate-400 text-[10px] block">{lang === 'ar' ? 'تغير حرارة الجسم (ΔT₁)' : 'ΔT Solid'}</span>
+              <span className="text-slate-400 text-[10px] block">{localT.deltaSolidCard}</span>
               <span className="text-rose-400 font-bold">-{deltaSolid.toFixed(1)} °C</span>
             </div>
             <div>
-              <span className="text-slate-400 text-[10px] block">{lang === 'ar' ? 'تغير حرارة السائل (ΔT₂)' : 'ΔT Liquid'}</span>
+              <span className="text-slate-400 text-[10px] block">{localT.deltaLiquidCard}</span>
               <span className="text-sky-400 font-bold">+{deltaLiquid.toFixed(1)} °C</span>
             </div>
           </div>
@@ -282,12 +402,12 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
         <div className="lg:col-span-4 space-y-4">
           <div className="bg-slate-950 border border-slate-800 rounded-xl p-3.5 space-y-3">
             <h4 className="text-xs font-bold text-amber-300 uppercase tracking-wider">
-              {lang === 'ar' ? 'عينة الجسم الصلب (مفقود الحرارة)' : 'Solid Sample (Heat Source)'}
+              {localT.solidTitle}
             </h4>
 
             {/* Solid Material Selector */}
             <div className="space-y-1">
-              <label className="text-xs text-slate-300">{lang === 'ar' ? 'مادة الجسم الصلب:' : 'Material (c₁):'}</label>
+              <label className="text-xs text-slate-300">{localT.solidMaterialLabel}</label>
               <select
                 value={solidIndex}
                 onChange={(e) => {
@@ -298,7 +418,7 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
               >
                 {SOLIDS.map((s, idx) => (
                   <option key={s.id} value={idx}>
-                    {lang === 'ar' ? s.nameAr : s.nameEn} ({s.specificHeat} J/g°C)
+                    {getSolidName(s)} ({s.specificHeat} J/g°C)
                   </option>
                 ))}
               </select>
@@ -307,7 +427,7 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
             {/* Solid Mass */}
             <div className="space-y-1">
               <div className="flex justify-between text-xs">
-                <span className="text-slate-300">{lang === 'ar' ? 'كتلة الجسم (m₁):' : 'Solid Mass (m₁):'}</span>
+                <span className="text-slate-300">{localT.solidMassLabel}</span>
                 <span className="font-mono text-amber-400 font-bold">{solidMass} g</span>
               </div>
               <input
@@ -327,7 +447,7 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
             {/* Solid Initial Temp */}
             <div className="space-y-1">
               <div className="flex justify-between text-xs">
-                <span className="text-slate-300">{lang === 'ar' ? 'درجة الحرارة الابتدائية (T₁):' : 'Initial Temp (T₁):'}</span>
+                <span className="text-slate-300">{localT.solidTempLabel}</span>
                 <span className="font-mono text-rose-400 font-bold">{solidTemp} °C</span>
               </div>
               <input
@@ -347,12 +467,12 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
 
           <div className="bg-slate-950 border border-slate-800 rounded-xl p-3.5 space-y-3">
             <h4 className="text-xs font-bold text-sky-300 uppercase tracking-wider">
-              {lang === 'ar' ? 'سائل المسعر (مكتسب الحرارة)' : 'Calorimeter Liquid'}
+              {localT.liquidTitle}
             </h4>
 
             {/* Liquid Type */}
             <div className="space-y-1">
-              <label className="text-xs text-slate-300">{lang === 'ar' ? 'نوع السائل:' : 'Liquid (c₂):'}</label>
+              <label className="text-xs text-slate-300">{localT.liquidMaterialLabel}</label>
               <select
                 value={liquidIndex}
                 onChange={(e) => {
@@ -363,7 +483,7 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
               >
                 {LIQUIDS.map((l, idx) => (
                   <option key={l.id} value={idx}>
-                    {lang === 'ar' ? l.nameAr : l.nameEn} ({l.specificHeat} J/g°C)
+                    {getLiquidName(l)} ({l.specificHeat} J/g°C)
                   </option>
                 ))}
               </select>
@@ -372,7 +492,7 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
             {/* Liquid Mass */}
             <div className="space-y-1">
               <div className="flex justify-between text-xs">
-                <span className="text-slate-300">{lang === 'ar' ? 'كتلة السائل (m₂):' : 'Liquid Mass (m₂):'}</span>
+                <span className="text-slate-300">{localT.liquidMassLabel}</span>
                 <span className="font-mono text-sky-400 font-bold">{liquidMass} g</span>
               </div>
               <input
@@ -392,7 +512,7 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
             {/* Liquid Initial Temp */}
             <div className="space-y-1">
               <div className="flex justify-between text-xs">
-                <span className="text-slate-300">{lang === 'ar' ? 'حرارة السائل الابتدائية (T₂):' : 'Liquid Initial Temp (T₂):'}</span>
+                <span className="text-slate-300">{localT.liquidTempLabel}</span>
                 <span className="font-mono text-sky-400 font-bold">{liquidTemp} °C</span>
               </div>
               <input
@@ -416,7 +536,7 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
         <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
           <div className="text-[11px] text-slate-400 font-medium">
-            {lang === 'ar' ? 'السعة الحرارية للجسم (C₁)' : 'Sample Heat Capacity (C₁)'}
+            {localT.sampleHeatCapacity}
           </div>
           <div className="text-lg font-mono font-bold text-amber-400">
             {heatCapacitySolid.toFixed(1)} J/°C
@@ -426,7 +546,7 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
 
         <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
           <div className="text-[11px] text-slate-400 font-medium">
-            {lang === 'ar' ? 'السعة الحرارية للسائل (C₂)' : 'Liquid Heat Capacity (C₂)'}
+            {localT.liquidHeatCapacity}
           </div>
           <div className="text-lg font-mono font-bold text-sky-400">
             {heatCapacityLiquid.toFixed(1)} J/°C
@@ -436,7 +556,7 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
 
         <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
           <div className="text-[11px] text-slate-400 font-medium">
-            {lang === 'ar' ? 'الحرارة بالسعر الحراري (Calories)' : 'Heat in Calories'}
+            {localT.heatCalories}
           </div>
           <div className="text-lg font-mono font-bold text-emerald-400">
             {totalHeatCalories.toFixed(1)} cal
@@ -446,7 +566,7 @@ export default function CalorimetrySim({ lang, onLogMeasurement }: Props) {
 
         <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
           <div className="text-[11px] text-slate-400 font-medium">
-            {lang === 'ar' ? 'حرارة الاتزان بالكلفن (K)' : 'Equilibrium in Kelvin'}
+            {localT.equilibriumKelvin}
           </div>
           <div className="text-lg font-mono font-bold text-purple-400">
             {(finalEquilibriumTemp + 273.15).toFixed(2)} K

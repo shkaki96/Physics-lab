@@ -11,43 +11,137 @@ interface PrefixDef {
   nameAr: string;
   nameEn: string;
   nameKu: string;
+  nameKmr: string;
   symbol: string;
   factor: number; // exponent 10^factor
   exampleAr: string;
   exampleEn: string;
+  exampleKmr: string;
 }
 
 const PREFIXES: PrefixDef[] = [
-  { nameAr: 'تيرا (Tera)', nameEn: 'Tera', nameKu: 'تێرا (Tera)', symbol: 'T', factor: 12, exampleAr: 'سعة القرص الصلب (1 TB)', exampleEn: 'Hard drive capacity (1 TB)' },
-  { nameAr: 'جيجا (Giga)', nameEn: 'Giga', nameKu: 'گیگا (Giga)', symbol: 'G', factor: 9, exampleAr: 'تردد المعالجات (3 GHz)', exampleEn: 'CPU frequency (3 GHz)' },
-  { nameAr: 'ميجا (Mega)', nameEn: 'Mega', nameKu: 'مێگا (Mega)', symbol: 'M', factor: 6, exampleAr: 'محطات توليد الطاقة (50 MW)', exampleEn: 'Power plant output (50 MW)' },
-  { nameAr: 'كيلو (Kilo)', nameEn: 'Kilo', nameKu: 'کیلۆ (Kilo)', symbol: 'k', factor: 3, exampleAr: 'المسافة بين المدن (1 km = 1000 m)', exampleEn: 'Distance (1 km = 1000 m)' },
-  { nameAr: 'هيكتو (Hecto)', nameEn: 'Hecto', nameKu: 'هێکتۆ (Hecto)', symbol: 'h', factor: 2, exampleAr: 'الضغط الجوي (1 hPa = 100 Pa)', exampleEn: 'Pressure (1 hPa = 100 Pa)' },
-  { nameAr: 'ديكا (Deca)', nameEn: 'Deca', nameKu: 'دیکا (Deca)', symbol: 'da', factor: 1, exampleAr: '1 dam = 10 m', exampleEn: '1 dam = 10 m' },
-  { nameAr: 'الوحدة الأساسية (Base)', nameEn: 'Base Unit', nameKu: 'یەکەی بنەڕەتی', symbol: '-', factor: 0, exampleAr: 'متر (m), جرام (g), ثانية (s), جول (J)', exampleEn: 'Meter (m), Gram (g), Second (s), Joule (J)' },
-  { nameAr: 'ديسي (Deci)', nameEn: 'Deci', nameKu: 'دێسی (Deci)', symbol: 'd', factor: -1, exampleAr: '1 dm = 0.1 m', exampleEn: '1 dm = 0.1 m' },
-  { nameAr: 'سنتي (Centi)', nameEn: 'Centi', nameKu: 'سەنتی (Centi)', symbol: 'c', factor: -2, exampleAr: 'مسطرة القياس (1 cm = 0.01 m)', exampleEn: 'Ruler scale (1 cm = 0.01 m)' },
-  { nameAr: 'مللي (Milli)', nameEn: 'Milli', nameKu: 'میلی (Milli)', symbol: 'm', factor: -3, exampleAr: 'سُمك بطاقة (1 mm = 0.001 m)', exampleEn: 'Card thickness (1 mm = 0.001 m)' },
-  { nameAr: 'ميكرو (Micro)', nameEn: 'Micro', nameKu: 'مایکرۆ (Micro)', symbol: 'μ', factor: -6, exampleAr: 'حجم خلية الدم (7 μm)', exampleEn: 'Red blood cell size (7 μm)' },
-  { nameAr: 'نانو (Nano)', nameEn: 'Nano', nameKu: 'نانۆ (Nano)', symbol: 'n', factor: -9, exampleAr: 'الطول الموجي للضوء (500 nm)', exampleEn: 'Light wavelength (500 nm)' },
-  { nameAr: 'بيكو (Pico)', nameEn: 'Pico', nameKu: 'پیکۆ (Pico)', symbol: 'p', factor: -12, exampleAr: 'نصف قطر الذرة (100 pm)', exampleEn: 'Atomic radius (100 pm)' },
-  { nameAr: 'فيمتو (Femto)', nameEn: 'Femto', nameKu: 'فێمتۆ (Femto)', symbol: 'f', factor: -15, exampleAr: 'حجم النواة الذرية (1 fm)', exampleEn: 'Atomic nucleus size (1 fm)' },
+  { nameAr: 'تيرا (Tera)', nameEn: 'Tera', nameKu: 'تێرا (Tera)', nameKmr: 'Tera', symbol: 'T', factor: 12, exampleAr: 'سعة القرص الصلب (1 TB)', exampleEn: 'Hard drive capacity (1 TB)', exampleKmr: 'Kapasîteya dîskê (1 TB)' },
+  { nameAr: 'جيجا (Giga)', nameEn: 'Giga', nameKu: 'گیگا (Giga)', nameKmr: 'Giga', symbol: 'G', factor: 9, exampleAr: 'تردد المعالجات (3 GHz)', exampleEn: 'CPU frequency (3 GHz)', exampleKmr: 'Lêdana CPU (3 GHz)' },
+  { nameAr: 'ميجا (Mega)', nameEn: 'Mega', nameKu: 'مێگا (Mega)', nameKmr: 'Mega', symbol: 'M', factor: 6, exampleAr: 'محطات توليد الطاقة (50 MW)', exampleEn: 'Power plant output (50 MW)', exampleKmr: 'Hêza santralê (50 MW)' },
+  { nameAr: 'كيلو (Kilo)', nameEn: 'Kilo', nameKu: 'کیلۆ (Kilo)', nameKmr: 'Kilo', symbol: 'k', factor: 3, exampleAr: 'المسافة بين المدن (1 km = 1000 m)', exampleEn: 'Distance (1 km = 1000 m)', exampleKmr: 'Masafe (1 km = 1000 m)' },
+  { nameAr: 'هيكتو (Hecto)', nameEn: 'Hecto', nameKu: 'هێکتۆ (Hecto)', nameKmr: 'Hecto', symbol: 'h', factor: 2, exampleAr: 'الضغط الجوي (1 hPa = 100 Pa)', exampleEn: 'Pressure (1 hPa = 100 Pa)', exampleKmr: 'Pext (1 hPa = 100 Pa)' },
+  { nameAr: 'ديكا (Deca)', nameEn: 'Deca', nameKu: 'دیکا (Deca)', nameKmr: 'Deka', symbol: 'da', factor: 1, exampleAr: '1 dam = 10 m', exampleEn: '1 dam = 10 m', exampleKmr: '1 dam = 10 m' },
+  { nameAr: 'الوحدة الأساسية (Base)', nameEn: 'Base Unit', nameKu: 'یەکەی بنەڕەتی', nameKmr: 'Yekeya bingehîn', symbol: '-', factor: 0, exampleAr: 'متر (m), جرام (g), ثانية (s), جول (J)', exampleEn: 'Meter (m), Gram (g), Second (s), Joule (J)', exampleKmr: 'Metre (m), Gram (g), Çirke (s), Joule (J)' },
+  { nameAr: 'ديسي (Deci)', nameEn: 'Deci', nameKu: 'دێسی (Deci)', nameKmr: 'Desi', symbol: 'd', factor: -1, exampleAr: '1 dm = 0.1 m', exampleEn: '1 dm = 0.1 m', exampleKmr: '1 dm = 0.1 m' },
+  { nameAr: 'سنتي (Centi)', nameEn: 'Centi', nameKu: 'سەنتی (Centi)', nameKmr: 'Senti', symbol: 'c', factor: -2, exampleAr: 'مسطرة القياس (1 cm = 0.01 m)', exampleEn: 'Ruler scale (1 cm = 0.01 m)', exampleKmr: 'Pîvan (1 cm = 0.01 m)' },
+  { nameAr: 'مللي (Milli)', nameEn: 'Milli', nameKu: 'میلی (Milli)', nameKmr: 'Mili', symbol: 'm', factor: -3, exampleAr: 'سُمك بطاقة (1 mm = 0.001 m)', exampleEn: 'Card thickness (1 mm = 0.001 m)', exampleKmr: 'Stûriya kartê (1 mm = 0.001 m)' },
+  { nameAr: 'ميكرو (Micro)', nameEn: 'Micro', nameKu: 'مایکرۆ (Micro)', nameKmr: 'Mîkro', symbol: 'μ', factor: -6, exampleAr: 'حجم خلية الدم (7 μm)', exampleEn: 'Red blood cell size (7 μm)', exampleKmr: 'Mezinhiya xaneyê (7 μm)' },
+  { nameAr: 'نانو (Nano)', nameEn: 'Nano', nameKu: 'نانۆ (Nano)', nameKmr: 'Nano', symbol: 'n', factor: -9, exampleAr: 'الطول الموجي للضوء (500 nm)', exampleEn: 'Light wavelength (500 nm)', exampleKmr: 'Dirêjahiya pêlê (500 nm)' },
+  { nameAr: 'بيكو (Pico)', nameEn: 'Pico', nameKu: 'پیکۆ (Pico)', nameKmr: 'Pîko', symbol: 'p', factor: -12, exampleAr: 'نصف قطر الذرة (100 pm)', exampleEn: 'Atomic radius (100 pm)', exampleKmr: 'Nîvçapa atomê (100 pm)' },
+  { nameAr: 'فيمتو (Femto)', nameEn: 'Femto', nameKu: 'فێمتۆ (Femto)', nameKmr: 'Femto', symbol: 'f', factor: -15, exampleAr: 'حجم النواة الذرية (1 fm)', exampleEn: 'Atomic nucleus size (1 fm)', exampleKmr: 'Mezinhiya noyeyê (1 fm)' },
 ];
 
 const BASE_UNITS = [
-  { id: 'm', nameAr: 'متر (m) - الطول', nameEn: 'Meter (m) - Length', nameKu: 'مەتر (m) - درێژی', symbol: 'm' },
-  { id: 'g', nameAr: 'جرام (g) - الكتلة', nameEn: 'Gram (g) - Mass', nameKu: 'گرام (g) - بارستە', symbol: 'g' },
-  { id: 's', nameAr: 'ثانية (s) - الزمن', nameEn: 'Second (s) - Time', nameKu: 'چرکە (s) - کات', symbol: 's' },
-  { id: 'Hz', nameAr: 'هيرتز (Hz) - التردد', nameEn: 'Hertz (Hz) - Frequency', nameKu: 'هێرتز (Hz) - فریکوێنسی', symbol: 'Hz' },
-  { id: 'J', nameAr: 'جول (J) - الطاقة', nameEn: 'Joule (J) - Energy', nameKu: 'جوول (J) - وزە', symbol: 'J' },
-  { id: 'W', nameAr: 'واط (W) - القدرة', nameEn: 'Watt (W) - Power', nameKu: 'وات (W) - توان', symbol: 'W' },
-  { id: 'V', nameAr: 'فولت (V) - الجهد', nameEn: 'Volt (V) - Voltage', nameKu: 'ڤۆڵت (V) - ڤۆڵتیە', symbol: 'V' },
-  { id: 'A', nameAr: 'أمبير (A) - التيار', nameEn: 'Ampere (A) - Current', nameKu: 'ئەمپێر (A) - تەزوو', symbol: 'A' },
-  { id: 'F', nameAr: 'فاراد (F) - السعة', nameEn: 'Farad (F) - Capacitance', nameKu: 'فاراد (F) - بارگەگری', symbol: 'F' },
-  { id: 'Pa', nameAr: 'باسكال (Pa) - الضغط', nameEn: 'Pascal (Pa) - Pressure', nameKu: 'پاسکال (Pa) - پەستان', symbol: 'Pa' },
+  { id: 'm', nameAr: 'متر (m) - الطول', nameEn: 'Meter (m) - Length', nameKu: 'مەتر (m) - درێژی', nameKmr: 'Metre (m) - Dirêjahî', symbol: 'm' },
+  { id: 'g', nameAr: 'جرام (g) - الكتلة', nameEn: 'Gram (g) - Mass', nameKu: 'گرام (g) - بارستە', nameKmr: 'Gram (g) - Bariste', symbol: 'g' },
+  { id: 's', nameAr: 'ثانية (s) - الزمن', nameEn: 'Second (s) - Time', nameKu: 'چرکە (s) - کات', nameKmr: 'Çirke (s) - Dem', symbol: 's' },
+  { id: 'Hz', nameAr: 'هيرتز (Hz) - التردد', nameEn: 'Hertz (Hz) - Frequency', nameKu: 'هێرتز (Hz) - فریکوێنسی', nameKmr: 'Hertz (Hz) - Frîkans', symbol: 'Hz' },
+  { id: 'J', nameAr: 'جول (J) - الطاقة', nameEn: 'Joule (J) - Energy', nameKu: 'جوول (J) - وزە', nameKmr: 'Joule (J) - Anarşî', symbol: 'J' },
+  { id: 'W', nameAr: 'واط (W) - القدرة', nameEn: 'Watt (W) - Power', nameKu: 'وات (W) - توان', nameKmr: 'Watt (W) - Hêz', symbol: 'W' },
+  { id: 'V', nameAr: 'فولت (V) - الجهد', nameEn: 'Volt (V) - Voltage', nameKu: 'ڤۆڵت (V) - ڤۆڵتیە', nameKmr: 'Volt (V) - Voltaj', symbol: 'V' },
+  { id: 'A', nameAr: 'أمبير (A) - التيار', nameEn: 'Ampere (A) - Current', nameKu: 'ئەمپێر (A) - تەزوو', nameKmr: 'Ampere (A) - Herikîn', symbol: 'A' },
+  { id: 'F', nameAr: 'فاراد (F) - السعة', nameEn: 'Farad (F) - Capacitance', nameKu: 'فاراد (F) - بارگەگری', nameKmr: 'Farad (F) - Kapasîte', symbol: 'F' },
+  { id: 'Pa', nameAr: 'باسكال (Pa) - الضغط', nameEn: 'Pascal (Pa) - Pressure', nameKu: 'پاسکال (Pa) - پەستان', nameKmr: 'Pascal (Pa) - Pext', symbol: 'Pa' },
 ];
 
 export default function MetricPrefixesSim({ lang, onLogMeasurement }: Props) {
+  const t = {
+    ar: {
+      title: 'البادئات المترية وتحويل الوحدات الفيزيائية',
+      desc: 'التحويل المنهجي بين مضاعفات وأجزاء الوحدات القياسية (SI) باستخدام قوى العدد 10 والقانون العام V_new = V_old × 10^(n1 - n2).',
+      logged: 'تم التسجيل في الدفتر ✓', // غير موثّق بمصدر
+      log: 'تسجيل في دفتر المختبر', // غير موثّق بمصدر
+      panelTitle: 'لوحة تحويل الوحدات والبادئات', // غير موثّق بمصدر
+      inputVal: 'القيمة العددية المراد تحويلها:',
+      fromPrefix: 'من البادئة المصدر (From):',
+      toPrefix: 'إلى البادئة الهدف (To):',
+      swap: 'تبديل',
+      quickPresets: 'أمثلة فيزيائية شائعة وسريعة:',
+      resultTitle: 'النتيجة المحسوبة الدقيقة:',
+      equation: 'معادلة التحويل:',
+      scientificForm: 'بالصيغة العلمية:',
+      scaleTitle: 'سلم المراتب والبادئات المترية (10^n)',
+      tagFrom: 'المصدر',
+      tagTo: 'الهدف',
+    },
+    en: {
+      title: 'Metric Prefixes & Physical Unit Conversion',
+      desc: 'Systematic conversion across SI decimal prefixes using power of ten formulation V_new = V_old × 10^(n1 - n2).',
+      logged: 'Logged ✓', // غير موثّق بمصدر
+      log: 'Log Measurement', // غير موثّق بمصدر
+      panelTitle: 'Unit & Prefix Conversion Panel', // غير موثّق بمصدر
+      inputVal: 'Input Numerical Value:',
+      fromPrefix: 'From Prefix:',
+      toPrefix: 'To Target Prefix:',
+      swap: 'Swap',
+      quickPresets: 'Quick Physics Presets:',
+      resultTitle: 'Calculated Conversion Result:',
+      equation: 'Equation:',
+      scientificForm: 'Scientific Form:',
+      scaleTitle: 'SI Prefix Magnitude Scale (10^n)',
+      tagFrom: 'FROM',
+      tagTo: 'TO',
+    },
+    ku: {
+      title: 'پێشگرە مەترییەکان و گۆڕینی یەکە فیزیاییەکان',
+      desc: 'گۆڕینی ڕێکوپێکی نێوان کەرتبووەکان و دوانەبووەکانی یەکەکانی سیستەمی نێودەوڵەتی SI بە بەکارهێنانی هێزەکانی ١٠.',
+      logged: 'تۆمارکرا لە دەفتەر ✓', // غير موثّق بمصدر
+      log: 'تۆمارکردنی پێوانە', // غير موثّق بمصدر
+      panelTitle: 'تەختەی گۆڕینی پێشگرەکان', // غير موثّق بمصدر
+      inputVal: 'بەهای ژمارەیی بۆ گۆڕین:',
+      fromPrefix: 'لە پێشگری سەرچاوە:',
+      toPrefix: 'بۆ پێشگری ئامانج:',
+      swap: 'ئاڵوگۆڕ',
+      quickPresets: 'نموونەی فیزیایی دیار:',
+      resultTitle: 'ئەنجامی ژمێردراو:',
+      equation: 'هاوکێشەی گۆڕین:',
+      scientificForm: 'بە شێوازی زانستی:',
+      scaleTitle: 'پەیژەی پێشگرە مەترییەکان (10^n)',
+      tagFrom: 'سەرچاوە',
+      tagTo: 'ئامانج',
+    },
+    kmr: {
+      title: 'Pêşgirên Metrî û Guherandina Yekeyan',
+      desc: 'Guherandina sîstematîk a di navbera pêşgirên metrî yên SI de bi karanîna hêzên 10an.',
+      logged: 'Hat tomarkirin ✓', // غير موثّق بمصدر
+      log: 'Tomarkirina pîvanê', // غير موثّق بمصدر
+      panelTitle: 'Panela guherandina pêşgir û yekeyan', // غير موثّق بمصدر
+      inputVal: 'Nirxa hejmarî ya ji bo guherandinê:',
+      fromPrefix: 'Ji pêşgira çavkanî:',
+      toPrefix: 'Ji bo pêşgira mebest:',
+      swap: 'Guhertin',
+      quickPresets: 'Mînakên fîzîkî yên lez:',
+      resultTitle: 'Encama hejmartî:',
+      equation: 'Hawrêşeya guherandinê:',
+      scientificForm: 'Bi awayê zanistî:',
+      scaleTitle: 'Pêleka pêşgirên metrî (10^n)',
+      tagFrom: 'ÇAVKANÎ',
+      tagTo: 'MEBEST',
+    },
+  }[lang] || {
+    title: 'البادئات المترية وتحويل الوحدات الفيزيائية',
+    desc: 'التحويل المنهجي بين مضاعفات وأجزاء الوحدات القياسية (SI) باستخدام قوى العدد 10 والقانون العام V_new = V_old × 10^(n1 - n2).',
+    logged: 'تم التسجيل في الدفتر ✓',
+    log: 'تسجيل في دفتر المختبر',
+    panelTitle: 'لوحة تحويل الوحدات والبادئات',
+    inputVal: 'القيمة العددية المراد تحويلها:',
+    fromPrefix: 'من البادئة المصدر (From):',
+    toPrefix: 'إلى البادئة الهدف (To):',
+    swap: 'تبديل',
+    quickPresets: 'أمثلة فيزيائية شائعة وسريعة:',
+    resultTitle: 'النتيجة المحسوبة الدقيقة:',
+    equation: 'معادلة التحويل:',
+    scientificForm: 'بالصيغة العلمية:',
+    scaleTitle: 'سلم المراتب والبادئات المترية (10^n)',
+    tagFrom: 'المصدر',
+    tagTo: 'الهدف',
+  };
+
   const [inputValue, setInputValue] = useState<number>(1000);
   const [fromPrefixIdx, setFromPrefixIdx] = useState<number>(6); // Base unit default
   const [toPrefixIdx, setToPrefixIdx] = useState<number>(3); // Kilo default
@@ -57,6 +151,36 @@ export default function MetricPrefixesSim({ lang, onLogMeasurement }: Props) {
   const fromPrefix = PREFIXES[fromPrefixIdx];
   const toPrefix = PREFIXES[toPrefixIdx];
   const baseUnit = BASE_UNITS[selectedUnitIdx];
+
+  const getPrefixName = (p: PrefixDef) => {
+    const names: Record<string, string> = {
+      ar: p.nameAr,
+      ku: p.nameKu,
+      kmr: p.nameKmr || p.nameEn,
+      en: p.nameEn,
+    };
+    return names[lang] || p.nameAr;
+  };
+
+  const getPrefixExample = (p: PrefixDef) => {
+    const examples: Record<string, string> = {
+      ar: p.exampleAr,
+      ku: p.exampleAr,
+      kmr: p.exampleKmr || p.exampleEn,
+      en: p.exampleEn,
+    };
+    return examples[lang] || p.exampleAr;
+  };
+
+  const getUnitName = (u: typeof BASE_UNITS[0]) => {
+    const unitNames: Record<string, string> = {
+      ar: u.nameAr,
+      ku: u.nameKu,
+      kmr: u.nameKmr || u.nameEn,
+      en: u.nameEn,
+    };
+    return unitNames[lang] || u.nameAr;
+  };
 
   // Calculation: Value_in_base = inputValue * 10^(fromFactor)
   // Result_value = Value_in_base / 10^(toFactor) = inputValue * 10^(fromFactor - toFactor)
@@ -109,17 +233,9 @@ export default function MetricPrefixesSim({ lang, onLogMeasurement }: Props) {
         <div>
           <h2 className="text-base sm:text-lg font-bold text-zinc-100 flex items-center gap-2">
             <Scale className="w-5 h-5 text-sky-400" />
-            <span>
-              {lang === 'ar' ? 'البادئات المترية وتحويل الوحدات الفيزيائية' : lang === 'ku' ? 'پێشگرە مەترییەکان و گۆڕینی یەکە فیزیاییەکان' : 'Metric Prefixes & Physical Unit Conversion'}
-            </span>
+            <span>{t.title}</span>
           </h2>
-          <p className="text-xs text-zinc-400 mt-1 max-w-2xl">
-            {lang === 'ar'
-              ? 'التحويل المنهجي بين مضاعفات وأجزاء الوحدات القياسية (SI) باستخدام قوى العدد 10 والقانون العام V_new = V_old × 10^(n1 - n2).'
-              : lang === 'ku'
-              ? 'گۆڕینی ڕێکوپێکی نێوان کەرتبووەکان و دوانەبووەکانی یەکەکانی سیستەمی نێودەوڵەتی SI بە بەکارهێنانی هێزەکانی ١٠.'
-              : 'Systematic conversion across SI decimal prefixes using power of ten formulation V_new = V_old × 10^(n1 - n2).'}
-          </p>
+          <p className="text-xs text-zinc-400 mt-1 max-w-2xl">{t.desc}</p>
         </div>
 
         <button
@@ -131,7 +247,7 @@ export default function MetricPrefixesSim({ lang, onLogMeasurement }: Props) {
           }`}
         >
           <BookmarkCheck className="w-4 h-4" />
-          <span>{logged ? (lang === 'ar' ? 'تم التسجيل في الدفتر ✓' : 'Logged ✓') : (lang === 'ar' ? 'تسجيل في دفتر المختبر' : 'Log Measurement')}</span>
+          <span>{logged ? t.logged : t.log}</span>
         </button>
       </div>
 
@@ -142,7 +258,7 @@ export default function MetricPrefixesSim({ lang, onLogMeasurement }: Props) {
           <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
             <span className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
               <ArrowRightLeft className="w-4 h-4 text-sky-400" />
-              {lang === 'ar' ? 'لوحة تحويل الوحدات والبادئات' : lang === 'ku' ? 'تەختەی گۆڕینی پێشگرەکان' : 'Unit & Prefix Conversion Panel'}
+              {t.panelTitle}
             </span>
             {/* Base Unit Selector */}
             <select
@@ -152,7 +268,7 @@ export default function MetricPrefixesSim({ lang, onLogMeasurement }: Props) {
             >
               {BASE_UNITS.map((u, i) => (
                 <option key={u.id} value={i}>
-                  {lang === 'ar' ? u.nameAr : lang === 'ku' ? u.nameKu : u.nameEn}
+                  {getUnitName(u)}
                 </option>
               ))}
             </select>
@@ -161,7 +277,7 @@ export default function MetricPrefixesSim({ lang, onLogMeasurement }: Props) {
           {/* Input Value */}
           <div>
             <label className="text-xs text-zinc-400 block mb-1.5 font-medium">
-              {lang === 'ar' ? 'القيمة العددية المراد تحويلها:' : lang === 'ku' ? 'بەهای ژمارەیی بۆ گۆڕین:' : 'Input Numerical Value:'}
+              {t.inputVal}
             </label>
             <div className="flex items-center gap-2">
               <input
@@ -181,7 +297,7 @@ export default function MetricPrefixesSim({ lang, onLogMeasurement }: Props) {
             {/* From Prefix */}
             <div className="space-y-1.5">
               <span className="text-[11px] text-zinc-400 font-medium">
-                {lang === 'ar' ? 'من البادئة المصدر (From):' : 'From Prefix:'}
+                {t.fromPrefix}
               </span>
               <select
                 value={fromPrefixIdx}
@@ -191,7 +307,7 @@ export default function MetricPrefixesSim({ lang, onLogMeasurement }: Props) {
                 {PREFIXES.map((p, idx) => (
                   <option key={`from-${p.nameEn}`} value={idx}>
                     {p.symbol !== '-' ? `${p.symbol} - ` : ''}
-                    {lang === 'ar' ? p.nameAr : lang === 'ku' ? p.nameKu : p.nameEn} (10^{p.factor})
+                    {getPrefixName(p)} (10^{p.factor})
                   </option>
                 ))}
               </select>
@@ -201,14 +317,14 @@ export default function MetricPrefixesSim({ lang, onLogMeasurement }: Props) {
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <span className="text-[11px] text-zinc-400 font-medium">
-                  {lang === 'ar' ? 'إلى البادئة الهدف (To):' : 'To Target Prefix:'}
+                  {t.toPrefix}
                 </span>
                 <button
                   onClick={handleSwap}
                   className="text-[10px] text-indigo-400 hover:text-indigo-300 flex items-center gap-1 underline"
                 >
                   <ArrowRightLeft className="w-3 h-3" />
-                  {lang === 'ar' ? 'تبديل' : 'Swap'}
+                  {t.swap}
                 </button>
               </div>
               <select
@@ -219,7 +335,7 @@ export default function MetricPrefixesSim({ lang, onLogMeasurement }: Props) {
                 {PREFIXES.map((p, idx) => (
                   <option key={`to-${p.nameEn}`} value={idx}>
                     {p.symbol !== '-' ? `${p.symbol} - ` : ''}
-                    {lang === 'ar' ? p.nameAr : lang === 'ku' ? p.nameKu : p.nameEn} (10^{p.factor})
+                    {getPrefixName(p)} (10^{p.factor})
                   </option>
                 ))}
               </select>
@@ -229,7 +345,7 @@ export default function MetricPrefixesSim({ lang, onLogMeasurement }: Props) {
           {/* Quick Preset Buttons */}
           <div>
             <span className="text-[10px] text-zinc-400 block mb-1.5">
-              {lang === 'ar' ? 'أمثلة فيزيائية شائعة وسريعة:' : 'Quick Physics Presets:'}
+              {t.quickPresets}
             </span>
             <div className="flex flex-wrap gap-1.5">
               {[
@@ -259,7 +375,7 @@ export default function MetricPrefixesSim({ lang, onLogMeasurement }: Props) {
           {/* Conversion Result Display Card */}
           <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-950/40 via-zinc-900 to-sky-950/40 border border-indigo-700/50 space-y-2">
             <span className="text-[11px] font-semibold text-indigo-300 uppercase tracking-wider block">
-              {lang === 'ar' ? 'النتيجة المحسوبة الدقيقة:' : 'Calculated Conversion Result:'}
+              {t.resultTitle}
             </span>
             <div className="flex flex-wrap items-baseline gap-2">
               <span className="text-xl sm:text-2xl font-bold font-mono text-emerald-400">
@@ -273,13 +389,13 @@ export default function MetricPrefixesSim({ lang, onLogMeasurement }: Props) {
             {/* Step-by-step formula breakdown */}
             <div className="pt-2 border-t border-zinc-800/80 text-[11px] font-mono text-zinc-300 space-y-1">
               <div>
-                <span className="text-zinc-400">{lang === 'ar' ? 'معادلة التحويل:' : 'Equation:'} </span>
+                <span className="text-zinc-400">{t.equation} </span>
                 <span>
                   {inputValue} × 10<sup>{fromPrefix.factor}</sup> ÷ 10<sup>{toPrefix.factor}</sup> = {inputValue} × 10<sup>{powerDiff}</sup>
                 </span>
               </div>
               <div>
-                <span className="text-zinc-400">{lang === 'ar' ? 'بالصيغة العلمية:' : 'Scientific Form:'} </span>
+                <span className="text-zinc-400">{t.scientificForm} </span>
                 <span className="text-sky-300">{convertedValue.toExponential(6)} {toPrefix.factor === 0 ? baseUnit.symbol : `${toPrefix.symbol}${baseUnit.symbol}`}</span>
               </div>
             </div>
@@ -291,7 +407,7 @@ export default function MetricPrefixesSim({ lang, onLogMeasurement }: Props) {
           <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
             <span className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
               <Layers className="w-4 h-4 text-emerald-400" />
-              {lang === 'ar' ? 'سلم المراتب والبادئات المترية (10^n)' : lang === 'ku' ? 'پەیژەی پێشگرە مەترییەکان (10^n)' : 'SI Prefix Magnitude Scale (10^n)'}
+              {t.scaleTitle}
             </span>
             <span className="text-[10px] text-zinc-400 font-mono">10^12 → 10^-15</span>
           </div>
@@ -329,21 +445,21 @@ export default function MetricPrefixesSim({ lang, onLogMeasurement }: Props) {
                     <div>
                       <div className="flex items-center gap-1.5">
                         <span className="font-semibold text-zinc-200">
-                          {lang === 'ar' ? p.nameAr : lang === 'ku' ? p.nameKu : p.nameEn}
+                          {getPrefixName(p)}
                         </span>
                         {isFrom && (
                           <span className="px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-300 text-[9px] font-mono">
-                            {lang === 'ar' ? 'المصدر' : 'FROM'}
+                            {t.tagFrom}
                           </span>
                         )}
                         {isTo && (
                           <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 text-[9px] font-mono">
-                            {lang === 'ar' ? 'الهدف' : 'TO'}
+                            {t.tagTo}
                           </span>
                         )}
                       </div>
                       <span className="text-[10px] text-zinc-400 block">
-                        {lang === 'ar' ? p.exampleAr : p.exampleEn}
+                        {getPrefixExample(p)}
                       </span>
                     </div>
                   </div>

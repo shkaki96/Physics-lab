@@ -12,6 +12,7 @@ interface MaterialSpec {
   nameAr: string;
   nameEn: string;
   nameKu: string;
+  nameKmr: string;
   youngModulusGPa: number; // GPa
   yieldStrengthMPa: number; // MPa
   tensileStrengthMPa: number; // Ultimate MPa
@@ -19,16 +20,127 @@ interface MaterialSpec {
 }
 
 const MATERIALS: MaterialSpec[] = [
-  { id: 'steel', nameAr: 'الفولاذ الإنشائي (Structural Steel)', nameEn: 'Structural Steel', nameKu: 'پۆڵای بیناسازی', youngModulusGPa: 200, yieldStrengthMPa: 250, tensileStrengthMPa: 400, color: '#94a3b8' },
-  { id: 'aluminium', nameAr: 'الألومنيوم (Aluminium Alloy)', nameEn: 'Aluminium Alloy', nameKu: 'ئەلۆمینیۆم', youngModulusGPa: 70, yieldStrengthMPa: 95, tensileStrengthMPa: 110, color: '#cbd5e1' },
-  { id: 'copper', nameAr: 'النحاس (Copper)', nameEn: 'Copper', nameKu: 'مس', youngModulusGPa: 110, yieldStrengthMPa: 70, tensileStrengthMPa: 220, color: '#f97316' },
-  { id: 'titanium', nameAr: 'التيتانيوم (Titanium Grade 5)', nameEn: 'Titanium Grade 5', nameKu: 'تیتانیۆم', youngModulusGPa: 115, yieldStrengthMPa: 880, tensileStrengthMPa: 950, color: '#a855f7' },
-  { id: 'brass', nameAr: 'سبيكة النحاس الأصفر (Brass)', nameEn: 'Brass Alloy', nameKu: 'برنج', youngModulusGPa: 100, yieldStrengthMPa: 200, tensileStrengthMPa: 380, color: '#eab308' },
-  { id: 'wood', nameAr: 'خشب البلوط (Oak Wood)', nameEn: 'Oak Wood', nameKu: 'دار بەڕوو', youngModulusGPa: 12, yieldStrengthMPa: 40, tensileStrengthMPa: 60, color: '#a16207' },
-  { id: 'rubber', nameAr: 'المطاط الصناعي (Elastomer Rubber)', nameEn: 'Synthetic Rubber', nameKu: 'لاستیک', youngModulusGPa: 0.05, yieldStrengthMPa: 10, tensileStrengthMPa: 20, color: '#10b981' },
+  { id: 'steel', nameAr: 'الفولاذ الإنشائي (Structural Steel)', nameEn: 'Structural Steel', nameKu: 'پۆڵای بیناسازی', nameKmr: 'Pola (Structural Steel)', youngModulusGPa: 200, yieldStrengthMPa: 250, tensileStrengthMPa: 400, color: '#94a3b8' },
+  { id: 'aluminium', nameAr: 'الألومنيوم (Aluminium Alloy)', nameEn: 'Aluminium Alloy', nameKu: 'ئەلۆمینیۆم', nameKmr: 'Aloyaja Alumînyumê', youngModulusGPa: 70, yieldStrengthMPa: 95, tensileStrengthMPa: 110, color: '#cbd5e1' },
+  { id: 'copper', nameAr: 'النحاس (Copper)', nameEn: 'Copper', nameKu: 'مس', nameKmr: 'Mis', youngModulusGPa: 110, yieldStrengthMPa: 70, tensileStrengthMPa: 220, color: '#f97316' },
+  { id: 'titanium', nameAr: 'التيتانيوم (Titanium Grade 5)', nameEn: 'Titanium Grade 5', nameKu: 'تیتانیۆم', nameKmr: 'Tîtanîum', youngModulusGPa: 115, yieldStrengthMPa: 880, tensileStrengthMPa: 950, color: '#a855f7' },
+  { id: 'brass', nameAr: 'سبيكة النحاس الأصفر (Brass)', nameEn: 'Brass Alloy', nameKu: 'برنج', nameKmr: 'Pirinc', youngModulusGPa: 100, yieldStrengthMPa: 200, tensileStrengthMPa: 380, color: '#eab308' },
+  { id: 'wood', nameAr: 'خشب البلوط (Oak Wood)', nameEn: 'Oak Wood', nameKu: 'دار بەڕوو', nameKmr: 'Darê Berûyê', youngModulusGPa: 12, yieldStrengthMPa: 40, tensileStrengthMPa: 60, color: '#a16207' },
+  { id: 'rubber', nameAr: 'المطاط الصناعي (Elastomer Rubber)', nameEn: 'Synthetic Rubber', nameKu: 'لاستیک', nameKmr: 'Lastîk', youngModulusGPa: 0.05, yieldStrengthMPa: 10, tensileStrengthMPa: 20, color: '#10b981' },
 ];
 
 export default function StressStrainSim({ lang, onLogMeasurement }: Props) {
+  const t = {
+    ar: {
+      title: 'الإجهاد والانفعال ومعامل يونج',
+      desc: 'دراسة المرونة الميكانيكية للمواد الصلبة، قانون هوك σ = E · ε، حدود الخضوع المرن، ونقطة الانقطاع.',
+      logged: 'تم التسجيل في الدفتر ✓', // غير موثّق بمصدر
+      log: 'تسجيل في دفتر المختبر', // غير موثّق بمصدر
+      testParams: 'معايير الاختبار والمادة', // غير موثّق بمصدر
+      selectMaterial: 'اختيار مادة العينة:',
+      appliedForce: 'قوة الشد المطبقة (F):',
+      crossArea: 'مساحة المقطع العرضي (A):',
+      initialLength: 'الطول الأصلي للعينة (L₀):',
+      manualOverride: 'قياس الاستطالة يدوياً (ΔL):',
+      manualHelp: 'أدخل الاستطالة المقاسة لحساب معامل يونج تجريبياً', // غير موثّق بمصدر
+      fractured: 'تحذير: انقطاع وكسر العينة (Fracture!)',
+      plasticYield: 'تجاوز حد الخضوع: تشوه لدن دائم (Plastic Yield)',
+      linearElastic: 'المنطقة المرنة الخطية: قانون هوك سارٍ',
+      stress: 'الإجهاد الميكانيكي (σ)',
+      strain: 'الانفعال الخطي (ε)',
+      youngModulus: 'معامل يونج المحسوب (E)',
+      strainEnergy: 'طاقة الانفعال الحجمية (u)',
+    },
+    en: {
+      title: 'Stress, Strain & Young’s Modulus',
+      desc: 'Investigation of solid mechanics elasticity, Hooke’s law σ = E · ε, yield strength, and fracture limits.',
+      logged: 'Logged ✓', // غير موثّق بمصدر
+      log: 'Log Measurement', // غير موثّق بمصدر
+      testParams: 'Test Parameters & Material', // غير موثّق بمصدر
+      selectMaterial: 'Specimen Material:',
+      appliedForce: 'Applied Tensile Force (F):',
+      crossArea: 'Cross-Section Area (A):',
+      initialLength: 'Initial Length (L₀):',
+      manualOverride: 'Manual Elongation Override:',
+      manualHelp: 'Input measured ΔL to derive experimental E', // غير موثّق بمصدر
+      fractured: 'Warning: Specimen Fractured!',
+      plasticYield: 'Plastic Deformation (Yield Point Exceeded)',
+      linearElastic: 'Linear Elastic Region (Hooke’s Law Valid)',
+      stress: 'Stress (σ = F/A)',
+      strain: 'Strain (ε = ΔL/L₀)',
+      youngModulus: 'Calculated Young’s Modulus (E)',
+      strainEnergy: 'Strain Energy Density (u)',
+    },
+    ku: {
+      title: 'تەنگژە و گرژبوون و هاوکۆلکەی یۆنگ بۆ ماددەکان',
+      desc: 'لێکۆڵینەوە لە نەرمی و پتەوی ماددەکان، یاسای هووک σ = E · ε و سنووری شکان.',
+      logged: 'تۆمارکرا لە دەفتەر ✓', // غير موثّق بمصدر
+      log: 'تۆمارکردنی پێوانە', // غير موثّق بمصدر
+      testParams: 'تایبەتمەندییەکانی تاقیکردنەوە و ماددە', // غير موثّق بمصدر
+      selectMaterial: 'هەڵبژاردنی ماددەی نموونە:',
+      appliedForce: 'هێزی ڕاکێشانی جێبەجێکراو (F):',
+      crossArea: 'ڕووبەری بڕگە (A):',
+      initialLength: 'درێژیی سەرەتایی (L₀):',
+      manualOverride: 'دەستکاریکردنی دەستیی درێژبوونەوە (ΔL):',
+      manualHelp: 'درێژبوونەوەی پێوراو بنووسە بۆ هەژمارکردنی Eی تاقیکاری', // غير موثّق بمصدر
+      fractured: 'ئاگەداری: پچڕان و شکانی نموونەکە!',
+      plasticYield: 'تێپەڕاندنی سنووری نەرمی: شێواندنی هەمیشەیی',
+      linearElastic: 'ناوچەی نەرمی هێڵی: یاسای هووک جێبەجێ دەبێت',
+      stress: 'پەستان/تەنگژە (σ)',
+      strain: 'کشان/گرژبوون (ε)',
+      youngModulus: 'مۆدیۆلی یۆنگی هەژمارکراو (E)',
+      strainEnergy: 'چڕیی وزەی کشان (u)',
+    },
+    kmr: {
+      title: 'Pextan, Kşan û Modula Young',
+      desc: 'Lêkolîna li ser elastîkiya materyalan, zagona Hooke σ = E · ε, sînorê elastîk û xala şikênandinê.',
+      logged: 'Hat tomarkirin ✓', // غير موثّق بمصدر
+      log: 'Tomarkirina pîvanê', // غير موثّق بمصدر
+      testParams: 'Parametreyên azmûnê û materyal', // غير موثّق بمصدر
+      selectMaterial: 'Hêlbijartina materyalê mînakê:',
+      appliedForce: 'Hêza kişandinê ya sepandî (F):',
+      crossArea: 'Rûberê birrê (A):',
+      initialLength: 'Dirêjahiya destpêkê (L₀):',
+      manualOverride: 'Guherandina destî ya dirêjbûnê (ΔL):',
+      manualHelp: 'Dirêjbûna pîvawî binivîse ji bo hesabkirina E ya azmûnî', // غير موثّق بمصدر
+      fractured: 'Hişyarî: Şikênandina mînakê!',
+      plasticYield: 'Buhurbûna sînorê elastîk: Deformasyona daîmî',
+      linearElastic: 'Herêma elastîk a rêzî: Zagona Hooke derbasdar e',
+      stress: 'Pextana mekanîkî (σ)',
+      strain: 'Kşana rêzî (ε)',
+      youngModulus: 'Modula Young a hesabkirî (E)',
+      strainEnergy: 'Tirşiya anarşiya kşanê (u)',
+    },
+  }[lang] || {
+    title: 'الإجهاد والانفعال ومعامل يونج',
+    desc: 'دراسة المرونة الميكانيكية للمواد الصلبة، قانون هوك σ = E · ε، حدود الخضوع المرن، ونقطة الانقطاع.',
+    logged: 'تم التسجيل في الدفتر ✓',
+    log: 'تسجيل في دفتر المختبر',
+    testParams: 'معايير الاختبار والمادة',
+    selectMaterial: 'اختيار مادة العينة:',
+    appliedForce: 'قوة الشد المطبقة (F):',
+    crossArea: 'مساحة المقطع العرضي (A):',
+    initialLength: 'الطول الأصلي للعينة (L₀):',
+    manualOverride: 'قياس الاستطالة يدوياً (ΔL):',
+    manualHelp: 'أدخل الاستطالة المقاسة لحساب معامل يونج تجريبياً',
+    fractured: 'تحذير: انقطاع وكسر العينة (Fracture!)',
+    plasticYield: 'تجاوز حد الخضوع: تشوه لدن دائم (Plastic Yield)',
+    linearElastic: 'المنطقة المرنة الخطية: قانون هوك سارٍ',
+    stress: 'الإجهاد الميكانيكي (σ)',
+    strain: 'الانفعال الخطي (ε)',
+    youngModulus: 'معامل يونج المحسوب (E)',
+    strainEnergy: 'طاقة الانفعال الحجمية (u)',
+  };
+
+  const getMaterialName = (m: MaterialSpec) => {
+    const matNames: Record<string, string> = {
+      ar: m.nameAr,
+      ku: m.nameKu,
+      kmr: m.nameKmr || m.nameEn,
+      en: m.nameEn,
+    };
+    return matNames[lang] || m.nameAr;
+  };
   // Parameters
   const [selectedMatIdx, setSelectedMatIdx] = useState<number>(0);
   const [appliedForceKN, setAppliedForceKN] = useState<number>(25); // kN (0 to 100)
@@ -334,12 +446,12 @@ export default function StressStrainSim({ lang, onLogMeasurement }: Props) {
   const handleLog = () => {
     onLogMeasurement({
       experiment: 'stress_strain',
-      variableName: `Young's Modulus E (${material.nameEn})`,
+      variableName: `${t.youngModulus} (${getMaterialName(material)})`,
       measuredValue: calculatedYoungGPa,
       theoreticalValue: material.youngModulusGPa,
       unit: 'GPa',
       parameters: {
-        Material: material.nameEn,
+        Material: getMaterialName(material),
         'Applied Force F': `${appliedForceKN} kN`,
         'Area A': `${crossAreaMm2} mm²`,
         'Initial Length L0': `${initialLengthM} m`,
@@ -348,7 +460,7 @@ export default function StressStrainSim({ lang, onLogMeasurement }: Props) {
         'Strain ε': `${actualStrain.toFixed(6)}`,
       },
       equation: `E = σ / ε = (F / A) / (ΔL / L₀) = (${stressMPa.toFixed(2)} MPa) / (${actualStrain.toFixed(6)}) = ${calculatedYoungGPa.toFixed(2)} GPa`,
-      notes: `Tensile stress-strain test. State: ${isFractured ? 'Fractured' : isYielded ? 'Plastic Yield' : 'Linear Elastic'}.`,
+      notes: `${t.desc} (${isFractured ? t.fractured : isYielded ? t.plasticYield : t.linearElastic}).`,
     });
     setLogged(true);
     setTimeout(() => setLogged(false), 2000);
@@ -361,17 +473,9 @@ export default function StressStrainSim({ lang, onLogMeasurement }: Props) {
         <div>
           <h2 className="text-base sm:text-lg font-bold text-zinc-100 flex items-center gap-2">
             <Activity className="w-5 h-5 text-emerald-400" />
-            <span>
-              {lang === 'ar' ? 'الإجهاد والانفعال ومعامل يونج (Stress, Strain & Young’s Modulus)' : lang === 'ku' ? 'تەنگژە و گرژبوون و هاوکۆلکەی یۆنگ بۆ ماددەکان' : 'Stress, Strain & Young’s Modulus'}
-            </span>
+            <span>{t.title}</span>
           </h2>
-          <p className="text-xs text-zinc-400 mt-1 max-w-2xl">
-            {lang === 'ar'
-              ? 'دراسة المرونة الميكانيكية للمواد الصلبة، قانون هوك σ = E · ε، حدود الخضوع المرن، ونقطة الانقطاع.'
-              : lang === 'ku'
-              ? 'لێکۆڵینەوە لە نەرمی و پتەوی ماددەکان، یاسای هووک σ = E · ε و سنووری شکان.'
-              : 'Investigation of solid mechanics elasticity, Hooke’s law σ = E · ε, yield strength, and fracture limits.'}
-          </p>
+          <p className="text-xs text-zinc-400 mt-1 max-w-2xl">{t.desc}</p>
         </div>
 
         <button
@@ -383,7 +487,7 @@ export default function StressStrainSim({ lang, onLogMeasurement }: Props) {
           }`}
         >
           <BookmarkCheck className="w-4 h-4" />
-          <span>{logged ? (lang === 'ar' ? 'تم التسجيل في الدفتر ✓' : 'Logged ✓') : (lang === 'ar' ? 'تسجيل في دفتر المختبر' : 'Log Measurement')}</span>
+          <span>{logged ? t.logged : t.log}</span>
         </button>
       </div>
 
@@ -394,14 +498,14 @@ export default function StressStrainSim({ lang, onLogMeasurement }: Props) {
           <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
             <span className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
               <Cpu className="w-4 h-4 text-emerald-400" />
-              {lang === 'ar' ? 'معايير الاختبار والمادة' : 'Test Parameters'}
+              {t.testParams}
             </span>
           </div>
 
           {/* Material Select */}
           <div>
             <label className="text-xs text-zinc-400 block mb-1.5 font-medium">
-              {lang === 'ar' ? 'اختيار مادة العينة:' : 'Specimen Material:'}
+              {t.selectMaterial}
             </label>
             <select
               value={selectedMatIdx}
@@ -410,7 +514,7 @@ export default function StressStrainSim({ lang, onLogMeasurement }: Props) {
             >
               {MATERIALS.map((m, idx) => (
                 <option key={m.id} value={idx}>
-                  {lang === 'ar' ? m.nameAr : lang === 'ku' ? m.nameKu : m.nameEn} (E={m.youngModulusGPa} GPa)
+                  {getMaterialName(m)} (E={m.youngModulusGPa} GPa)
                 </option>
               ))}
             </select>
@@ -419,7 +523,7 @@ export default function StressStrainSim({ lang, onLogMeasurement }: Props) {
           {/* Applied Force Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'قوة الشد المطبقة (F):' : 'Applied Tensile Force (F):'}</span>
+              <span className="text-zinc-400">{t.appliedForce}</span>
               <span className="font-mono text-emerald-400 font-semibold">{appliedForceKN} kN ({(appliedForceKN * 1000).toLocaleString()} N)</span>
             </div>
             <input
@@ -436,7 +540,7 @@ export default function StressStrainSim({ lang, onLogMeasurement }: Props) {
           {/* Cross Section Area */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'مساحة المقطع العرضي (A):' : 'Cross-Section Area (A):'}</span>
+              <span className="text-zinc-400">{t.crossArea}</span>
               <span className="font-mono text-sky-400 font-semibold">{crossAreaMm2} mm²</span>
             </div>
             <input
@@ -453,7 +557,7 @@ export default function StressStrainSim({ lang, onLogMeasurement }: Props) {
           {/* Initial Length */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'الطول الأصلي للعينة (L₀):' : 'Initial Length (L₀):'}</span>
+              <span className="text-zinc-400">{t.initialLength}</span>
               <span className="font-mono text-amber-400 font-semibold">{initialLengthM.toFixed(2)} m</span>
             </div>
             <input
@@ -471,7 +575,7 @@ export default function StressStrainSim({ lang, onLogMeasurement }: Props) {
           <div className="p-3 rounded-xl bg-zinc-950 border border-zinc-800 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-[11px] text-zinc-300 font-medium">
-                {lang === 'ar' ? 'قياس الاستطالة يدوياً (ΔL):' : 'Manual Elongation Override:'}
+                {t.manualOverride}
               </span>
               <button
                 onClick={() => setIsManualDeltaL(!isManualDeltaL)}
@@ -493,7 +597,7 @@ export default function StressStrainSim({ lang, onLogMeasurement }: Props) {
                   className="w-full px-2.5 py-1.5 text-xs rounded-lg bg-zinc-900 border border-zinc-700 text-zinc-100 font-mono"
                 />
                 <span className="text-[10px] text-zinc-500 block mt-1">
-                  {lang === 'ar' ? 'أدخل الاستطالة المقاسة لحساب معامل يونج تجريبياً' : 'Input measured ΔL to derive experimental E'}
+                  {t.manualHelp}
                 </span>
               </div>
             )}
@@ -511,11 +615,7 @@ export default function StressStrainSim({ lang, onLogMeasurement }: Props) {
           >
             <ShieldAlert className="w-4 h-4" />
             <span>
-              {isFractured
-                ? (lang === 'ar' ? 'تحذير: انقطاع وكسر العينة (Fracture!)' : 'Specimen Fractured!')
-                : isYielded
-                ? (lang === 'ar' ? 'تجاوز حد الخضوع: تشوه لدن دائم (Plastic Yield)' : 'Plastic Deformation (Yield Point Exceeded)')
-                : (lang === 'ar' ? 'المنطقة المرنة الخطية: قانون هوك سارٍ' : 'Linear Elastic Region (Hooke’s Law Valid)')}
+              {isFractured ? t.fractured : isYielded ? t.plasticYield : t.linearElastic}
             </span>
           </div>
         </div>
@@ -536,7 +636,7 @@ export default function StressStrainSim({ lang, onLogMeasurement }: Props) {
             {/* Stress */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'الإجهاد الميكانيكي (σ)' : 'Stress (σ = F/A)'}
+                {t.stress}
               </span>
               <div className="text-lg font-bold font-mono text-sky-400">
                 {stressMPa.toFixed(2)} <span className="text-xs text-zinc-400">MPa</span>
@@ -547,7 +647,7 @@ export default function StressStrainSim({ lang, onLogMeasurement }: Props) {
             {/* Strain */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'الانفعال الخطي (ε)' : 'Strain (ε = ΔL/L₀)'}
+                {t.strain}
               </span>
               <div className="text-lg font-bold font-mono text-emerald-400">
                 {(actualStrain * 100).toFixed(4)} <span className="text-xs text-zinc-400">%</span>
@@ -558,7 +658,7 @@ export default function StressStrainSim({ lang, onLogMeasurement }: Props) {
             {/* Young Modulus */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'معامل يونج المحسوب (E)' : 'Young’s Modulus (E)'}
+                {t.youngModulus}
               </span>
               <div className="text-lg font-bold font-mono text-purple-400">
                 {calculatedYoungGPa.toFixed(2)} <span className="text-xs text-zinc-400">GPa</span>
@@ -569,7 +669,7 @@ export default function StressStrainSim({ lang, onLogMeasurement }: Props) {
             {/* Strain Energy */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'طاقة الانفعال الحجمية (u)' : 'Strain Energy (u)'}
+                {t.strainEnergy}
               </span>
               <div className="text-lg font-bold font-mono text-amber-400">
                 {strainEnergyDensityKJ.toFixed(2)} <span className="text-xs text-zinc-400">kJ/m³</span>

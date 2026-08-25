@@ -12,6 +12,58 @@ export default function GravityForceSim({ lang, onLogMeasurement }: Props) {
   const [m2, setM2] = useState<number>(100); // kg
   const [distance, setDistance] = useState<number>(4.0); // meters (2 to 10 m)
 
+  const t = {
+    ar: {
+      title: 'معمل قوة الجاذبية (قانون الجذب العام)',
+      logMeasurement: 'تسجيل القياس في الدفتر', // غير موثّق بمصدر
+      gravitationalForce: 'قوة التجاذب الثقالي',
+      thirdLawNote: 'تتجاذب الكتلتان بقوتين متساويتين مقداراً ومتعاكستين اتجاهاً طبقاً لقانون نيوتن الثالث (F₁₂ = -F₂₁).',
+      simulationInputs: 'المتغيرات القابلة للتحكم', // غير موثّق بمصدر
+      mass1: 'كتلة الجسم الأول (m₁):',
+      mass2: 'كتلة الجسم الثاني (m₂):',
+      distance: 'المسافة بين المركزين (r):',
+    },
+    en: {
+      title: 'Gravity Force Lab (Universal Gravitation Law)',
+      logMeasurement: 'Log Measurement', // غير موثّق بمصدر
+      gravitationalForce: 'Gravitational Force',
+      thirdLawNote: 'Both masses attract each other with equal and opposite force vectors according to Newton Third Law (F₁₂ = -F₂₁).',
+      simulationInputs: 'Simulation Inputs', // غير موثّق بمصدر
+      mass1: 'Mass 1 (m₁):',
+      mass2: 'Mass 2 (m₂):',
+      distance: 'Distance between centers (r):',
+    },
+    ku: {
+      title: 'تاقیگەی هێزی کێشکردن (یاسای گەردوونیی کێشکردن)',
+      logMeasurement: 'تۆمارکردنی پێوانە لە دەفتەردا', // غير موثّق بمصدر
+      gravitationalForce: 'هێزی ڕاکێشانی کێشکردن',
+      thirdLawNote: 'هەردوو بارستەکە یەكتر ڕادەکێشن بە دوو هێزی یەكسان لە بڕدا و پێچەوانە لە ئاڕاستەدا بەپێی یاسای سێیەمی نیوتن (F₁₂ = -F₂₁).',
+      simulationInputs: 'گۆڕاوەکانی توانای کۆنترۆڵکردن', // غير موثّق بمصدر
+      mass1: 'بارستەی تەنی یەکەم (m₁):',
+      mass2: 'بارستەی تەنی دووەم (m₂):',
+      distance: 'دووریی نێوان هەردوو چەقەکە (r):',
+    },
+    kmr: {
+      title: 'Laboratuvara hêza gravîtê (Qanûna gerdûnî ya gravîtê)',
+      logMeasurement: 'Tomarkirina pîvanê di defterê de', // غير موثّق بمصدر
+      gravitationalForce: 'Hêza kişandina gravîtî',
+      thirdLawNote: 'Her du bariste hevdu dikişînin bi du hêzên wekhev di mezinahiyê de û berovajî di alî de li gorî Qanûna Sêyem a Newton (F₁₂ = -F₂₁).',
+      simulationInputs: 'Guherbarên kontrolkirinê', // غير موثّق بمصدر
+      mass1: 'Baristeya gewdeyê yekem (m₁):',
+      mass2: 'Baristeya gewdeyê duyem (m₂):',
+      distance: 'Dûriya di navbera navendan de (r):',
+    },
+  }[lang] || {
+    title: 'معمل قوة الجاذبية (قانون الجذب العام)',
+    logMeasurement: 'تسجيل القياس في الدفتر',
+    gravitationalForce: 'قوة التجاذب الثقالي',
+    thirdLawNote: 'تتجاذب الكتلتان بقوتين متساويتين مقداراً ومتعاكستين اتجاهاً طبقاً لقانون نيوتن الثالث (F₁₂ = -F₂₁).',
+    simulationInputs: 'المتغيرات القابلة للتحكم',
+    mass1: 'كتلة الجسم الأول (m₁):',
+    mass2: 'كتلة الجسم الثاني (m₂):',
+    distance: 'المسافة بين المركزين (r):',
+  };
+
   // Universal Gravitational Constant G = 6.67430e-11 N m^2 / kg^2
   const G = 6.6743e-11;
 
@@ -48,7 +100,7 @@ export default function GravityForceSim({ lang, onLogMeasurement }: Props) {
           </div>
           <div>
             <h3 className="text-sm font-bold text-white">
-              {lang === 'ar' ? 'معمل قوة الجاذبية (قانون الجذب العام)' : 'Gravity Force Lab (Newton Law)'}
+              {t.title}
             </h3>
             <p className="text-xs text-slate-400 font-mono">F = G · m₁ · m₂ / r²</p>
           </div>
@@ -58,7 +110,7 @@ export default function GravityForceSim({ lang, onLogMeasurement }: Props) {
           className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow flex items-center gap-1.5 transition-all"
         >
           <Activity className="w-3.5 h-3.5" />
-          <span>{lang === 'ar' ? 'تسجيل القياس في الدفتر' : 'Log Measurement'}</span>
+          <span>{t.logMeasurement}</span>
         </button>
       </div>
 
@@ -103,7 +155,7 @@ export default function GravityForceSim({ lang, onLogMeasurement }: Props) {
             {/* Center Measurement Readout */}
             <div className="bg-slate-900/90 border border-emerald-500/40 px-4 py-2 rounded-xl text-center shadow-lg">
               <span className="text-[10px] text-slate-400 block uppercase">
-                {lang === 'ar' ? 'قوة التجاذب الثقالي' : 'Gravitational Force'}
+                {t.gravitationalForce}
               </span>
               <span className="text-sm font-mono font-bold text-emerald-300">{forceNanoN} nN</span>
               <span className="text-[10px] font-mono text-slate-400 block">({forceSci} N)</span>
@@ -134,9 +186,7 @@ export default function GravityForceSim({ lang, onLogMeasurement }: Props) {
           </div>
 
           <div className="text-[11px] text-slate-400 mt-3 text-center">
-            {lang === 'ar'
-              ? 'تتجاذب الكتلتان بقوتين متساويتين مقداراً ومتعاكستين اتجاهاً طبقاً لقانون نيوتن الثالث (F₁₂ = -F₂₁).'
-              : 'Both spheres pull with equal and opposite force vectors according to Newton Third Law.'}
+            {t.thirdLawNote}
           </div>
         </div>
 
@@ -144,13 +194,13 @@ export default function GravityForceSim({ lang, onLogMeasurement }: Props) {
         <div className="lg:col-span-4 space-y-4">
           <div className="bg-slate-950 border border-slate-800 rounded-xl p-3.5 space-y-3">
             <h4 className="text-xs font-bold text-emerald-300 uppercase tracking-wider">
-              {lang === 'ar' ? 'المتغيرات القابلة للتحكم' : 'Simulation Inputs'}
+              {t.simulationInputs}
             </h4>
 
             {/* Mass 1 Slider */}
             <div className="space-y-1">
               <div className="flex justify-between text-xs">
-                <span className="text-slate-300">{lang === 'ar' ? 'كتلة الجسم الأول (m₁):' : 'Mass 1 (m₁):'}</span>
+                <span className="text-slate-300">{t.mass1}</span>
                 <span className="font-mono text-blue-400 font-bold">{m1} kg</span>
               </div>
               <input
@@ -167,7 +217,7 @@ export default function GravityForceSim({ lang, onLogMeasurement }: Props) {
             {/* Mass 2 Slider */}
             <div className="space-y-1">
               <div className="flex justify-between text-xs">
-                <span className="text-slate-300">{lang === 'ar' ? 'كتلة الجسم الثاني (m₂):' : 'Mass 2 (m₂):'}</span>
+                <span className="text-slate-300">{t.mass2}</span>
                 <span className="font-mono text-orange-400 font-bold">{m2} kg</span>
               </div>
               <input
@@ -184,7 +234,7 @@ export default function GravityForceSim({ lang, onLogMeasurement }: Props) {
             {/* Distance Slider */}
             <div className="space-y-1">
               <div className="flex justify-between text-xs">
-                <span className="text-slate-300">{lang === 'ar' ? 'المسافة بين المركزين (r):' : 'Distance (r):'}</span>
+                <span className="text-slate-300">{t.distance}</span>
                 <span className="font-mono text-emerald-400 font-bold">{distance.toFixed(1)} m</span>
               </div>
               <input

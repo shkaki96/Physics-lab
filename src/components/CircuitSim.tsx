@@ -13,6 +13,34 @@ export default function CircuitSim({ lang, onLogMeasurement }: Props) {
   const common = TRANSLATIONS[lang].common;
   const ctrl = TRANSLATIONS[lang].controls;
 
+  const localTranslations = {
+    ar: {
+      varTotalCurrent: 'شدة التيار الكلي للدائرة (I)',
+      notesText: 'تم التحقق من قانون أوم V = I · R وتوزيع الجهد والتيار.',
+      componentSettingsTitle: 'قيم عناصر الدائرة الكهربائية', // غير موثّق بمصدر
+      liveCalculationsTitle: 'الحسابات الحية للدائرة:', // غير موثّق بمصدر
+    },
+    en: {
+      varTotalCurrent: 'Total Circuit Current (I)',
+      notesText: "Verified Ohm's Law and series/parallel resistor rules.",
+      componentSettingsTitle: 'Circuit Component Settings', // غير موثّق بمصدر
+      liveCalculationsTitle: 'Live Calculations:', // غير موثّق بمصدر
+    },
+    ku: {
+      varTotalCurrent: 'تەوژمی گشتی خولگەی کارەبایی (I)',
+      notesText: 'یاسای ئۆم V = I · R و دابەشبوونی ئەرک و تەوژم پشتڕاستکرایەوە.', // غير موثّق بمصدر
+      componentSettingsTitle: 'بەهای بەشەکانی خولگەی کارەبایی', // غير موثّق بمصدر
+      liveCalculationsTitle: 'ئەژمارکارییە ڕاستەوخۆکانی خولگە:', // غير موثّق بمصدر
+    },
+    kmr: {
+      varTotalCurrent: 'Tewşema giştî ya çerxa elektrîkî (I)',
+      notesText: 'Qanûna Ohm V = I · R û belavbûna voltaj û tewşemê hate îspatkirin.', // غير موثّق بمصدر
+      componentSettingsTitle: 'Nirxên hêmanên çerxa elektrîkî', // غير موثّق بمصدر
+      liveCalculationsTitle: 'Hesabên zindî yên çerxê:', // غير موثّق بمصدر
+    },
+  };
+  const tText = localTranslations[lang] || localTranslations['ar'];
+
   // Parameters
   const [voltage, setVoltage] = useState(12); // Volts (1 to 24)
   const [r1, setR1] = useState(10); // Ohms (1 to 100)
@@ -316,7 +344,7 @@ export default function CircuitSim({ lang, onLogMeasurement }: Props) {
   const handleLog = () => {
     onLogMeasurement({
       experiment: 'circuits',
-      variableName: lang === 'ar' ? 'شدة التيار الكلي للدائرة (I)' : 'Total Circuit Current (I)',
+      variableName: tText.varTotalCurrent,
       measuredValue: Number(totalCurrent.toFixed(3)),
       theoreticalValue: Number(totalCurrent.toFixed(3)),
       unit: 'A',
@@ -328,7 +356,7 @@ export default function CircuitSim({ lang, onLogMeasurement }: Props) {
         'Equivalent Resistance': `${req.toFixed(2)} Ω`,
         Power: `${totalPower.toFixed(2)} W`,
       },
-      notes: lang === 'ar' ? 'تم التحقق من قانون أوم V = I · R وتوزيع الجهد والتيار.' : "Verified Ohm's Law and series/parallel resistor rules.",
+      notes: tText.notesText,
     });
 
     setLoggedSuccess(true);
@@ -457,7 +485,7 @@ export default function CircuitSim({ lang, onLogMeasurement }: Props) {
         <div className="lg:col-span-5 space-y-4">
           <div className="p-5 rounded-xl border border-zinc-800 bg-zinc-900/40 space-y-4">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-              {lang === 'ar' ? 'قيم عناصر الدائرة الكهربائية' : 'Circuit Component Settings'}
+              {tText.componentSettingsTitle}
             </h3>
 
             {/* Battery Voltage */}
@@ -520,7 +548,7 @@ export default function CircuitSim({ lang, onLogMeasurement }: Props) {
             <div className="p-3 rounded-lg bg-zinc-950/60 border border-zinc-800 text-xs font-mono text-zinc-300 space-y-1">
               <div className="text-zinc-400 text-[11px] font-sans flex items-center gap-1.5">
                 <Activity className="w-3.5 h-3.5 text-sky-400" />
-                {lang === 'ar' ? 'الحسابات الحية للدائرة:' : 'Live Calculations:'}
+                {tText.liveCalculationsTitle}
               </div>
               <div>I = {voltage}V / {req.toFixed(2)}Ω = <span className="text-sky-400 font-bold">{totalCurrent.toFixed(3)} A</span></div>
               <div>P = {voltage}V × {totalCurrent.toFixed(3)}A = <span className="text-amber-400 font-bold">{totalPower.toFixed(2)} W</span></div>

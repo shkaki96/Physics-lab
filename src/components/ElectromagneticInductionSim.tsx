@@ -8,6 +8,107 @@ interface Props {
 }
 
 export default function ElectromagneticInductionSim({ lang, onLogMeasurement }: Props) {
+  const t = {
+    ar: {
+      title: 'الحث الكهرومغناطيسي وقانون فاراداي (EM Induction)',
+      subTitle: 'الحث الكهرومغناطيسي وقانون فاراداي',
+      desc: 'توليد القوة الدافعة الكهربائية الحثية ε = -N·ΔΦB/Δt والتيار الحثي عبر حركة المغناطيس داخل ملف حلزوني متعدد اللفات.',
+      coilTurns: 'عدد لفات الملف (N):',
+      magnetSpeed: 'سرعة حركة المغناطيس (v):',
+      magneticField: 'شدة المجال المغناطيسي (B):',
+      coilResistance: 'مقاومة الدائرة (R):',
+      controlsTitle: 'معايير الملف والمغناطيس', // غير موثّق بمصدر
+      inducedEmf: 'القوة الدافعة الحثية (ε)',
+      inducedCurrent: 'التيار الحثي المتولد (I)',
+      fluxChangeRate: 'معدل تغير التدفق (dΦ/dt)',
+      coilLoopsLabel: 'عدد لفات الملف',
+      turnsSuffix: 'لفة',
+      galvanometerLabel: 'G (جلفانومتر)', // غير موثّق بمصدر
+      loggedSuccess: 'تم التسجيل في الدفتر ✓', // غير موثّق بمصدر
+      logData: 'تسجيل في دفتر المختبر', // غير موثّق بمصدر
+      variableName: 'القوة الدافعة الكهربائية الحثية ε',
+      notes: 'تجربة الحث الكهرومغناطيسي وقانون فاراداي وقانون لينز باستعمال مغناطيس وملف حلزوني.',
+    },
+    en: {
+      title: 'Electromagnetic Induction (Faraday’s Law)',
+      subTitle: 'Electromagnetic Induction and Faraday Law',
+      desc: 'Generating induced EMF ε = -N(dΦ/dt) and current from relative motion between a magnet and a multi-turn solenoid coil.',
+      coilTurns: 'Coil Turns (N):',
+      magnetSpeed: 'Magnet Velocity (v):',
+      magneticField: 'Magnetic Field (B):',
+      coilResistance: 'Circuit Resistance (R):',
+      controlsTitle: 'Coil & Magnet Controls', // غير موثّق بمصدر
+      inducedEmf: 'Induced EMF (ε)',
+      inducedCurrent: 'Induced Current (I)',
+      fluxChangeRate: 'Flux Change Rate (dΦ/dt)',
+      coilLoopsLabel: 'Coil Loops',
+      turnsSuffix: 'turns',
+      galvanometerLabel: 'G (Galvanometer)', // غير موثّق بمصدر
+      loggedSuccess: 'Logged ✓', // غير موثّق بمصدر
+      logData: 'Log Measurement', // غير موثّق بمصدر
+      variableName: 'Induced EMF ε & Current',
+      notes: 'Electromagnetic induction simulation demonstrating Faraday Law and Lenz Law.',
+    },
+    ku: {
+      title: 'هاندانی کارۆموگناتیسی و یاسای فارادای',
+      subTitle: 'هاندانی کارۆموگناتیسی و یاسای فارادای',
+      desc: 'دروستکردنی تەزووی کارەبایی هاندراو لەڕێگەی جووڵەی موگناتیس لەناو کۆیلدا بەپێی یاسای فارادای.',
+      coilTurns: 'ژمارەی خولەکانی کۆیل (N):',
+      magnetSpeed: 'خێرایی جووڵەی موگناتیس (v):',
+      magneticField: 'توندوتیژی بواری موگناتیسی (B):',
+      coilResistance: 'بەرگری بازنەکە (R):',
+      controlsTitle: 'تایبەتمەندییەکانی کۆیل و موگناتیس', // غير موثّق بمصدر
+      inducedEmf: 'هێزی جووڵێنەری کارەبایی هاندراو (ε)',
+      inducedCurrent: 'تەزووی کارەبایی هاندراو (I)',
+      fluxChangeRate: 'ڕێژەی گۆڕانی שטحی موگناتیسی (dΦ/dt)',
+      coilLoopsLabel: 'ژمارەی خولەکانی کۆیل',
+      turnsSuffix: 'خول',
+      galvanometerLabel: 'G (گالڤانۆمیتەر)', // غير موثّق بمصدر
+      loggedSuccess: 'تۆمارکرا ✓', // غير موثّق بمصدر
+      logData: 'تۆمارکردنی پێوانە', // غير موثّق بمصدر
+      variableName: 'هێزی جووڵێنەری کارەبایی هاندراو ε',
+      notes: 'تاقیکردنەوەی هاندانی کارۆموگناتیسی و یاسای فارادای.',
+    },
+    kmr: {
+      title: 'Teşwîqa Elektromanyetîk û Qanûna Faraday',
+      subTitle: 'Teşwîqa Elektromanyetîk û Qanûna Faraday',
+      desc: 'Çêkirina hêza ajokera elektrîkî ya teşwîqkirî û herikîna elektrîkê bi rêya tevgera magnetê di nav solenoîdê de.',
+      coilTurns: 'Hejmara dorpêçên solenoîdê (N):',
+      magnetSpeed: 'Leza tevgera magnetê (v):',
+      magneticField: 'Hêza qada elektromanyetîk (B):',
+      coilResistance: 'Berxwedana çerxê (R):',
+      controlsTitle: 'Parametreyên solenoîd û magnetê', // غير موثّق بمصدر
+      inducedEmf: 'Hêza ajokera elektrîkî ya teşwîqkirî (ε)',
+      inducedCurrent: 'Herikîna teşwîqkirî (I)',
+      fluxChangeRate: 'Rêjeya guherîna şewqa magnetîkî (dΦ/dt)',
+      coilLoopsLabel: 'Dorpêçên solenoîdê',
+      turnsSuffix: 'dorpêç',
+      galvanometerLabel: 'G (Galvanometer)', // غير موثّق بمصدر
+      loggedSuccess: 'Hat tomarkirin ✓', // غير موثّق بمصدر
+      logData: 'Pêvanê tomar bike', // غير موثّق بمصدر
+      variableName: 'Hêza ajokera elektrîkî ya teşwîqkirî ε',
+      notes: 'Ezmûna teşwîqa elektromanyetîk û qanûna Faraday.',
+    },
+  }[lang] || {
+    title: 'الحث الكهرومغناطيسي وقانون فاراداي (EM Induction)',
+    subTitle: 'الحث الكهرومغناطيسي وقانون فاراداي',
+    desc: 'توليد القوة الدافعة الكهربائية الحثية ε = -N·ΔΦB/Δt والتيار الحثي عبر حركة المغناطيس داخل ملف حلزوني متعدد اللفات.',
+    coilTurns: 'عدد لفات الملف (N):',
+    magnetSpeed: 'سرعة حركة المغناطيس (v):',
+    magneticField: 'شدة المجال المغناطيسي (B):',
+    coilResistance: 'مقاومة الدائرة (R):',
+    controlsTitle: 'معايير الملف والمغناطيس',
+    inducedEmf: 'القوة الدافعة الحثية (ε)',
+    inducedCurrent: 'التيار الحثي المتولد (I)',
+    fluxChangeRate: 'معدل تغير التدفق (dΦ/dt)',
+    coilLoopsLabel: 'عدد لفات الملف',
+    turnsSuffix: 'لفة',
+    galvanometerLabel: 'G (جلفانومتر)',
+    loggedSuccess: 'تم التسجيل في الدفتر ✓',
+    logData: 'تسجيل في دفتر المختبر',
+    variableName: 'القوة الدافعة الكهربائية الحثية ε',
+    notes: 'تجربة الحث الكهرومغناطيسي وقانون فاراداي وقانون لينز باستعمال مغناطيس وملف حلزوني.',
+  };
   // Inputs
   const [coilTurnsN, setCoilTurnsN] = useState<number>(50); // turns
   const [magnetSpeedMps, setMagnetSpeedMps] = useState<number>(1.2); // m/s
@@ -249,7 +350,7 @@ export default function ElectromagneticInductionSim({ lang, onLogMeasurement }: 
   const handleLog = () => {
     onLogMeasurement({
       experiment: 'electromagnetic_induction',
-      variableName: 'Induced EMF ε & Current (Faraday Induction)',
+      variableName: t.variableName,
       measuredValue: Number(maxEmfVolts.toFixed(3)),
       theoreticalValue: Number((coilTurnsN * magneticFieldTesla * coilAreaM2 * magnetSpeedMps * 20).toFixed(3)),
       unit: 'Volts (V)',
@@ -262,7 +363,7 @@ export default function ElectromagneticInductionSim({ lang, onLogMeasurement }: 
         'Peak Induced Current I': `${maxCurrentMilliAmps.toFixed(1)} mA`,
       },
       equation: `ε = -N · (dΦ_B / dt) = -N · A · (dB/dt) ≈ ${maxEmfVolts.toFixed(3)} V, I = ε / R = ${maxCurrentMilliAmps.toFixed(1)} mA`,
-      notes: `Electromagnetic induction simulation demonstrating Faraday's Law and Lenz's Law via moving bar magnet inside a multi-turn solenoid.`,
+      notes: t.notes,
     });
     setLogged(true);
     setTimeout(() => setLogged(false), 2000);
@@ -276,15 +377,11 @@ export default function ElectromagneticInductionSim({ lang, onLogMeasurement }: 
           <h2 className="text-base sm:text-lg font-bold text-zinc-100 flex items-center gap-2">
             <Zap className="w-5 h-5 text-yellow-400" />
             <span>
-              {lang === 'ar' ? 'الحث الكهرومغناطيسي وقانون فاراداي ولينز (EM Induction)' : lang === 'ku' ? 'هاندانی کارۆموگناتیسی و یاسای فارادای' : 'Electromagnetic Induction (Faraday’s Law)'}
+              {t.title}
             </span>
           </h2>
           <p className="text-xs text-zinc-400 mt-1 max-w-2xl">
-            {lang === 'ar'
-              ? 'توليد القوة الدافعة الكهربائية الحثية ε = -N·ΔΦB/Δt والتيار الحثي عبر حركة المغناطيس داخل ملف حلزوني متعدد اللفات.'
-              : lang === 'ku'
-              ? 'دروستکردنی تەزووی کارەبایی هاندراو لەڕێگەی جووڵەی موگناتیس لەناو کۆیلدا بەپێی یاسای فارادای.'
-              : 'Generating induced EMF ε = -N(dΦ/dt) and current from relative motion between a magnet and a multi-turn solenoid coil.'}
+            {t.desc}
           </p>
         </div>
 
@@ -304,7 +401,7 @@ export default function ElectromagneticInductionSim({ lang, onLogMeasurement }: 
             }`}
           >
             <BookmarkCheck className="w-4 h-4" />
-            <span>{logged ? (lang === 'ar' ? 'تم التسجيل في الدفتر ✓' : 'Logged ✓') : (lang === 'ar' ? 'تسجيل في دفتر المختبر' : 'Log Measurement')}</span>
+            <span>{logged ? t.loggedSuccess : t.logData}</span>
           </button>
         </div>
       </div>
@@ -316,15 +413,15 @@ export default function ElectromagneticInductionSim({ lang, onLogMeasurement }: 
           <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
             <span className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
               <Sliders className="w-4 h-4 text-yellow-400" />
-              {lang === 'ar' ? 'معايير الملف والمغناطيس' : 'Coil & Magnet Controls'}
+              {t.controlsTitle}
             </span>
           </div>
 
           {/* Coil Turns Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'عدد لفات الملف (N):' : 'Coil Turns (N):'}</span>
-              <span className="font-mono text-yellow-400 font-semibold">{coilTurnsN} turns</span>
+              <span className="text-zinc-400">{t.coilTurns}</span>
+              <span className="font-mono text-yellow-400 font-semibold">{coilTurnsN} {t.turnsSuffix}</span>
             </div>
             <input
               type="range"
@@ -340,7 +437,7 @@ export default function ElectromagneticInductionSim({ lang, onLogMeasurement }: 
           {/* Magnet Speed Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'سرعة حركة المغناطيس (v):' : 'Magnet Velocity (v):'}</span>
+              <span className="text-zinc-400">{t.magnetSpeed}</span>
               <span className="font-mono text-emerald-400 font-semibold">{magnetSpeedMps.toFixed(1)} m/s</span>
             </div>
             <input
@@ -357,7 +454,7 @@ export default function ElectromagneticInductionSim({ lang, onLogMeasurement }: 
           {/* Magnetic Field Strength Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'شدة المجال المغناطيسي (B):' : 'Magnetic Field (B):'}</span>
+              <span className="text-zinc-400">{t.magneticField}</span>
               <span className="font-mono text-rose-400 font-semibold">{magneticFieldTesla.toFixed(2)} T</span>
             </div>
             <input
@@ -374,7 +471,7 @@ export default function ElectromagneticInductionSim({ lang, onLogMeasurement }: 
           {/* Coil Resistance Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'مقاومة الدائرة (R):' : 'Circuit Resistance (R):'}</span>
+              <span className="text-zinc-400">{t.coilResistance}</span>
               <span className="font-mono text-sky-400 font-semibold">{coilResistanceOhm} Ω</span>
             </div>
             <input
@@ -404,7 +501,7 @@ export default function ElectromagneticInductionSim({ lang, onLogMeasurement }: 
             {/* Peak EMF */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'القوة الدافعة الحثية (ε)' : 'Induced EMF (ε)'}
+                {t.inducedEmf}
               </span>
               <div className="text-xl font-bold font-mono text-yellow-400">
                 {maxEmfVolts.toFixed(3)} <span className="text-xs text-zinc-400">V</span>
@@ -415,7 +512,7 @@ export default function ElectromagneticInductionSim({ lang, onLogMeasurement }: 
             {/* Induced Current */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'التيار الحثي المتولد (I)' : 'Induced Current (I)'}
+                {t.inducedCurrent}
               </span>
               <div className="text-xl font-bold font-mono text-emerald-400">
                 {maxCurrentMilliAmps.toFixed(1)} <span className="text-xs text-zinc-400">mA</span>
@@ -426,7 +523,7 @@ export default function ElectromagneticInductionSim({ lang, onLogMeasurement }: 
             {/* Magnetic Flux Rate */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'معدل تغير التدفق (dΦ/dt)' : 'Flux Change (dΦ/dt)'}
+                {t.fluxChangeRate}
               </span>
               <div className="text-xl font-bold font-mono text-sky-400">
                 {(magneticFieldTesla * magnetSpeedMps * 0.1).toFixed(3)} <span className="text-xs text-zinc-400">Wb/s</span>
@@ -437,10 +534,10 @@ export default function ElectromagneticInductionSim({ lang, onLogMeasurement }: 
             {/* Coil Turns N */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'عدد لفات الملف' : 'Coil Loops'}
+                {t.coilLoopsLabel}
               </span>
               <div className="text-xl font-bold font-mono text-amber-400">
-                {coilTurnsN} <span className="text-xs text-zinc-400">turns</span>
+                {coilTurnsN} <span className="text-xs text-zinc-400">{t.turnsSuffix}</span>
               </div>
               <span className="text-[9px] text-zinc-500 font-mono">Solenoid</span>
             </div>

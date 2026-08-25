@@ -32,6 +32,7 @@ export const CapacitorSim: React.FC<CapacitorSimProps> = ({ lang }) => {
   const t = {
     ar: {
       title: 'مختبر المكثف الكهربائي وسعة التخزين (C = ε₀A/d, Q = CV)',
+      subtitle: 'مختبر الفيزياء الكهرومغناطيسية', // غير موثّق بمصدر
       batteryVoltage: 'جهد البطارية (V)',
       plateArea: 'مساحة اللوحين (A)',
       separation: 'المسافة الفاصلة بين اللوحين (d)',
@@ -44,9 +45,12 @@ export const CapacitorSim: React.FC<CapacitorSimProps> = ({ lang }) => {
       paper: 'ورق (κ=3.5)',
       glass: 'زجاج (κ=5)',
       reset: 'إعادة ضبط',
+      topPlateLabel: '+Q (اللوح الموجب العلوي)', // غير موثّق بمصدر
+      bottomPlateLabel: '-Q (اللوح السلبي السفلي)', // غير موثّق بمصدر
     },
     en: {
       title: 'Capacitor Lab & Energy Storage (C = ε₀A/d, Q = CV)',
+      subtitle: 'Electromagnetism Physics Lab', // غير موثّق بمصدر
       batteryVoltage: 'Battery Voltage (V)',
       plateArea: 'Plate Area (A)',
       separation: 'Plate Separation (d)',
@@ -59,9 +63,12 @@ export const CapacitorSim: React.FC<CapacitorSimProps> = ({ lang }) => {
       paper: 'Paper (κ=3.5)',
       glass: 'Glass (κ=5)',
       reset: 'Reset',
+      topPlateLabel: '+Q (Top Positive Plate)', // غير موثّق بمصدر
+      bottomPlateLabel: '-Q (Bottom Negative Plate)', // غير موثّق بمصدر
     },
     ku: {
       title: 'تاقیگەی بارگەکەر (C = ε₀A/d, Q = CV)',
+      subtitle: 'تاقیگەی فیزیا', // غير موثّق بمصدر
       batteryVoltage: 'ڤۆڵتیەی باتری (V)',
       plateArea: 'ڕووبەری پلێتەکان (A)',
       separation: 'دووری نێوان پلێتەکان (d)',
@@ -74,9 +81,12 @@ export const CapacitorSim: React.FC<CapacitorSimProps> = ({ lang }) => {
       paper: 'کاغەز (κ=3.5)',
       glass: 'شووشە (κ=5)',
       reset: 'ڕێکخستنەوە',
+      topPlateLabel: '+Q (پلێتی ئەرێنی سەرەوە)', // غير موثّق بمصدر
+      bottomPlateLabel: '-Q (پلێتی نەرێنی خوارەوە)', // غير موثّق بمصدر
     },
     kmr: {
       title: 'Laboratûwara Kondansatorê (C = ε₀A/d, Q = CV)',
+      subtitle: 'Laboratûwara Fîzîkê', // غير موثّق بمصدر
       batteryVoltage: 'Voltaja Bataryayê (V)',
       plateArea: 'Rûbera Pelan (A)',
       separation: 'Dûriya Navberê (d)',
@@ -89,6 +99,8 @@ export const CapacitorSim: React.FC<CapacitorSimProps> = ({ lang }) => {
       paper: 'Kaxez (κ=3.5)',
       glass: 'Cam (κ=5)',
       reset: 'Nûkirin',
+      topPlateLabel: '+Q (Pela Erênî ya Jorîn)', // غير موثّق بمصدر
+      bottomPlateLabel: '-Q (Pela Negatîf a Jêrîn)', // غير موثّق بمصدر
     },
   }[lang];
 
@@ -101,7 +113,7 @@ export const CapacitorSim: React.FC<CapacitorSimProps> = ({ lang }) => {
           </div>
           <div>
             <h2 className="text-lg sm:text-xl font-bold text-white">{t.title}</h2>
-            <p className="text-xs text-slate-400 font-mono">CLUSTER B • SIMULATION 8</p>
+            <p className="text-xs text-slate-400 font-mono">{t.subtitle}</p>
           </div>
         </div>
 
@@ -132,7 +144,7 @@ export const CapacitorSim: React.FC<CapacitorSimProps> = ({ lang }) => {
                 <span key={i} className="font-bold">+</span>
               ))}
             </div>
-            <span className="text-[10px] text-red-400 font-semibold mt-0.5">+Q (Top Positive Plate)</span>
+            <span className="text-[10px] text-red-400 font-semibold mt-0.5">{t.topPlateLabel}</span>
           </div>
 
           {/* Electric Field Vector Zone */}
@@ -157,7 +169,7 @@ export const CapacitorSim: React.FC<CapacitorSimProps> = ({ lang }) => {
 
           {/* Bottom Plate */}
           <div className="w-full flex flex-col items-center pb-2">
-            <span className="text-[10px] text-blue-400 font-semibold mb-0.5">-Q (Bottom Negative Plate)</span>
+            <span className="text-[10px] text-blue-400 font-semibold mb-0.5">{t.bottomPlateLabel}</span>
             <div
               style={{ width: `${Math.min(Math.max((plateArea_mm2 / 400) * 100, 30), 90)}%` }}
               className="h-7 bg-gradient-to-r from-blue-600 to-indigo-500 rounded-lg border border-blue-300 shadow-lg flex items-center justify-around px-2 text-white font-mono text-[10px] transition-all"

@@ -17,6 +17,7 @@ export const WireResistanceSim: React.FC<WireResistanceSimProps> = ({ lang }) =>
   const t = {
     ar: {
       title: 'مقاومة السلك والعوامل المؤثرة (R = ρL / A)',
+      subtitle: 'مختبر الفيزياء الكهرومغناطيسية', // غير موثّق بمصدر
       resistivity: 'المقاومة النوعية للمادة (ρ)',
       length: 'طول السلك (L)',
       area: 'مساحة المقطع العرضي (A)',
@@ -28,6 +29,7 @@ export const WireResistanceSim: React.FC<WireResistanceSimProps> = ({ lang }) =>
     },
     en: {
       title: 'Resistance in a Wire Lab (R = ρL / A)',
+      subtitle: 'Electromagnetism Physics Lab', // غير موثّق بمصدر
       resistivity: 'Material Resistivity (ρ)',
       length: 'Wire Length (L)',
       area: 'Cross-Sectional Area (A)',
@@ -39,6 +41,7 @@ export const WireResistanceSim: React.FC<WireResistanceSimProps> = ({ lang }) =>
     },
     ku: {
       title: 'بەرگری لە وایەردا (R = ρL / A)',
+      subtitle: 'تاقیگەی فیزیا', // غير موثّق بمصدر
       resistivity: 'بەرگری جۆری ماددە (ρ)',
       length: 'درێژی وایەرەکە (L)',
       area: 'ڕووبەری بڕگە (A)',
@@ -50,6 +53,7 @@ export const WireResistanceSim: React.FC<WireResistanceSimProps> = ({ lang }) =>
     },
     kmr: {
       title: 'Berxwedana Têlê (R = ρL / A)',
+      subtitle: 'Laboratûwara Fîzîkê', // غير موثّق بمصدر
       resistivity: 'Berxwedana Taybet a Madeyê (ρ)',
       length: 'Dirêjahiya Têlê (L)',
       area: 'Rûbera Qada Têlê (A)',
@@ -70,7 +74,7 @@ export const WireResistanceSim: React.FC<WireResistanceSimProps> = ({ lang }) =>
           </div>
           <div>
             <h2 className="text-lg sm:text-xl font-bold text-white">{t.title}</h2>
-            <p className="text-xs text-slate-400 font-mono">CLUSTER B • SIMULATION 10</p>
+            <p className="text-xs text-slate-400 font-mono">{t.subtitle}</p>
           </div>
         </div>
 

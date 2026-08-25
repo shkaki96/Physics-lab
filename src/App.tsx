@@ -189,6 +189,11 @@ export default function App() {
     localStorage.setItem('physics_lab_records', JSON.stringify(records));
   }, [records]);
 
+  useEffect(() => {
+    document.documentElement.dir = lang === 'ku' || lang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
+  }, [lang]);
+
   // Add new measurement record
   const handleLogMeasurement = (data: Omit<MeasurementRecord, 'id' | 'timestamp' | 'percentError'>) => {
     const theoretical = data.theoreticalValue === 0 ? 0.0001 : data.theoreticalValue;
@@ -247,6 +252,12 @@ export default function App() {
       physical_law: 'ΔU = Q - W',
       simulation_inputs: ['كمية الحرارة المضافة Q', 'الشغل المبذول W', 'نوع الغاز'],
       simulation_outputs: ['التغير في الطاقة الداخلية ΔU', 'درجة الحرارة النهائية T', 'الحجم النهائي V'],
+      simulation_inputs_en: ['Added Heat Quantity Q', 'Work Done W', 'Gas Type'],
+      simulation_inputs_ku: ['بڕی گەرمی زیادکراو Q', 'ئیشی ئەنجامدراو W', 'جۆری گاز'],
+      simulation_inputs_kmr: ['Qaseya germahiya zêdekirî Q', 'Karê encamdayî W', 'Cûreyê gazê'],
+      simulation_outputs_en: ['Change in Internal Energy ΔU', 'Final Temperature T', 'Final Volume V'],
+      simulation_outputs_ku: ['گۆڕانی وزەی ناوەکی ΔU', 'پلەی گەرمی کۆتایی T', 'قەبارەی کۆتایی V'],
+      simulation_outputs_kmr: ['Guherîna enerjiya hundirîn ΔU', 'Pileya germahiyê ya dawî T', 'Qebareya dawî V'],
       icon: <Flame className="w-4 h-4 text-orange-400" />
     },
     {
@@ -260,6 +271,12 @@ export default function App() {
       physical_law: 'P = 1/f (Diopters)',
       simulation_inputs: ['نوع عيب الإبصار (قصر/طول نظر)', 'البعد البؤري للعين f_eye', 'بعد النقطة البعيدة/القريبة'],
       simulation_outputs: ['قوة العدسة التصحيحية P (ديوبتر)', 'موقع الصورة الشبكية', 'وضوح الرؤية'],
+      simulation_inputs_en: ['Vision Defect Type (Myopia / Hyperopia)', 'Eye Focal Length f_eye', 'Far / Near Point Distance'],
+      simulation_inputs_ku: ['جۆری کەمکووڕی بینین (کورتبینین/دووربینین)', 'دووری تیشکۆیی چاو f_eye', 'دووری خاڵی دوور/نزیك'],
+      simulation_inputs_kmr: ['Cûreyê kêmtişiya dîtinê (kurtbînî/dûrbînî)', 'Dirêjahiya tîşkî ya çav f_eye', 'Dûrahiya xala dûr/nêzîk'],
+      simulation_outputs_en: ['Corrective Lens Power P (Diopters)', 'Retinal Image Position', 'Visual Acuity'],
+      simulation_outputs_ku: ['توانای هاوێنەی ڕاستکەرەوە P (دیۆپتەر)', 'شوێنی وێنەی تۆڕەی چاو', 'ڕوونی بینین'],
+      simulation_outputs_kmr: ['Hêza lênsa راستکەرەوە P (diopter)', 'Cihê wêneyê di şebekeyê de', 'Zelaliya dîtinê'],
       icon: <Glasses className="w-4 h-4 text-sky-400" />
     },
     {
@@ -273,6 +290,12 @@ export default function App() {
       physical_law: 'θ_i = θ_r (45°)',
       simulation_inputs: ['زاوية ميلان المرآة الأولى θ1', 'زاوية ميلان المرآة الثانية θ2', 'ارتفاع المنظار h'],
       simulation_outputs: ['مسار الشعاع الضوئي', 'زاوية الخروج النهائية', 'تطابق زاوية الرؤية'],
+      simulation_inputs_en: ['First Mirror Tilt Angle θ1', 'Second Mirror Tilt Angle θ2', 'Periscope Height h'],
+      simulation_inputs_ku: ['گۆشەی لاری ئاوێنەی یەکەم θ1', 'گۆشەی لاری ئاوێنەی دووەم θ2', 'بەرزایی پێریسکۆپ h'],
+      simulation_inputs_kmr: ['Goşeya xwehrbûna neynika yekem θ1', 'Goşeya xwehrbûna neynika duyem θ2', 'Bilindahiya perîskopê h'],
+      simulation_outputs_en: ['Light Ray Path', 'Final Emergence Angle', 'Line-of-Sight Alignment'],
+      simulation_outputs_ku: ['ڕێڕەوی تیپکی ڕووناکی', 'گۆشەی دەربوونی کۆتایی', 'یەکسانبوونی گۆشەی بینین'],
+      simulation_outputs_kmr: ['Rêgeha tîrêja şewqê', 'Goşeya derketinê ya dawî', 'Guncana goşeya dîtinê'],
       icon: <Eye className="w-4 h-4 text-cyan-400" />
     },
     {
@@ -286,6 +309,12 @@ export default function App() {
       physical_law: 'F = k_e · |q₁·q₂| / r²',
       simulation_inputs: ['مقدار الشحنة q1 (كولوم)', 'مقدار الشحنة q2 (كولوم)', 'المسافة الفاصلة r (متر)'],
       simulation_outputs: ['القوة الكهروستاتيكية F (نيوتن)', 'نوع القوة (تجاذب / تنافر)', 'تسارع البالونات'],
+      simulation_inputs_en: ['Charge Magnitude q1 (C)', 'Charge Magnitude q2 (C)', 'Separation Distance r (m)'],
+      simulation_inputs_ku: ['بڕی بارگەی q1 (کۆڵۆم)', 'بڕی بارگەی q2 (کۆڵۆم)', 'دووری نێوانیان r (مەتر)'],
+      simulation_inputs_kmr: ['Nirxê barê elektrîkê q1 (C)', 'Nirxê barê elektrîkê q2 (C)', 'Dûrahiya navberê r (m)'],
+      simulation_outputs_en: ['Electrostatic Force F (N)', 'Force Type (Attraction / Repulsion)', 'Balloons Acceleration'],
+      simulation_outputs_ku: ['هێزی کارۆڕاکێشان F (نیوتن)', 'جۆری هێز (ڕاکێشان / پاڵنان)', 'تاودانی بالۆنەکان'],
+      simulation_outputs_kmr: ['Hêza elektrîkî F (N)', 'Cûreyê hêzê (Rakişîn / Paldan)', 'Lezîna balonan'],
       icon: <Zap className="w-4 h-4 text-yellow-400" />
     },
     {
@@ -318,6 +347,12 @@ export default function App() {
       physical_law: 'q = -k · A · (ΔT / L)',
       simulation_inputs: ['الموصلية الحرارية k للمادة', 'مساحة المقطع A', 'فرق درجات الحرارة ΔT', 'طول القضيب L'],
       simulation_outputs: ['معدل التدفق الحراري q (واط)', 'التدرج الحراري dT/dx', 'كمية الطاقة المنقولة'],
+      simulation_inputs_en: ['Thermal Conductivity k of Material', 'Cross-Sectional Area A', 'Temperature Difference ΔT', 'Rod Length L'],
+      simulation_inputs_ku: ['گەیەنەرایەتی گەرمی kی ماددە', 'ڕووبەری بڕین A', 'جیاوازی پلەکانی گەرمی ΔT', 'درێژی دارەکە L'],
+      simulation_inputs_kmr: ['Gihandina germahiyê k ya madeyê', 'Rûbera kurtkirinê A', 'Cudahiya pileyên germahiyê ΔT', 'Dirêjahiya darik L'],
+      simulation_outputs_en: ['Heat Transfer Rate q (W)', 'Thermal Gradient dT/dx', 'Transferred Energy Amount'],
+      simulation_outputs_ku: ['تێکڕای لێقوڵپینی گەرمی q (واط)', 'پلەبەپلەی گەرمی dT/dx', 'بڕی وزەی گوێزراوە'],
+      simulation_outputs_kmr: ['Rêjeya herikîna germahiyê q (Watt)', 'Pileyîbûna germahiyê dT/dx', 'Qaseya enerjiya veguhastî'],
       icon: <Flame className="w-4 h-4 text-rose-400" />
     },
     {
@@ -350,6 +385,12 @@ export default function App() {
       physical_law: 'ε = -N · (ΔΦ / Δt)',
       simulation_inputs: ['عدد لفات الملف N', 'سرعة حركة المغناطيس v', 'شدة المجال المغناطيسي B'],
       simulation_outputs: ['القوة الدافعة الكهربائية الحثية ε (فولت)', 'التيار الحثي I', 'إضاءة المصباح'],
+      simulation_inputs_en: ['Number of Coil Turns N', 'Magnet Speed v', 'Magnetic Field Intensity B'],
+      simulation_inputs_ku: ['ژمارەی پێچەکانی کۆیل N', 'خێرایی جووڵەی موگناتیس v', 'توندي بواری موگناتیسی B'],
+      simulation_inputs_kmr: ['Hejmara pêçanên bobînê N', 'Leza tevgera magnetîsê v', 'Xurtiya zeviya magnetîkî B'],
+      simulation_outputs_en: ['Induced Electromotive Force ε (V)', 'Induced Current I', 'Bulb Brightness'],
+      simulation_outputs_ku: ['هێزی کارۆبزوێنەری هاندراو ε (ڤۆڵت)', 'تەزووی موگناتیسکار I', 'ڕۆشنایی گلۆپەکە'],
+      simulation_outputs_kmr: ['Hêza livînera elektrîkî ya arîner ε (V)', 'Herikîna elektrîkî ya arîner I', 'Rûronahiya gulopê'],
       icon: <Magnet className="w-4 h-4 text-purple-400" />
     },
     {
@@ -363,6 +404,12 @@ export default function App() {
       physical_law: 'F_d = 6π · η · r · v_t',
       simulation_inputs: ['معامل لزوجة السائل η', 'نصف قطر الكرة r', 'كثافة الكرة ρ_s', 'كثافة السائل ρ_f'],
       simulation_outputs: ['السرعة الحدية v_t (م/ث)', 'قوة الإعاقة F_d', 'منحنى السرعة مع الزمن'],
+      simulation_inputs_en: ['Liquid Viscosity Coefficient η', 'Sphere Radius r', 'Sphere Density ρ_s', 'Liquid Density ρ_f'],
+      simulation_inputs_ku: ['هاوکۆڵکەی خەستی شلە η', 'نیوەتیرەی گۆڕەکە r', 'چڕیی گۆڕەکە ρ_s', 'چڕیی شلەکە ρ_f'],
+      simulation_inputs_kmr: ['Hevkêşeya lînciya rona η', 'Nîveşkêla gogê r', 'Tîriya gogê ρ_s', 'Tîriya rona ρ_f'],
+      simulation_outputs_en: ['Terminal Velocity v_t (m/s)', 'Drag Force F_d', 'Velocity vs Time Curve'],
+      simulation_outputs_ku: ['خێرایی سنووری v_t (م/چرکە)', 'هێزی ئاستەنگکردن F_d', 'هێڵکاری خێرایی لەگەڵ کاتدا'],
+      simulation_outputs_kmr: ['Leza sînorî v_t (m/s)', 'Hêza xwegiriyê F_d', 'Grafîka lezê bi demê re'],
       icon: <Droplets className="w-4 h-4 text-teal-400" />
     },
     {
@@ -433,6 +480,12 @@ export default function App() {
       physical_law: 'P + ½ρv² + ρgh = Const',
       simulation_inputs: ['معدل التدفق الحجمي Q', 'قطر المقطع العريض D1', 'قطر المقطع الضيق D2'],
       simulation_outputs: ['فرق الضغط ΔP', 'سرعة المائع في التضيق v2', 'ارتفاع عمود السائل في فنتوري'],
+      simulation_inputs_en: ['Volumetric Flow Rate Q', 'Wide Section Diameter D1', 'Narrow Section Diameter D2'],
+      simulation_inputs_ku: ['تێکڕای لێقوڵپینی قەبارەیی Q', 'تیرەی بڕە فراوانەکە D1', 'تیرەی بڕە تەسکەکە D2'],
+      simulation_inputs_kmr: ['Rêjeya herikîna qebareyî Q', 'Tîrêja parçeyê fireh D1', 'Tîrêja parçeyê teng D2'],
+      simulation_outputs_en: ['Pressure Difference ΔP', 'Fluid Velocity in Constriction v2', 'Liquid Column Height in Venturi'],
+      simulation_outputs_ku: ['جیاوازی پەستان ΔP', 'خێرایی شلە لە تەسکبووەکەدا v2', 'بەرزایی ستوونی شلە لە فێنتۆری'],
+      simulation_outputs_kmr: ['Cudahiya dewisînê ΔP', 'Leza rona di tengahiyê de v2', 'Bilindahiya stûna rona di Fîntorî de'],
       icon: <Droplets className="w-4 h-4 text-cyan-400" />
     },
     {
@@ -446,6 +499,12 @@ export default function App() {
       physical_law: 'N = (360° / θ) - 1',
       simulation_inputs: ['الزاوية بين المرآتين θ (درجات)', 'موقع الجسم بالنسبة للمرآتين'],
       simulation_outputs: ['عدد الصور المتكونة N', 'مواقع وتماثل الصور المنعكسة'],
+      simulation_inputs_en: ['Angle Between Mirrors θ (deg)', 'Object Position Relative to Mirrors'],
+      simulation_inputs_ku: ['گۆشەی نێوان دوو ئاوێنەکە θ (پلە)', 'شوێنی تەنەکە بەبەراورد بە دوو ئاوێنەکە'],
+      simulation_inputs_kmr: ['Goşeya navbera du neynikan θ (pile)', 'Cihê gewdeyî li gor du neynikan'],
+      simulation_outputs_en: ['Number of Formed Images N', 'Positions and Symmetry of Reflected Images'],
+      simulation_outputs_ku: ['ژمارەی وێنە دروستبووەکان N', 'شوێن و هاوشێوەیی وێنە ڕەنگداوەکان'],
+      simulation_outputs_kmr: ['Hejmara wêneyên çêbûyî N', 'Cih û hevçeperiya wêneyên vajîbûyî'],
       icon: <Eye className="w-4 h-4 text-pink-400" />
     },
     {
@@ -459,6 +518,12 @@ export default function App() {
       physical_law: '1/f = 1/d_o + 1/d_i',
       simulation_inputs: ['نوع المرآة (مقعرة/محدبة)', 'البعد البؤري f', 'بعد الجسم عن المرآة d_o', 'طول الجسم h_o'],
       simulation_outputs: ['بعد الصورة d_i', 'التكبير M', 'صفات الصورة (حقيقية/تقديرية/مقلوبة/معتدلة)'],
+      simulation_inputs_en: ['Mirror Type (Concave / Convex)', 'Focal Length f', 'Object Distance from Mirror d_o', 'Object Height h_o'],
+      simulation_inputs_ku: ['جۆری ئاوێنە (قوپاو/قۆقز)', 'دووری تیشکۆیی f', 'دووری تەن لە ئاوێنەکەوە d_o', 'بەرزایی تەنەکە h_o'],
+      simulation_inputs_kmr: ['Cûreyê neynikê (çal/gir)', 'Dirêjahiya tîşkî f', 'Dûrahiya gewdeyî ji neynikê d_o', 'Dirêjahiya gewdeyî h_o'],
+      simulation_outputs_en: ['Image Distance d_i', 'Magnification M', 'Image Characteristics (Real / Virtual / Inverted / Upright)'],
+      simulation_outputs_ku: ['دووری وێنەکە d_i', 'گەورەکردن M', 'تایبەتمەندییەکانی وێنە (ڕاستەقینە/خەیاڵی/سەرەوژێر/ڕاست)'],
+      simulation_outputs_kmr: ['Dûrahiya wêneyê d_i', 'Mezinbûn M', 'Taybetmendiyên wêneyê (rasteqîn/aşopî/serûbin/rast)'],
       icon: <Eye className="w-4 h-4 text-purple-400" />
     },
     {
@@ -472,6 +537,12 @@ export default function App() {
       physical_law: '1/f = 1/d_o + 1/d_i,  M = -d_i/d_o',
       simulation_inputs: ['البعد البؤري f', 'موقع الجسم d_o', 'ارتفاع الجسم h_o'],
       simulation_outputs: ['موقع الصورة d_i', 'معامل التكبير M', 'مسار الأشعة وتكون الصورة'],
+      simulation_inputs_en: ['Focal Length f', 'Object Position d_o', 'Object Height h_o'],
+      simulation_inputs_ku: ['دووری تیشکۆیی f', 'شوێنی تەن d_o', 'بەرزایی تەن h_o'],
+      simulation_inputs_kmr: ['Dirêjahiya tîşkî f', 'Cihê gewdeyî d_o', 'Bilindahiya gewdeyî h_o'],
+      simulation_outputs_en: ['Image Position d_i', 'Magnification Factor M', 'Ray Trajectory & Image Formation'],
+      simulation_outputs_ku: ['شوێنی وێنە d_i', 'هاوکۆڵکەی گەورەکردن M', 'ڕێڕەوی تیپکەکان و دروستبوونی وێنە'],
+      simulation_outputs_kmr: ['Cihê wêneyê d_i', 'Hevkêşeya mezinbûnê M', 'Rêgeha tîrêjan û çêbûna wêneyê'],
       icon: <Eye className="w-4 h-4 text-emerald-400" />
     },
     {
@@ -485,6 +556,12 @@ export default function App() {
       physical_law: 'I = I₀ · cos²(θ)',
       simulation_inputs: ['شدة الضوء الابتدائي I0', 'زاوية المستقطب الأول θ1', 'زاوية المحلل θ2'],
       simulation_outputs: ['شدة الضوء النافذ I (واط/م²)', 'نسبة النفاذية I/I0', 'محور الاستقطاب الناتج'],
+      simulation_inputs_en: ['Initial Light Intensity I0', 'First Polarizer Angle θ1', 'Analyzer Angle θ2'],
+      simulation_inputs_ku: ['توندی ڕووناکی سەرەتایی I0', 'گۆشەی جەمسەرگری یەکەم θ1', 'گۆشەی شيكارکەر θ2'],
+      simulation_inputs_kmr: ['Tundiya şewqa destpêkî I0', 'Goşeya polarîzorê yekem θ1', 'Goşeya analîzorê θ2'],
+      simulation_outputs_en: ['Transmitted Light Intensity I (W/m²)', 'Transmittance Ratio I/I0', 'Resultant Polarization Axis'],
+      simulation_outputs_ku: ['توندی ڕووناکی تێپەڕبوو I (واط/م²)', 'ڕێژەی تێپەڕبوون I/I0', 'تەوەرەی جەمسەرگیریی بەدەستهاتوو'],
+      simulation_outputs_kmr: ['Tundiya şewqa derbasbûyî I (W/m²)', 'Rêjeya derbasbûnê I/I0', 'Tewereya polarîzasyonê ya encamî'],
       icon: <Sun className="w-4 h-4 text-yellow-400" />
     },
     {
@@ -498,6 +575,12 @@ export default function App() {
       physical_law: 'I ∝ 1 / λ⁴',
       simulation_inputs: ['الطول الموجي للضوء الساقط λ', 'حجم الجسيمات المشتتة d', 'كثافة الوسط'],
       simulation_outputs: ['شدة الضوء المشتت I', 'اللون الملاحظ للغلاف الجوي', 'تفسير زرقة السماء وحمرة الشفق'],
+      simulation_inputs_en: ['Incident Light Wavelength λ', 'Scattering Particle Size d', 'Medium Density'],
+      simulation_inputs_ku: ['درێژی شەپۆلی ڕووناکی کەوتوو λ', 'قەبارەی تەنوڵکە پەرشبووەکان d', 'چڕیی ناوەند'],
+      simulation_inputs_kmr: ['Dirêjahiya pêla şewqa ketiye λ', 'Qebareya parçekokên belavbûyî d', 'Tîriya holê'],
+      simulation_outputs_en: ['Scattered Light Intensity I', 'Observed Atmospheric Color', 'Explanation of Sky Blue & Sunset Redness'],
+      simulation_outputs_ku: ['توندی ڕووناکی پەرشبوو I', 'ڕەنگی بینراوی بەرگەهەوا', 'ڕوونکردنەوەی شینی ئاسمان و سووريی شەفەق'],
+      simulation_outputs_kmr: ['Tundiya şewqa belavbûyî I', 'Rengê dîtbar ê atmosfera erdê', 'Şîrovekirina şîniya ezmên û soraiya meyxurê'],
       icon: <Sun className="w-4 h-4 text-amber-400" />
     },
     {
@@ -739,6 +822,12 @@ export default function App() {
       physical_law: 'F = q · v · B · sin(θ),  r = (m·v) / (q·B)',
       simulation_inputs: ['شحنة الجسيم q', 'كتلة الجسيم m', 'السرعة المتجهة v', 'شدة المجال المغناطيسي B'],
       simulation_outputs: ['قوة لورنتز F (نيوتن)', 'نصف قطر المدار الدائري r', 'تردد السيكلوترون'],
+      simulation_inputs_en: ['Particle Charge q', 'Particle Mass m', 'Velocity Vector v', 'Magnetic Field Intensity B'],
+      simulation_inputs_ku: ['بارگەی تەنوولکە q', 'بارستەی تەنوولکە m', 'خێرایی ئاراستەیی v', 'توندي بواری موگناتیسی B'],
+      simulation_inputs_kmr: ['Barê parçekokê q', 'Senga parçekokê m', 'Leza xêzî v', 'Xurtiya zeviya magnetîkî B'],
+      simulation_outputs_en: ['Lorentz Force F (N)', 'Circular Orbit Radius r', 'Cyclotron Frequency'],
+      simulation_outputs_ku: ['هێزی لۆرێنتز F (نیوتن)', 'نیوەتیرەی ڕێڕەوی بازنەیی r', 'لەرەلەری سيكلوترۆن'],
+      simulation_outputs_kmr: ['Hêza Lorenzê F (N)', 'Nîveşkêla rêgeha dorhêlî r', 'Frekansa sîklotronê'],
       icon: <Magnet className="w-4 h-4 text-purple-400" />
     },
     {
@@ -752,6 +841,12 @@ export default function App() {
       physical_law: 'ΔE = E_final - E_initial = (h · c) / λ',
       simulation_inputs: ['نوع العنصر (هيدروجين/هيليوم/زئبق/نيون)', 'مستويات الانتقال الإلكتروني n1 و n2'],
       simulation_outputs: ['خطوط الطيف الانبعاثي المرئية', 'طاقة الفوتون المنبعث ΔE (إلكترون فولت)', 'الطول الموجي λ'],
+      simulation_inputs_en: ['Element Type (Hydrogen / Helium / Mercury / Neon)', 'Electron Transition Levels n1 & n2'],
+      simulation_inputs_ku: ['جۆری توخم (هایدرۆجین / هیلیۆم / مێرکوری / نێۆن)', 'ئاستەکانی گواستنەوەی ئەلیکترۆنی n1 و n2'],
+      simulation_inputs_kmr: ['Cûreyê elementê (Hîdrojen / Helyûm / Zîbeq / Nezon)', 'Astên veguhastina elektronan n1 û n2'],
+      simulation_outputs_en: ['Visible Emission Spectral Lines', 'Emitted Photon Energy ΔE (eV)', 'Wavelength λ'],
+      simulation_outputs_ku: ['هێڵەکانی سپێکتڕۆمی دەرچووی دیار', 'وزەی فۆتۆنی دەرچوو ΔE (ئەلیکترۆن فولت)', 'درێژی شەپۆل λ'],
+      simulation_outputs_kmr: ['Xêzên şebenga derketî yên xuyayî', 'Enerjiya fotona derketî ΔE (eV)', 'Dirêjahiya pêlê λ'],
       icon: <Atom className="w-4 h-4 text-indigo-400" />
     },
     {
@@ -765,6 +860,12 @@ export default function App() {
       physical_law: 'V = I · R,  P = V · I = I² · R',
       simulation_inputs: ['جهد البطارية V (فولت)', 'قيمة المقاومة R (أوم)', 'نوع التوصيل (توالي/توازي)'],
       simulation_outputs: ['شدة التيار المار I (أمبير)', 'القدرة الكهربائية المستهلكة P (واط)', 'هبوط الجهد'],
+      simulation_inputs_en: ['Battery Voltage V (Volts)', 'Resistance Value R (Ohms)', 'Connection Type (Series / Parallel)'],
+      simulation_inputs_ku: ['پۆتەنسیالی بەتاری V (ڤۆڵت)', 'بڕی بەرگری R (ئۆم)', 'جۆری بەستن (بەدوایەکدا / هاوتەريب)'],
+      simulation_inputs_kmr: ['Potansiyela betariyê V (Volt)', 'Nirxê xwegiriyê R (Ohm)', 'Cûreyê girêdanê (Serhev / Beramber)'],
+      simulation_outputs_en: ['Current Intensity I (Amperes)', 'Consumed Electrical Power P (Watts)', 'Voltage Drop'],
+      simulation_outputs_ku: ['توندی تەزووی ڕەتبوو I (ئەمپێر)', 'توانای کارەبایی بەکارهاتوو P (واط)', 'دابەزینی پۆتەنسیال'],
+      simulation_outputs_kmr: ['Xurtiya herikîna elektrîkî I (A)', 'Karîna elektrîkî ya xerckirî P (Watt)', 'Daxistina potansiyelê'],
       icon: <Zap className="w-4 h-4 text-yellow-400" />
     },
     {
@@ -778,6 +879,12 @@ export default function App() {
       physical_law: 'F_B = ρ_fluid · V_disp · g',
       simulation_inputs: ['حجم الجسم المغمور V_obj', 'كثافة مادة الجسم ρ_obj', 'كثافة السائل ρ_fluid'],
       simulation_outputs: ['قوة الطفو F_B (نيوتن)', 'الوزن الظاهري للجسم W_apparent', 'حالة الجسم (يطفو / يعلق / يغوص)'],
+      simulation_inputs_en: ['Submerged Body Volume V_obj', 'Body Material Density ρ_obj', 'Liquid Density ρ_fluid'],
+      simulation_inputs_ku: ['قەبارەی تەنی نقومبوو V_obj', 'چڕیی ماددەی تەنەکە ρ_obj', 'چڕیی شلەکە ρ_fluid'],
+      simulation_inputs_kmr: ['Qebareya gewdeyê nuxumandî V_obj', 'Tîriya madeya gewdeyî ρ_obj', 'Tîriya rona ρ_fluid'],
+      simulation_outputs_en: ['Buoyant Force F_B (N)', 'Apparent Weight of Body W_apparent', 'Body State (Floats / Suspended / Sinks)'],
+      simulation_outputs_ku: ['هێزی سەرئاوکەوتن F_B (نیوتن)', 'کێشی دیاری تەنەکە W_apparent', 'دۆخی تەنەکە (سەرئاو دەکەوێت / هەڵدەواسرێت / نوقم دەبێت)'],
+      simulation_outputs_kmr: ['Hêza hilkişînê F_B (N)', 'Giranîya diyarker a gewdeyî W_apparent', 'Rewşa gewdeyî (dikeve ser avê / hildewaşê / diqulipe)'],
       icon: <Droplets className="w-4 h-4 text-teal-400" />
     },
     {
@@ -791,6 +898,12 @@ export default function App() {
       physical_law: 'P · V = n · R · T',
       simulation_inputs: ['عدد مولات الغاز n', 'حجم الوعاء V', 'درجة الحرارة المطلقة T (كلفن)'],
       simulation_outputs: ['ضغط الغاز P (باسكال)', 'متوسط الطاقة الحركية للجزيئات <E_k>', 'مخطط P-V'],
+      simulation_inputs_en: ['Gas Moles Count n', 'Container Volume V', 'Absolute Temperature T (K)'],
+      simulation_inputs_ku: ['ژمارەی مولەکانی گاز n', 'قەبارەی دەفرەکە V', 'پلەی گەرمی ڕەها T (کلفن)'],
+      simulation_inputs_kmr: ['Hejmara molên gazê n', 'Qebareya firaqê V', 'Pileya germahiyê ya reha T (K)'],
+      simulation_outputs_en: ['Gas Pressure P (Pa)', 'Average Kinetic Energy of Molecules <E_k>', 'P-V Diagram'],
+      simulation_outputs_ku: ['پەستانی گاز P (باسکال)', 'ناوەندی وزەی جووڵەییی تەنوڵکەکان <E_k>', 'هێڵکاری P-V'],
+      simulation_outputs_kmr: ['Dewsîna gazê P (Pa)', 'Navîniya enerjiya tevgerê ya parçekokan <E_k>', 'Grafîka P-V'],
       icon: <Flame className="w-4 h-4 text-orange-400" />
     },
     {
@@ -804,6 +917,12 @@ export default function App() {
       physical_law: 'n₁ · sin(θ₁) = n₂ · sin(θ₂)',
       simulation_inputs: ['معامل انكسار الوسط الأول n1', 'معامل انكسار الوسط الثاني n2', 'زاوية السقوط θ1'],
       simulation_outputs: ['زاوية الانكسار θ2', 'الزاوية الحرجة للانعكاس الكلي الداخلي θ_c', 'سرعة الضوء بالوسط'],
+      simulation_inputs_en: ['Refractive Index of First Medium n1', 'Refractive Index of Second Medium n2', 'Incident Angle θ1'],
+      simulation_inputs_ku: ['هاوکۆڵکەی شکانەوەی ناوەندی یەکەم n1', 'هاوکۆڵکەی شکانەوەی ناوەندی دووەم n2', 'گۆشەی کەوتن θ1'],
+      simulation_inputs_kmr: ['Hevkêşeya şikandina hola yekem n1', 'Hevkêşeya şikandina hola duyem n2', 'Goşeya ketinê θ1'],
+      simulation_outputs_en: ['Refracted Angle θ2', 'Critical Angle for Total Internal Reflection θ_c', 'Speed of Light in Medium'],
+      simulation_outputs_ku: ['گۆشەی شکانەوە θ2', 'گۆشەی شلۆق بۆ ڕەنگدانەوەی تەواوی ناوەکی θ_c', 'خێرایی ڕووناکی لە ناوەنددا'],
+      simulation_outputs_kmr: ['Goşeya şikandinê θ2', 'Goşeya krîtîk a vajîbûna tevahî ya hundirîn θ_c', 'Leza şewqê di holê de'],
       icon: <Eye className="w-4 h-4 text-emerald-400" />
     },
 
@@ -821,6 +940,12 @@ export default function App() {
       physical_law: 'Z = p,  A = p + n,  Net Charge = p - e',
       simulation_inputs: ['عدد البروتونات p', 'عدد النيوترونات n', 'عدد الإلكترونات e'],
       simulation_outputs: ['اسم ورمز العنصر', 'العدد الكتلي A', 'الشحنة الصافية والاتزان الذري'],
+      simulation_inputs_en: ['Number of Protons p', 'Number of Neutrons n', 'Number of Electrons e'],
+      simulation_inputs_ku: ['ژمارەی پروتۆنەکان p', 'ژمارەی نيوترۆنەکان n', 'ژمارەی ئەلیکترۆنەکان e'],
+      simulation_inputs_kmr: ['Hejmara protonan p', 'Hejmara neutronan n', 'Hejmara elektronan e'],
+      simulation_outputs_en: ['Element Name & Symbol', 'Mass Number A', 'Net Charge & Atomic Equilibrium'],
+      simulation_outputs_ku: ['ناو و هێمای توخمەکە', 'ژمارەی بارستەیی A', 'بارگەی پوخت و هاوسەنگی گەردیلەیی'],
+      simulation_outputs_kmr: ['Nav û sembola elementê', 'Hejmara sengî A', 'Bara netîce û hevsengiya atomî'],
       icon: <Atom className="w-4 h-4 text-red-400" />
     },
     {
@@ -834,6 +959,12 @@ export default function App() {
       physical_law: 'E_b = Δm · c²',
       simulation_inputs: ['العدد الذري Z', 'العدد الكتلي A', 'طاقة الربط لكل نيوكليون'],
       simulation_outputs: ['طاقة الربط النووي الكلية E_b', 'نقص الكتلة Δm', 'استقرار النواة ونوع الانحلال'],
+      simulation_inputs_en: ['Atomic Number Z', 'Mass Number A', 'Binding Energy per Nucleon'],
+      simulation_inputs_ku: ['ژمارەی گەردیلەیی Z', 'ژمارەی بارستەیی A', 'وزەی بەستنەوە بۆ هر نیوکلۆنێک'],
+      simulation_inputs_kmr: ['Hejmara atomî Z', 'Hejmara sengî A', 'Enerjiya girêdanê ji bo her nukleonekî'],
+      simulation_outputs_en: ['Total Nuclear Binding Energy E_b', 'Mass Defect Δm', 'Nuclear Stability & Decay Type'],
+      simulation_outputs_ku: ['کۆی وزەی بەستنەوەی ناوکی E_b', 'کەمبوونی بارستایی Δm', 'سەقامگیری ناوک و جۆری تێکچوون'],
+      simulation_outputs_kmr: ['Enerjiya girêdana dendikî ya giştî E_b', 'Kêmtiya sengê Δm', 'Cihêbûna dendikê û cûreyê hilweşînê'],
       icon: <Shield className="w-4 h-4 text-purple-400" />
     },
     {
@@ -847,6 +978,12 @@ export default function App() {
       physical_law: 'F = (k · q_α · q_nucleus) / r²',
       simulation_inputs: ['طاقة جسيمات ألفا الساقطة E_α', 'العدد الذري لصفيحة الهدف Z', 'معامل التصادم b'],
       simulation_outputs: ['زاوية التشتت θ', 'مسار جسيمات ألفا', 'المسافة الأقرب للنواة d_min'],
+      simulation_inputs_en: ['Incident Alpha Particle Energy E_α', 'Target Foil Atomic Number Z', 'Impact Parameter b'],
+      simulation_inputs_ku: ['وزەی گەردیلەکانی ئەلفای کەوتوو E_α', 'ژمارەی گەردیلەیی پەڕەی ئامانج Z', 'هاوکۆڵکەی پێکدادان b'],
+      simulation_inputs_kmr: ['Enerjiya parçekokên alpha yên hatî E_α', 'Hejmara atomî ya pelika armanc Z', 'Hevkêşeya lihevxistinê b'],
+      simulation_outputs_en: ['Scattering Angle θ', 'Alpha Particles Trajectory', 'Distance of Closest Approach d_min'],
+      simulation_outputs_ku: ['گۆشەی پەرشبوونەوە θ', 'ڕێڕەوی تەنوڵکەکانی ئەلفا', 'نزیکترین دووری لە ناوک d_min'],
+      simulation_outputs_kmr: ['Goşeya belavbûnê θ', 'Rêgeha parçekokên alpha', 'Dûrahiya herî nêzîk ji dendikê re d_min'],
       icon: <Target className="w-4 h-4 text-amber-400" />
     },
     {
@@ -860,6 +997,12 @@ export default function App() {
       physical_law: 'E = h · f,  E_rot < E_vib < E_elec',
       simulation_inputs: ['نوع الجزيء (CO2, H2O, CH4, O2, N2)', 'طول موجة الفوتون (ميكروويف/تحت حمراء/مرئي/فوق بنفسجي)'],
       simulation_outputs: ['استجابة الجزيء (دوران/اهتزاز/تأين/نفاذ)', 'تفسير ظاهرة الاحتباس الحراري'],
+      simulation_inputs_en: ['Molecule Type (CO2, H2O, CH4, O2, N2)', 'Photon Wavelength (Microwave / Infrared / Visible / Ultraviolet)'],
+      simulation_inputs_ku: ['جۆری گەرد (CO2, H2O, CH4, O2, N2)', 'درێژی شەپۆلی فۆتۆن (مایکرۆوەیف / ژێر سوور / دیار / سەر و وەنەوشەیی)'],
+      simulation_inputs_kmr: ['Cûreyê molekûlê (CO2, H2O, CH4, O2, N2)', 'Dirêjahiya pêla fotonê (Mîkrowave / Bin-sor / Xuyayî / Ser-binefşî)'],
+      simulation_outputs_en: ['Molecule Response (Rotation / Vibration / Ionization / Transmission)', 'Greenhouse Effect Explanation'],
+      simulation_outputs_ku: ['وەڵامدانەوەی گەرد (خولانەوە / لەرینەوە / ئایۆنبوون / تێپەڕبوون)', 'ڕوونکردنەوەی دیاردەی قەتیسبوونی گەرمی'],
+      simulation_outputs_kmr: ['Bersiva molekûlê (Zivirîn / Lerizîn / Îyonbûn / Derbasbûn)', 'Şîrovekirina diyardeya germbûna gerdûnî'],
       icon: <Waves className="w-4 h-4 text-sky-400" />
     },
     {
@@ -873,6 +1016,12 @@ export default function App() {
       physical_law: 'Color = R(λ) + G(λ) + B(λ)',
       simulation_inputs: ['شدة اللون الأحمر R (0-255)', 'شدة اللون الأخضر G (0-255)', 'شدة اللون الأزرق B (0-255)'],
       simulation_outputs: ['اللون النهائي المدرك في العين', 'استجابة مستقبلات المخاريط البصرية'],
+      simulation_inputs_en: ['Red Intensity R (0-255)', 'Green Intensity G (0-255)', 'Blue Intensity B (0-255)'],
+      simulation_inputs_ku: ['توندی ڕەنگی سور R (0-255)', 'توندی ڕەنگی سەوز G (0-255)', 'توندی ڕەنگی شین B (0-255)'],
+      simulation_inputs_kmr: ['Tundiya rengê sor R (0-255)', 'Tundiya rengê kesk G (0-255)', 'Tundiya rengê şîn B (0-255)'],
+      simulation_outputs_en: ['Final Perceived Color in Eye', 'Retinal Cone Photoreceptors Response'],
+      simulation_outputs_ku: ['ڕەنگی کۆتایی وەرگیراو لە چاودا', 'وەڵامدانەوەی وەرگرە مخرووتییەکانی بینین'],
+      simulation_outputs_kmr: ['Rengê dawî yê têگەیشtî di çav de', 'Bersiva wergirên qutikî (kewnikî) ên dîtinê'],
       icon: <Eye className="w-4 h-4 text-pink-400" />
     },
     {
@@ -1020,6 +1169,12 @@ export default function App() {
       physical_law: 'Q = m · c · ΔT,  Q = m · L',
       simulation_inputs: ['نوع المادة (ماء/نيون/أرجون/أكسجين)', 'درجة الحرارة المضافة أو المسحوبة', 'الضغط الخارجي P'],
       simulation_outputs: ['الحالة الفيزيائية (صلب/سائل/غاز)', 'مخطط الطور Phase Diagram', 'طاقة الحركة الجزيئية'],
+      simulation_inputs_en: ['Substance Type (Water / Neon / Argon / Oxygen)', 'Added or Extracted Temperature', 'External Pressure P'],
+      simulation_inputs_ku: ['جۆری ماددە (ئاو/نیۆن/ئارگۆن/ئۆکسجین)', 'پلەی گەرمی زیادکراو یاخود کەمکراوە', 'پەستانی دەرەکی P'],
+      simulation_inputs_kmr: ['Cûreyê madeyê (Av/Nêon/Argon/Oksîjen)', 'Pileya germahiyê ya zêdekirî an kêmkirî', 'Dewsîna derveyî P'],
+      simulation_outputs_en: ['Physical State (Solid / Liquid / Gas)', 'Phase Diagram', 'Molecular Kinetic Energy'],
+      simulation_outputs_ku: ['دۆخی فیزیکی (ڕەق/شلی/گاز)', 'هێڵکاری دۆخ Phase Diagram', 'وزەی جووڵەی گەردیی'],
+      simulation_outputs_kmr: ['Rewşa fîzîkî (hişk/ron/gaz)', 'Grafîka qonaxê (Phase Diagram)', 'Enerjiya tevgera molekulî'],
       icon: <Flame className="w-4 h-4 text-rose-400" />
     },
     {
@@ -1033,6 +1188,12 @@ export default function App() {
       physical_law: 'r₁ / r₂ = √(M₂ / M₁)',
       simulation_inputs: ['الكتلة المولية للغاز الأول M1', 'الكتلة المولية للغاز الثاني M2', 'درجة الحرارة T'],
       simulation_outputs: ['نسبة سرعة الانتشار r1/r2', 'التوزيع المكاني للجزيئات عبر الزمن'],
+      simulation_inputs_en: ['Molar Mass of First Gas M1', 'Molar Mass of Second Gas M2', 'Temperature T'],
+      simulation_inputs_ku: ['بارستەی مۆڵاری گازی یەکەم M1', 'بارستەی مۆڵاری گازی دووەم M2', 'پلەی گەرمی T'],
+      simulation_inputs_kmr: ['Baristeya molî ya gazê yekem M1', 'Baristeya molî ya gazê duyem M2', 'Pileya germahiyê T'],
+      simulation_outputs_en: ['Diffusion Rate Ratio r1/r2', 'Spatial Molecular Distribution over Time'],
+      simulation_outputs_ku: ['ڕێژەی خێرایی بڵاوبوونەوە r1/r2', 'دابەشبوونی شوێنی گەردەکان لەگەڵ کاتدا'],
+      simulation_outputs_kmr: ['Rêjeya leza belavbûnê r1/r2', 'Belavbûna cihî ya molekûlan bi demê re'],
       icon: <Sparkles className="w-4 h-4 text-purple-400" />
     },
     {
@@ -1064,6 +1225,12 @@ export default function App() {
       physical_law: 'E_n = -13.6 / n² eV,  ΔE = 13.6 · (1/n₁² - 1/n₂²)',
       simulation_inputs: ['المستوى الكمي الأساسي n1', 'المستوى الكمي المثار n2', 'طاقة الفوتون الساقط'],
       simulation_outputs: ['طاقة المدار En (إلكترون فولت)', 'الطول الموجي للفوتون المنبعث λ (نانومتر)', 'سلسلة الطيف (لايمان/بالمر/باشن)'],
+      simulation_inputs_en: ['Ground Quantum Level n1', 'Excited Quantum Level n2', 'Incident Photon Energy'],
+      simulation_inputs_ku: ['ئاستی کوانتۆمی بنەڕەتی n1', 'ئاستی کوانتۆمی ورووژاو n2', 'وزەی فۆتۆنی کەوتوو'],
+      simulation_inputs_kmr: ['Asta kwantûmî ya bingehîn n1', 'Asta kwantûmî ya arandî n2', 'Enerjiya fotona hatî'],
+      simulation_outputs_en: ['Orbital Energy En (eV)', 'Emitted Photon Wavelength λ (nm)', 'Spectral Series (Lyman / Balmer / Paschen)'],
+      simulation_outputs_ku: ['وزەی خولگە En (ئەلیکترۆن فولت)', 'درێژی شەپۆلی فۆتۆنی دەرچوو λ (نانۆمەتر)', 'زنجیرەی سپێکتڕۆم (لايمان / بالمر / باشن)'],
+      simulation_outputs_kmr: ['Enerjiya rêgehê En (eV)', 'Dirêjahiya pêla fotona derketî λ (nm)', 'Rêzeya şebengê (Lyman / Balmer / Paschen)'],
       icon: <Atom className="w-4 h-4 text-indigo-400" />
     },
     {
@@ -1077,6 +1244,12 @@ export default function App() {
       physical_law: 'قوانين كيرشوف: Σ I_in = Σ I_out (KCL),  Σ V_loop = 0 (KVL)',
       simulation_inputs: ['جهد المصادر V_sources', 'قيم المقاومات R1, R2, R3', 'طوبولوجيا التوصيل الشبكي'],
       simulation_outputs: ['التيارات في كل فرع I_branches', 'فروق الجهد عبر كل عنصر', 'القدرة الكلية المبددة'],
+      simulation_inputs_en: ['Source Voltage V_sources', 'Resistor Values R1, R2, R3', 'Grid Network Topology'],
+      simulation_inputs_ku: ['پۆتەنسیالی سەرچاوەکان V_sources', 'بڕەکانی بەرگری R1, R2, R3', 'شێوازی بەستنی تۆڕیی (تۆپۆلۆجی)'],
+      simulation_inputs_kmr: ['Potansiyela jêderan V_sources', 'Nirxên xwegiriyan R1, R2, R3', 'Şêwazê girêdana torê (Topolojî)'],
+      simulation_outputs_en: ['Branch Currents I_branches', 'Voltage Drops Across Elements', 'Total Dissipated Power'],
+      simulation_outputs_ku: ['تەزووەکان لە هر لَقێکدا I_branches', 'جیاوازی پۆتەنسیال لەسەر هر توخمێک', 'کۆی توانای بەفيڕۆچوو'],
+      simulation_outputs_kmr: ['Herikînên di her şaxekî de I_branches', 'Cudahiyên potansiyelê di ser her endamekî re', 'Tevaya karîna windabûyî'],
       icon: <Cpu className="w-4 h-4 text-yellow-400" />
     },
     {
@@ -1090,6 +1263,12 @@ export default function App() {
       physical_law: 'ε = -N · (ΔΦ / Δt) = N · B · A · ω · sin(ωt)',
       simulation_inputs: ['سرعة الدوران الزاوية ω (دورة/دقيقة)', 'عدد لفات الملف N', 'شدة المجال المغناطيسي B'],
       simulation_outputs: ['القوة الدافعة الكهربائية العظمى ε_max (فولت)', 'تردد التيار المتردد المتولد f (هرتز)', 'شكل الموجة الجيبية للجهد'],
+      simulation_inputs_en: ['Angular Rotation Speed ω (rpm)', 'Number of Coil Turns N', 'Magnetic Field Intensity B'],
+      simulation_inputs_ku: ['گۆشە خێرایی خولانەوە ω (خول/خولەک)', 'ژمارەی پێچەکانی کۆیل N', 'توندي بواری موگناتیسی B'],
+      simulation_inputs_kmr: ['Leza goşeyî ya zivirînê ω (xul/xulek)', 'Hejmara pêçanên bobînê N', 'Xurtiya zeviya magnetîkî B'],
+      simulation_outputs_en: ['Maximum EMF ε_max (Volts)', 'Generated AC Frequency f (Hz)', 'Sinusoidal Voltage Waveform'],
+      simulation_outputs_ku: ['ئەوپەڕی هێزی کارۆبزوێنەری ε_max (ڤۆڵت)', 'لەرەلەری تەزووی گۆڕاوی پەیدابوو f (هێرتز)', 'شێوەی شەپۆلی ساین بۆ پۆتەنسیال'],
+      simulation_outputs_kmr: ['Hêza livînera elektrîkî ya maksîmom ε_max (Volt)', 'Frekansa herikîna guhêrbar f (Hz)', 'Şêweyê pêla sayinî ya potansiyelê'],
       icon: <Zap className="w-4 h-4 text-amber-400" />
     },
     {
@@ -1103,6 +1282,12 @@ export default function App() {
       physical_law: 'محاذاة ثنائي القطب المغناطيسي مع المجال الأرضي المحصل: tan(θ) = B_ext / B_earth',
       simulation_inputs: ['موقع المغناطيس بالنسبة للبوصلة (x, y)', 'شدة عزم ثنائي القطب المغناطيسي m', 'زاوية انحراف القطبين'],
       simulation_outputs: ['زاوية انحراف إبرة البوصلة θ', 'خريطة متجهات المجال الكلي', 'خطوط القوى المغناطيسية'],
+      simulation_inputs_en: ['Magnet Position Relative to Compass (x, y)', 'Magnetic Dipole Moment Strength m', 'Poles Deflection Angle'],
+      simulation_inputs_ku: ['شوێنی موگناتیس بەپێی قیبلەنما (x, y)', 'توندی زەبری دووجەمسەری موگناتیسی m', 'گۆشەی لادانی دوو جەمسەرەکە'],
+      simulation_inputs_kmr: ['Cihê magnetîsê li gor pûsûleyê (x, y)', 'Xurtiya torka cota magnetîkî m', 'Goşeya xwehrbûna her du qutban'],
+      simulation_outputs_en: ['Compass Needle Deflection Angle θ', 'Total Field Vector Map', 'Magnetic Lines of Force'],
+      simulation_outputs_ku: ['گۆشەی لادانی دەرزی قیبلەنما θ', 'نەخشەی ڤێکتەرەکانی بواری گشتی', 'هێڵەکانی هێزی موگناتیسی'],
+      simulation_outputs_kmr: ['Goşeya xwehrbûna derziya pûsûleyê θ', 'Neqşeya vektorên zeviya giştî', 'Xetên hêzên magnetîkî'],
       icon: <Compass className="w-4 h-4 text-cyan-400" />
     },
     {
@@ -1116,6 +1301,12 @@ export default function App() {
       physical_law: 'B = μ₀ · μ_r · n · I  (المجال المغناطيسي للملف اللولبي)',
       simulation_inputs: ['شدة التيار المار I (أمبير)', 'كثافة اللفات n = N/L', 'إدخال قلب حديدي فائق النفاذية'],
       simulation_outputs: ['شدة المجال المغناطيسي في المركز B (تسلا / ملي تسلا)', 'عدد الدبابيس المنجذبة', 'قطبية المغناطيس N/S'],
+      simulation_inputs_en: ['Passing Current Intensity I (Amperes)', 'Turns Density n = N/L', 'Inserting Super-Permeable Iron Core'],
+      simulation_inputs_ku: ['توندی تەزووی ڕەتبوو I (ئەمپێر)', 'چڕی پێچەکان n = N/L', 'تێخستنی ناوۆکی ئاسنينی زۆر تێپەڕێنەر'],
+      simulation_inputs_kmr: ['Xurtiya herikîna derbasbûyî I (A)', 'Tîrêjiya pêçanan n = N/L', 'Têxistina dilê hesinî yê derbasbûna bilind'],
+      simulation_outputs_en: ['Center Magnetic Field Intensity B (Tesla / mT)', 'Number of Attracted Pins', 'Magnet Polarity N/S'],
+      simulation_outputs_ku: ['توندي بواری موگناتیسی لە چەقدا B (تێسلا / میلی تێسلا)', 'ژمارەی دەرزييە ڕاكێشراوەکان', 'جەمسەربەندی موگناتیس N/S'],
+      simulation_outputs_kmr: ['Xurtiya zeviya magnetîkî di navendê de B (Tesla / mT)', 'Hejmara derziyên kişandî', 'Qutbiya magnetîsê N/S'],
       icon: <Magnet className="w-4 h-4 text-purple-400" />
     },
     {
@@ -1167,6 +1358,12 @@ export default function App() {
       physical_law: 'القانون الأول للديناميكا الحرارية وحفظ الطاقة الكلية: E_in = E_stored + E_out',
       simulation_inputs: ['نوع المادة (ماء/حديد/طوب/زيت)', 'مصدر الطاقة (شعلة حرارية/جليد مبرد/طاقة كهربائية)'],
       simulation_outputs: ['درجة الحرارة T مع الزمن', 'توزيع وحدات الطاقة (حركية، حرارية، إشعاعية، كيميائية)', 'الاتزان الحراري النهائي'],
+      simulation_inputs_en: ['Substance Material (Water / Iron / Brick / Oil)', 'Energy Source (Thermal Flame / Cooling Ice / Electric Energy)'],
+      simulation_inputs_ku: ['جۆری ماددە (ئاو/ئاسن/خشت/زەیت)', 'سەرچاوەی وزە (پێخوست/سەهۆڵی ساردکەرەوە/وزەی کارەبایی)'],
+      simulation_inputs_kmr: ['Cûreyê madeyê (Av/Hesin/Kerpîç/Zeyt)', 'Çavkaniya enerjiya (Agirê germî/Kevirê cemidî/Enerjiya elektrîkî)'],
+      simulation_outputs_en: ['Temperature T over Time', 'Energy Unit Distribution (Kinetic, Thermal, Radiant, Chemical)', 'Final Thermal Equilibrium'],
+      simulation_outputs_ku: ['پلەی گەرمی T لەگەڵ کاتدا', 'دابەشبوونی یەکەکانی وزە (جووڵەیی، گەرمی، تیشکدەر، کیمیایی)', 'هاوسەنگی گەرمی کۆتایی'],
+      simulation_outputs_kmr: ['Pileya germahiyê T bi demê re', 'Belavbûna yekeyên enerjiya (Tevgerî, Germî, Tîrêjî, Kîmyayî)', 'Hevsengiya germahiyê ya dawî'],
       icon: <Flame className="w-4 h-4 text-orange-400" />
     },
     {
@@ -1218,6 +1415,12 @@ export default function App() {
       physical_law: 'P · V = N · k_B · T = n · R · T,  <E_k> = (3/2) · k_B · T',
       simulation_inputs: ['عدد الجزيئات المحقونة N', 'حجم الأسطوانة V', 'التسخين أو التبريد الحراري'],
       simulation_outputs: ['الضغط الداخلي P (باسكال)', 'متوسط السرعة الجزيئية v_rms', 'معدل تصادم الجزيئات بجدران الوعاء'],
+      simulation_inputs_en: ['Number of Injected Molecules N', 'Cylinder Volume V', 'Thermal Heating or Cooling'],
+      simulation_inputs_ku: ['ژمارەی گەردە دراوەکان N', 'قەبارەی لوولەک V', 'گەرمکردن یاخود ساردکردنەوەی گەرمی'],
+      simulation_inputs_kmr: ['Hejmara molekûlên lêxistî N', 'Qebareya sîlîndirê V', 'Germkirin an cemidandina germî'],
+      simulation_outputs_en: ['Internal Pressure P (Pa)', 'RMS Molecular Speed v_rms', 'Molecule Collision Rate with Container Walls'],
+      simulation_outputs_ku: ['پەستانی ناوەکی P (باسکال)', 'ناوەندی خێرایی گەردیی v_rms', 'تێکڕای بەیەکدادانی گەردەکان بە دیواری دەفرەکەوە'],
+      simulation_outputs_kmr: ['Dewsîna hundirîn P (Pa)', 'Navîniya leza molekulî v_rms', 'Rêjeya pevçûna molekûlan li dîwarên firaqê'],
       icon: <Droplets className="w-4 h-4 text-cyan-400" />
     },
     {
@@ -1231,6 +1434,12 @@ export default function App() {
       physical_law: 'J = -D · (dC / dx)  (قانون فيك الأول للانتشار)',
       simulation_inputs: ['كتلة ونوع الجزيئات (خفيفة/ثقيلة)', 'درجة حرارة الوسط T', 'فتح/إغلاق الحاجز الفاصل'],
       simulation_outputs: ['معدل تدفق الانتشار J', 'تدرج التركيز dC/dx', 'زمن الوصول إلى الاتزان المتجانس'],
+      simulation_inputs_en: ['Molecule Mass & Type (Light / Heavy)', 'Medium Temperature T', 'Opening / Closing Separation Barrier'],
+      simulation_inputs_ku: ['بارستە و جۆری گەردەکان (سووک/قورس)', 'پلەی گەرمی ناوەند T', 'کردنەوە/داخستنی بەربەستی جیاکەرەوە'],
+      simulation_inputs_kmr: ['Bariste û cûreyê molekûlan (Sivik/Giran)', 'Pileya germahiya holê T', 'Vekirin/Girtina astengiya veqetîner'],
+      simulation_outputs_en: ['Diffusion Flux Rate J', 'Concentration Gradient dC/dx', 'Time to Homogeneous Equilibrium'],
+      simulation_outputs_ku: ['تێکڕای لێقوڵپینی بڵاوبوونەوە J', 'پلەبەپلەی خەستی dC/dx', 'کاتی گەیشتن بە هاوسەنگیی هاوجنس'],
+      simulation_outputs_kmr: ['Rêjeya herikîna belavbûnê J', 'Pileyîbûna xestiyê dC/dx', 'Dema gihîştina hevsengiya yekdest'],
       icon: <Sparkles className="w-4 h-4 text-purple-400" />
     },
     {
@@ -1244,6 +1453,12 @@ export default function App() {
       physical_law: 'λ_max · T = b = 2.898 × 10⁻³ m·K,  E = h · f,  I = σ · T⁴',
       simulation_inputs: ['درجة حرارة الجسم الأسود T (كلفن) من 300K إلى 10000K (مثل الأرض، المصباح، الشمس، النجوم الزرقاء)'],
       simulation_outputs: ['طول موجة الذروة الإشعاعية λ_max (ميكرومتر)', 'الشدة الإشعاعية الكلية I (واط/م²)', 'منحنى التوزيع الطيفي واللون المرئي'],
+      simulation_inputs_en: ['Blackbody Temperature T (Kelvin) from 300K to 10000K (Earth, Bulb, Sun, Blue Stars)'],
+      simulation_inputs_ku: ['پلەی گەرمی تەنی ڕەش T (کلفن) لە 300K تا 10000K (وەک زەوی، گلۆپ، خۆر، ئەستێرە شینەکان)'],
+      simulation_inputs_kmr: ['Pileya germahiya laşê reş T (K) ji 300K heta 10000K (mîna Erd, Gulp, Roj, Stêrên şîn)'],
+      simulation_outputs_en: ['Peak Wavelength λ_max (μm)', 'Total Radiant Intensity I (W/m²)', 'Spectral Distribution Curve & Visible Color'],
+      simulation_outputs_ku: ['درێژی شەپۆلی لووتکەی تیشکدان λ_max (میکرۆمەتر)', 'توندی تیشکدانی گشتی I (واط/م²)', 'هێڵکاری دابەشبوونی سپێکتڕۆمی و ڕەنگی بینراو'],
+      simulation_outputs_kmr: ['Dirêjahiya pêlê ya lûtkeya tîrêjdanê λ_max (μm)', 'Tundiya tîrêjdanê ya tevahî I (W/m²)', 'Grafîka belavbûna şebengî û rengê dîtbar'],
       icon: <Sun className="w-4 h-4 text-amber-400" />
     },
     {
@@ -1276,6 +1491,12 @@ export default function App() {
       physical_law: 'Vₛ / Vₚ = Nₛ / Nₚ,  Vₚ · Iₚ · η = Vₛ · Iₛ,  Φ_max = Vₚ / (4.44 · f · Nₚ)',
       simulation_inputs: ['جهد المصدر الابتدائي Vₚ (فولت)', 'عدد لفات الملف الابتدائي Nₚ', 'عدد لفات الملف الثانوي Nₛ', 'مقاومة الحمل R_L (أوم)', 'كفاءة المحول η%'],
       simulation_outputs: ['الجهد الثانوي المستحث Vₛ (فولت)', 'تيار الملفين الابتدائي Iₚ والثانوي Iₛ (أمبير)', 'نسبة التحويل a ونوع المحول', 'القدرة الكهربائية المنقولة Pₛ (واط)'],
+      simulation_inputs_en: ['Primary Source Voltage Vₚ (Volts)', 'Primary Coil Turns Nₚ', 'Secondary Coil Turns Nₛ', 'Load Resistance R_L (Ohms)', 'Transformer Efficiency η%'],
+      simulation_inputs_ku: ['پۆتەنسیالی سەرچاوەی سەرەتایی Vₚ (ڤۆڵت)', 'ژمارەی پێچەکانی کۆیلی سەرەتایی Nₚ', 'ژمارەی پێچەکانی کۆیلی دووەم Nₛ', 'بەرگری بار R_L (ئۆم)', 'توانستی ترانسفۆرمەر η%'],
+      simulation_inputs_kmr: ['Potansiyela jêderê yekemîn Vₚ (Volt)', 'Hejmara pêçanên bobîna yekemîn Nₚ', 'Hejmara pêçanên bobîna duyemîn Nₛ', 'Xwegiriya bar R_L (Ohm)', 'Karîgerîtiya guhêrkê η%'],
+      simulation_outputs_en: ['Induced Secondary Voltage Vₛ (Volts)', 'Primary Iₚ & Secondary Iₛ Currents (Amperes)', 'Transformation Ratio a & Transformer Type', 'Transferred Electric Power Pₛ (Watts)'],
+      simulation_outputs_ku: ['پۆتەنسیالی دووەمی هاندراو Vₛ (ڤۆڵت)', 'تەزووی هەردوو کۆیلی سەرەتایی Iₚ و دووەم Iₛ (ئەمپێر)', 'ڕێژەی گۆڕین a و جۆری ترانسفۆرمەر', 'توانای کارەبایی گوازراوە Pₛ (واط)'],
+      simulation_outputs_kmr: ['Potansiyela duyemîn a arîner Vₛ (Volt)', 'Herikîna bobîna yekemîn Iₚ û duyemîn Iₛ (A)', 'Rêjeya veguhartinê a û cûreyê guhêrkê', 'Karîna elektrîkî ya veguhastî Pₛ (Watt)'],
       icon: <Zap className="w-4 h-4 text-amber-400" />
     },
     {
@@ -1289,6 +1510,12 @@ export default function App() {
       physical_law: 'E_k = h · f - Φ = (h · c / λ) - Φ,  e · V_stop = K_max,  λ₀ = h · c / Φ',
       simulation_inputs: ['طول موجة الضوء الساقط λ (نانومتر)', 'شدة الإضاءة (%)', 'نوع معدن المهبط (دالة الشغل Φ)', 'جهد الانحياز الخارجي V (فولت)'],
       simulation_outputs: ['طاقة الفوتون الساقط E (إلكترون فولت)', 'أقصى طاقة حركية للإلكترونات K_max', 'جهد الإيقاف V_stop (فولت)', 'تردد وطول موجة العتبة f₀ و λ₀', 'سرعة انطلاق الإلكترونات v_max'],
+      simulation_inputs_en: ['Incident Light Wavelength λ (nm)', 'Light Intensity (%)', 'Cathode Metal Type (Work Function Φ)', 'External Bias Voltage V (Volts)'],
+      simulation_inputs_ku: ['درێژی شەپۆلی ڕووناکی کەوتوو λ (نانۆمەتر)', 'توندی ڕووناکی (%)', 'جۆری کانزای کاتۆد (پابەندە ئیش Φ)', 'پۆتەنسیالی لادانی دەرەکی V (ڤۆڵت)'],
+      simulation_inputs_kmr: ['Dirêjahiya pêla ronahiya hatî λ (nm)', 'Xurtiya ronahiyê (%)', "Cûreyê me'denê katodê (Enerjiya derkirinê Φ)", 'Potansiyela derveyî V (Volt)'],
+      simulation_outputs_en: ['Incident Photon Energy E (eV)', 'Max Electron Kinetic Energy K_max', 'Stopping Potential V_stop (Volts)', 'Threshold Frequency & Wavelength f₀ & λ₀', 'Emitted Electron Speed v_max'],
+      simulation_outputs_ku: ['وزەی فۆتۆنی کەوتوو E (ئەلیکترۆن فولت)', 'ئەوپەڕی وزەی جووڵەی ئەلیکترۆنەکان K_max', 'پۆتەنسیالی ڕاوەستان V_stop (ڤۆڵت)', 'لەرەلەر و درێژی شەپۆلی سنور f₀ و λ₀', 'خێرایی دەرچوونی ئەلیکترۆنەکان v_max'],
+      simulation_outputs_kmr: ['Enerjiya fotona hatî E (eV)', 'Enerjiya tevgerî ya maksîmom a elektronan K_max', 'Potansiyela rawestandinê V_stop (Volt)', 'Frekans û dirêjahiya pêla sînorî f₀ û λ₀', 'Leza derketina elektronan v_max'],
       icon: <Sparkles className="w-4 h-4 text-purple-400" />
     },
     {
@@ -1302,6 +1529,12 @@ export default function App() {
       physical_law: 'N(t) = N₀ · (1/2)^(t / T₁/₂) = N₀ · e^(-λ · t),  λ = ln(2) / T₁/₂,  A(t) = λ · N(t)',
       simulation_inputs: ['عدد الأنوية المشعة الابتدائية N₀', 'نوع النظير المشع وعمر النصف T₁/₂', 'الزمن المنقضي t (ثانية)', 'القفز بنصف عمر كامل (+1 T½)'],
       simulation_outputs: ['عدد الأنوية المشعة المتبقية N(t)', 'عدد الأنوية المستقرة المتكونة N_decayed', 'النسبة المئوية المتبقية %', 'النشاط الإشعاعي اللحظي A(t) (بيكربل)', 'ثابت التحلل λ'],
+      simulation_inputs_en: ['Initial Radioactive Nuclei Count N₀', 'Isotope Type & Half-Life T₁/₂', 'Elapsed Time t (seconds)', 'Jump Full Half-Life (+1 T½)'],
+      simulation_inputs_ku: ['ژمارەی ناوکە تیشکدەرە سەرەتاییەکان N₀', 'جۆری هاوشێوەی تیشکدەر و نیوەتەمەن T₁/₂', 'کاتی بەسەرچوو t (چرکە)', 'بڕینی نیوەتەمەنێکی تەواو (+1 T½)'],
+      simulation_inputs_kmr: ['Hejmara dendikên radyoaktîf ên destpêkê N₀', 'Cûreyê îzotopa radyoaktîf û nîv-temen T₁/₂', 'Dema derbasbûyî t (saniye)', 'Baskirina nîv-temenekî temam (+1 T½)'],
+      simulation_outputs_en: ['Remaining Radioactive Nuclei N(t)', 'Formed Stable Nuclei N_decayed', 'Remaining Percentage %', 'Instantaneous Activity A(t) (Bq)', 'Decay Constant λ'],
+      simulation_outputs_ku: ['ژمارەی ناوکە تیشکدەرە ماوەکان N(t)', 'ژمارەی ناوکە جێگیرە دروستبووەکان N_decayed', 'ڕێژەی سەدیی ماوە %', 'چالاکی تیشکدەری کاتیی A(t) (بێکربل)', 'نەگۆڕی تێکچوون λ'],
+      simulation_outputs_kmr: ['Hejmara dendikên radyoaktîf ên mawe N(t)', 'Hejmara dendikên cihê (stebîl) ên çêbûyî N_decayed', 'Rêjeya ji sedî ya mawe %', 'Çalakîtiya radyoaktîf a kêliyî A(t) (Bq)', 'Xweciha hilweşînê λ'],
       icon: <Radiation className="w-4 h-4 text-emerald-400" />
     },
     {
@@ -1315,6 +1548,12 @@ export default function App() {
       physical_law: 'Q_lost = Q_gained => m₁ · c₁ · (T₁ - T_f) = m₂ · c₂ · (T_f - T₂)',
       simulation_inputs: ['كتلة ونوع الجسم الصلب الساخن m₁ و c₁', 'درجة حرارة الجسم الابتدائية T₁ (°C)', 'كتلة ونوع سائل المسعر m₂ و c₂', 'درجة حرارة السائل الابتدائية T₂ (°C)'],
       simulation_outputs: ['درجة حرارة الاتزان الحراري النهائية T_f (°C و K)', 'كمية الطاقة الحرارية المتبادلة Q (جول وسعر حراري)', 'السعات الحرارية C₁ و C₂', 'تغير درجات الحرارة ΔT₁ و ΔT₂'],
+      simulation_inputs_en: ['Mass & Material of Hot Solid Body m₁ & c₁', 'Initial Body Temperature T₁ (°C)', 'Mass & Type of Calorimeter Liquid m₂ & c₂', 'Initial Liquid Temperature T₂ (°C)'],
+      simulation_inputs_ku: ['بارستە و جۆری تەنی ڕەقی گەرم m₁ و c₁', 'پلەی گەرمی سەرەتایی تەنەکە T₁ (°C)', 'بارستە و جۆری شلەی کالۆریمیتەر m₂ و c₂', 'پلەی گەرمی سەرەتایی شلەکە T₂ (°C)'],
+      simulation_inputs_kmr: ['Bariste û cûreyê gewdeyê hişk ê germ m₁ û c₁', 'Pileya germahiyê ya destpêkî ya gewdeyî T₁ (°C)', 'Bariste û cûreyê rona kalorîmetrê m₂ û c₂', 'Pileya germahiyê ya destpêkî ya ronê T₂ (°C)'],
+      simulation_outputs_en: ['Final Thermal Equilibrium Temperature T_f (°C & K)', 'Exchanged Thermal Energy Quantity Q (J & cal)', 'Heat Capacities C₁ & C₂', 'Temperature Changes ΔT₁ & ΔT₂'],
+      simulation_outputs_ku: ['پلەی گەرمی هاوسەنگی گەرمی کۆتایی T_f (°C و K)', 'بڕی وزەی گەرمی ئاڵوگۆڕکراو Q (جول و کالۆری)', 'فراوانییەکانی گەرمی C₁ و C₂', 'گۆڕانی پلەکانی گەرمی ΔT₁ و ΔT₂'],
+      simulation_outputs_kmr: ['Pileya germahiyê ya hevsengiya germî ya dawî T_f (°C û K)', 'Qaseya enerjiya germî ya veguhastî Q (Jûl û Kalorî)', 'Kapasîteyên germî C₁ û C₂', 'Guherîna pileyên germahiyê ΔT₁ û ΔT₂'],
       icon: <Flame className="w-4 h-4 text-amber-400" />
     }
   ];

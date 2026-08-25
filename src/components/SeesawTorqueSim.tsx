@@ -8,6 +8,98 @@ interface Props {
 }
 
 export default function SeesawTorqueSim({ lang, onLogMeasurement }: Props) {
+  const t = {
+    ar: {
+      title: 'أرجوحة التوازن وعزم الدوران',
+      desc: 'تطبيق قانون العزم τ = m·g·r وشرط الاتزان الدوراني Στ = 0 من خلال ضبط أوزان ومسافات الأطفال على لوح الأرجوحة.',
+      autoBalance: 'موازنة تلقائية', // غير موثّق بمصدر
+      logged: 'تم التسجيل في الدفتر ✓', // غير موثّق بمصدر
+      log: 'تسجيل في دفتر المختبر', // غير موثّق بمصدر
+      controlsTitle: 'معايير الأوزان والأذرع', // غير موثّق بمصدر
+      leftMass: 'كتلة الطفل الأيسر (m₁):',
+      leftDist: 'موقع الطفل الأيسر (r₁):',
+      rightMass: 'كتلة الطفل الأيمن (m₂):',
+      rightDist: 'موقع الطفل الأيمن (r₂):',
+      leftTorque: 'العزم الأيسر (τ₁)',
+      rightTorque: 'العزم الأيمن (τ₂)',
+      eqState: 'حالة التوازن الدوراني',
+      balanced: 'متوازنة تماماً',
+      unbalanced: 'غير متوازنة',
+      tiltAngle: 'زاوية ميل اللوح (θ)',
+    },
+    en: {
+      title: 'Seesaw Torque & Equilibrium',
+      desc: 'Principle of moments and rotational equilibrium τ = m·g·r on an interactive seesaw pivot.',
+      autoBalance: 'Auto Balance', // غير موثّق بمصدر
+      logged: 'Logged ✓', // غير موثّق بمصدر
+      log: 'Log Measurement', // غير موثّق بمصدر
+      controlsTitle: 'Masses & Arms Controls', // غير موثّق بمصدر
+      leftMass: 'Left Mass (m₁):',
+      leftDist: 'Left Distance (r₁):',
+      rightMass: 'Right Mass (m₂):',
+      rightDist: 'Right Distance (r₂):',
+      leftTorque: 'Left Torque (τ₁)',
+      rightTorque: 'Right Torque (τ₂)',
+      eqState: 'Equilibrium State',
+      balanced: 'Balanced',
+      unbalanced: 'Unbalanced',
+      tiltAngle: 'Plank Tilt (θ)',
+    },
+    ku: {
+      title: 'تەرازووی لەرزۆک و زەبری خولانەوە',
+      desc: 'بەکارهێنانی یاسای زەبر τ = m·g·r و مەرجی هاوسەنگی خولانەوە لەسەر جۆلانەی تەرازوو.',
+      autoBalance: 'هاوسەنگیی خۆکار', // غير موثّق بمصدر
+      logged: 'تۆمارکرا لە دەفتەر ✓', // غير موثّق بمصدر
+      log: 'تۆمارکردنی پێوانە', // غير موثّق بمصدر
+      controlsTitle: 'کۆنترۆڵەکانی بارستە و قۆڵەکان', // غير موثّق بمصدر
+      leftMass: 'بارستەی لای چەپ (m₁):',
+      leftDist: 'شوێنی لای چەپ (r₁):',
+      rightMass: 'بارستەی لای ڕاست (m₂):',
+      rightDist: 'شوێنی لای ڕاست (r₂):',
+      leftTorque: 'زەبری لای چەپ (τ₁)',
+      rightTorque: 'زەبری لای ڕاست (τ₂)',
+      eqState: 'دۆخی هاوسەنگیی خولانەوە',
+      balanced: 'تەواو هاوسەنگە',
+      unbalanced: 'ناهاوسەنگە',
+      tiltAngle: 'گۆشەی لادانی تەختەکە (θ)',
+    },
+    kmr: {
+      title: 'Têrazûya Hêlînê û Zewra Zivirînê',
+      desc: 'Sepandina qanûna zewrê τ = m·g·r û mercê hevsengiya zivirînê Στ = 0 di têrazûyê de.',
+      autoBalance: 'Hevsengiya xweser', // غير موثّق بمصدر
+      logged: 'Hat tomarkirin ✓', // غير موثّق بمصدر
+      log: 'Tomarkirina pîvanê', // غير موثّق بمصدر
+      controlsTitle: 'Kontrolên bariste û milan', // غير موثّق بمصدر
+      leftMass: 'Baristeya milê çepê (m₁):',
+      leftDist: 'Cihê milê çepê (r₁):',
+      rightMass: 'Baristeya milê rastê (m₂):',
+      rightDist: 'Cihê milê rastê (r₂):',
+      leftTorque: 'Zewra çepê (τ₁)',
+      rightTorque: 'Zewra rastê (τ₂)',
+      eqState: 'Barê hevsengiya zivirînê',
+      balanced: 'Bi temamî hevseng e',
+      unbalanced: 'Nehevseng e',
+      tiltAngle: 'Goya xwarbûna darê (θ)',
+    },
+  }[lang] || {
+    title: 'أرجوحة التوازن وعزم الدوران',
+    desc: 'تطبيق قانون العزم τ = m·g·r وشرط الاتزان الدوراني Στ = 0 من خلال ضبط أوزان ومسافات الأطفال على لوح الأرجوحة.',
+    autoBalance: 'موازنة تلقائية',
+    logged: 'تم التسجيل في الدفتر ✓',
+    log: 'تسجيل في دفتر المختبر',
+    controlsTitle: 'معايير الأوزان والأذرع',
+    leftMass: 'كتلة الطفل الأيسر (m₁):',
+    leftDist: 'موقع الطفل الأيسر (r₁):',
+    rightMass: 'كتلة الطفل الأيمن (m₂):',
+    rightDist: 'موقع الطفل الأيمن (r₂):',
+    leftTorque: 'العزم الأيسر (τ₁)',
+    rightTorque: 'العزم الأيمن (τ₂)',
+    eqState: 'حالة التوازن الدوراني',
+    balanced: 'متوازنة تماماً',
+    unbalanced: 'غير متوازنة',
+    tiltAngle: 'زاوية ميل اللوح (θ)',
+  };
+
   // Inputs
   const [leftMassKg, setLeftMassKg] = useState<number>(30); // kg
   const [leftDistM, setLeftDistM] = useState<number>(2.0); // m
@@ -209,17 +301,9 @@ export default function SeesawTorqueSim({ lang, onLogMeasurement }: Props) {
         <div>
           <h2 className="text-base sm:text-lg font-bold text-zinc-100 flex items-center gap-2">
             <Scale className="w-5 h-5 text-emerald-400" />
-            <span>
-              {lang === 'ar' ? 'أرجوحة التوازن وعزم الدوران (Seesaw Torque Balance)' : lang === 'ku' ? 'تەرازووی لەرزۆک و زەبری خولانەوە' : 'Seesaw Torque & Equilibrium'}
-            </span>
+            <span>{t.title}</span>
           </h2>
-          <p className="text-xs text-zinc-400 mt-1 max-w-2xl">
-            {lang === 'ar'
-              ? 'تطبيق قانون العزم τ = m·g·r وشرط الاتزان الدوراني Στ = 0 من خلال ضبط أوزان ومسافات الأطفال على لوح الأرجوحة.'
-              : lang === 'ku'
-              ? 'بەکارهێنانی یاسای زەبر τ = m·g·r و مەرجی هاوسەنگی خولانەوە لەسەر جۆلانەی تەرازوو.'
-              : 'Principle of moments and rotational equilibrium τ = m·g·r on an interactive seesaw pivot.'}
-          </p>
+          <p className="text-xs text-zinc-400 mt-1 max-w-2xl">{t.desc}</p>
         </div>
 
         <div className="flex items-center gap-2">
@@ -228,7 +312,7 @@ export default function SeesawTorqueSim({ lang, onLogMeasurement }: Props) {
             className="px-3 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 text-xs font-semibold flex items-center gap-1.5"
           >
             <ArrowRightLeft className="w-3.5 h-3.5 text-emerald-400" />
-            <span>{lang === 'ar' ? 'موازنة تلقائية' : 'Auto Balance'}</span>
+            <span>{t.autoBalance}</span>
           </button>
           <button
             onClick={handleLog}
@@ -239,7 +323,7 @@ export default function SeesawTorqueSim({ lang, onLogMeasurement }: Props) {
             }`}
           >
             <BookmarkCheck className="w-4 h-4" />
-            <span>{logged ? (lang === 'ar' ? 'تم التسجيل في الدفتر ✓' : 'Logged ✓') : (lang === 'ar' ? 'تسجيل في دفتر المختبر' : 'Log Measurement')}</span>
+            <span>{logged ? t.logged : t.log}</span>
           </button>
         </div>
       </div>
@@ -251,14 +335,14 @@ export default function SeesawTorqueSim({ lang, onLogMeasurement }: Props) {
           <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
             <span className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
               <Sliders className="w-4 h-4 text-emerald-400" />
-              {lang === 'ar' ? 'معايير الأوزان والأذرع' : 'Masses & Arms Controls'}
+              {t.controlsTitle}
             </span>
           </div>
 
           {/* Left Mass Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'كتلة الطفل الأيسر (m₁):' : 'Left Mass (m₁):'}</span>
+              <span className="text-zinc-400">{t.leftMass}</span>
               <span className="font-mono text-rose-400 font-semibold">{leftMassKg} kg</span>
             </div>
             <input
@@ -275,7 +359,7 @@ export default function SeesawTorqueSim({ lang, onLogMeasurement }: Props) {
           {/* Left Distance Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'موقع الطفل الأيسر (r₁):' : 'Left Distance (r₁):'}</span>
+              <span className="text-zinc-400">{t.leftDist}</span>
               <span className="font-mono text-rose-300 font-semibold">{leftDistM.toFixed(1)} m</span>
             </div>
             <input
@@ -292,7 +376,7 @@ export default function SeesawTorqueSim({ lang, onLogMeasurement }: Props) {
           {/* Right Mass Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'كتلة الطفل الأيمن (m₂):' : 'Right Mass (m₂):'}</span>
+              <span className="text-zinc-400">{t.rightMass}</span>
               <span className="font-mono text-emerald-400 font-semibold">{rightMassKg} kg</span>
             </div>
             <input
@@ -309,7 +393,7 @@ export default function SeesawTorqueSim({ lang, onLogMeasurement }: Props) {
           {/* Right Distance Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'موقع الطفل الأيمن (r₂):' : 'Right Distance (r₂):'}</span>
+              <span className="text-zinc-400">{t.rightDist}</span>
               <span className="font-mono text-emerald-300 font-semibold">{rightDistM.toFixed(1)} m</span>
             </div>
             <input
@@ -339,7 +423,7 @@ export default function SeesawTorqueSim({ lang, onLogMeasurement }: Props) {
             {/* Left Torque */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'العزم الأيسر (τ₁)' : 'Left Torque (τ₁)'}
+                {t.leftTorque}
               </span>
               <div className="text-xl font-bold font-mono text-rose-400">
                 {leftTorqueNm.toFixed(0)} <span className="text-xs text-zinc-400">N·m</span>
@@ -350,7 +434,7 @@ export default function SeesawTorqueSim({ lang, onLogMeasurement }: Props) {
             {/* Right Torque */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'العزم الأيمن (τ₂)' : 'Right Torque (τ₂)'}
+                {t.rightTorque}
               </span>
               <div className="text-xl font-bold font-mono text-emerald-400">
                 {rightTorqueNm.toFixed(0)} <span className="text-xs text-zinc-400">N·m</span>
@@ -361,11 +445,11 @@ export default function SeesawTorqueSim({ lang, onLogMeasurement }: Props) {
             {/* Equilibrium State */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'حالة التوازن الدوراني' : 'Equilibrium State'}
+                {t.eqState}
               </span>
               <div className={`text-xs font-bold flex items-center gap-1 ${isBalanced ? 'text-emerald-400' : 'text-amber-400'}`}>
                 <CheckCircle2 className="w-4 h-4" />
-                <span>{isBalanced ? (lang === 'ar' ? 'متوازنة تماماً' : 'Balanced') : (lang === 'ar' ? 'غير متوازنة' : 'Unbalanced')}</span>
+                <span>{isBalanced ? t.balanced : t.unbalanced}</span>
               </div>
               <span className="text-[9px] text-zinc-500 font-mono">Δτ = {netTorqueNm.toFixed(1)} N·m</span>
             </div>
@@ -373,7 +457,7 @@ export default function SeesawTorqueSim({ lang, onLogMeasurement }: Props) {
             {/* Tilt Angle */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'زاوية ميل اللوح (θ)' : 'Plank Tilt (θ)'}
+                {t.tiltAngle}
               </span>
               <div className="text-xl font-bold font-mono text-sky-400">
                 {tiltAngleDeg.toFixed(1)}°

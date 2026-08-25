@@ -32,6 +32,124 @@ export default function PhotoelectricEffectSim({ lang, onLogMeasurement }: Props
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [electrons, setElectrons] = useState<{ id: number; x: number; y: number; vx: number }[]>([]);
 
+  const translations = {
+    ar: {
+      title: 'محاكاة الظاهرة الكهروضوئية (Photoelectric Effect)',
+      play: 'تشغيل', // غير موثّق بمصدر
+      pause: 'إيقاف', // غير موثّق بمصدر
+      logMeasurement: 'تسجيل القياس', // غير موثّق بمصدر
+      activeEmission: '⚡ انبعاث كهروضوئي نشط (E_photon > Φ)',
+      noEmission: '⛔ لا يوجد انبعاث (طاقة الفوتون أقل من دالة الشغل)',
+      photocurrentLabel: 'التيار الضوئي:',
+      cathodeLabel: 'المهبط (Cathode)',
+      anodeLabel: 'المصعد (Anode)',
+      photonEnergyMeter: 'طاقة الفوتون (E)',
+      workFunctionMeter: 'دالة الشغل (Φ)',
+      maxKineticEnergyMeter: 'أقصى طاقة حركية (K_max)',
+      stoppingPotentialMeter: 'جهد الإيقاف (V_stop)',
+      controlsTitle: 'المعاملات والمتغيرات', // غير موثّق بمصدر
+      targetMetalLabel: 'معدن الهدف (دالة الشغل Φ):',
+      wavelengthLabel: 'طول موجة الضوء (λ):',
+      intensityLabel: 'شدة الإضاءة:',
+      biasVoltageLabel: 'جهد الانحياز الخارجي (V):',
+      thresholdWavelengthCard: 'طول موجة العتبة (λ₀)',
+      thresholdWavelengthSubtext: 'λ₀ = hc / Φ (أطول موجة تسبب انبعاث)',
+      thresholdFrequencyCard: 'تردد العتبة (f₀)',
+      thresholdFrequencySubtext: 'f₀ = Φ / h (أقل تردد مطلوب)',
+      maxVelocityCard: 'سرعة الإلكترونات القصوى (v_max)',
+      einsteinLawCard: 'معادلة أينشتاين (Einstein Law)',
+    },
+    en: {
+      title: 'Photoelectric Effect Simulation',
+      play: 'Play', // غير موثّق بمصدر
+      pause: 'Pause', // غير موثّق بمصدر
+      logMeasurement: 'Log', // غير موثّق بمصدر
+      activeEmission: '⚡ Photoelectric Emission Active (hf > Φ)',
+      noEmission: '⛔ No Emission (hf < Φ - Below Threshold)',
+      photocurrentLabel: 'Photocurrent:',
+      cathodeLabel: 'Cathode (-)',
+      anodeLabel: 'Anode (+)',
+      photonEnergyMeter: 'Photon Energy',
+      workFunctionMeter: 'Work Function',
+      maxKineticEnergyMeter: 'Max Kinetic Energy',
+      stoppingPotentialMeter: 'Stopping Potential',
+      controlsTitle: 'Experimental Controls', // غير موثّق بمصدر
+      targetMetalLabel: 'Target Metal (Φ):',
+      wavelengthLabel: 'Light Wavelength (λ):',
+      intensityLabel: 'Light Intensity:',
+      biasVoltageLabel: 'Bias Potential (V):',
+      thresholdWavelengthCard: 'Threshold Wavelength (λ₀)',
+      thresholdWavelengthSubtext: 'λ₀ = hc / Φ (Longest wavelength causing emission)',
+      thresholdFrequencyCard: 'Threshold Frequency (f₀)',
+      thresholdFrequencySubtext: 'f₀ = Φ / h (Minimum frequency required)',
+      maxVelocityCard: 'Max Electron Velocity',
+      einsteinLawCard: 'Einstein Equation',
+    },
+    ku: {
+      title: 'دیاردەی کارۆڕووناکی (Photoelectric Effect)',
+      play: 'دەستپێکردن', // غير موثّق بمصدر
+      pause: 'وەستان', // غير موثّق بمصدر
+      logMeasurement: 'تۆمارکردنی پێوانە', // غير موثّق بمصدر
+      activeEmission: '⚡ دەردانی کارۆڕووناکی چالاکە (hf > Φ)',
+      noEmission: '⛔ دەردان ڕوونادات (طاقەی فۆتۆن کەمترە لە کاری هەڵمژین)',
+      photocurrentLabel: 'تەزووی ڕووناکی:',
+      cathodeLabel: 'کاسۆد (Cathode)',
+      anodeLabel: 'ئانۆد (Anode)',
+      photonEnergyMeter: 'ئەنەرجیی فۆتۆن (E)',
+      workFunctionMeter: 'دالة الشغل (Φ)',
+      maxKineticEnergyMeter: 'زۆرترین ئەنەرجیی جووڵە (K_max)',
+      stoppingPotentialMeter: 'ڤۆڵتیەی وەستان (V_stop)',
+      controlsTitle: 'کۆنتڕۆڵەکانی تاقیکردنەوە', // غير موثّق بمصدر
+      targetMetalLabel: 'فلزی ئامانج (Φ):',
+      wavelengthLabel: 'درێژی شەپۆلی ڕووناکی (λ):',
+      intensityLabel: 'تۆخیی ڕووناکی:',
+      biasVoltageLabel: 'ڤۆڵتیەی دەرەکی (V):',
+      thresholdWavelengthCard: 'درێژی شەپۆلی بەربەست (λ₀)',
+      thresholdWavelengthSubtext: 'λ₀ = hc / Φ (درێژترین شەپۆل)',
+      thresholdFrequencyCard: 'لەرەلەری بەربەست (f₀)',
+      thresholdFrequencySubtext: 'f₀ = Φ / h (کەمترین لەرەلەر)',
+      maxVelocityCard: 'زۆرترین خێرایی ئېلیکترۆن',
+      einsteinLawCard: 'هاوکێشەی ئەنیشتاین',
+    },
+    kmr: {
+      title: 'Diyardeya Fotoelektrîkê',
+      play: 'Dest Pê Beke', // غير موثّق بمصدر
+      pause: 'Aram Be', // غير موثّق بمصدر
+      logMeasurement: 'Tomarkirina pîvanê', // غير موثّق بمصدر
+      activeEmission: '⚡ Emîsyona fotoelektrîkî çalak e (hf > Φ)',
+      noEmission: '⛔ Emîsyon tune ye (hf < Φ - Di bin benda şên de)',
+      photocurrentLabel: 'Herikîna ronahiyê:',
+      cathodeLabel: 'Katod (-)',
+      anodeLabel: 'Anod (+)',
+      photonEnergyMeter: 'Anersiya fotonê',
+      workFunctionMeter: 'Karkirina kargêrî (Φ)',
+      maxKineticEnergyMeter: 'Herî zêde anersiya kinetîkî',
+      stoppingPotentialMeter: 'Potansiyela rawestandinê (V_stop)',
+      controlsTitle: 'Kontrolên ezmûnê', // غير موثّق بمصدر
+      targetMetalLabel: 'Metala armanc (Φ):',
+      wavelengthLabel: 'Dirêjiya pêla ronahiyê (λ):',
+      intensityLabel: 'Siddeta ronahiyê:',
+      biasVoltageLabel: 'Potansiyela derve (V):',
+      thresholdWavelengthCard: 'Dirêjiya pêla bendê (λ₀)',
+      thresholdWavelengthSubtext: 'λ₀ = hc / Φ (Dirêjtirîn pêl)',
+      thresholdFrequencyCard: 'Frekansa bendê (f₀)',
+      thresholdFrequencySubtext: 'f₀ = Φ / h (Kêmtirîn frekans)',
+      maxVelocityCard: 'Herî zêde leza elektronan',
+      einsteinLawCard: 'Hevkêşeya Einstein',
+    },
+  };
+  const t = translations[lang] || translations.ar;
+
+  const getMetalName = (m: TargetMetal) => {
+    const names: Record<string, string> = {
+      ar: m.nameAr,
+      ku: m.nameAr,
+      kmr: m.nameEn,
+      en: m.nameEn,
+    };
+    return names[lang] || m.nameAr;
+  };
+
   const metal = TARGET_METALS[metalIndex];
   const hPlanckEV = 4.135667696e-15; // eV * s
   const cSpeed = 299792458; // m/s
@@ -153,13 +271,7 @@ export default function PhotoelectricEffectSim({ lang, onLogMeasurement }: Props
           </div>
           <div>
             <h3 className="text-sm font-bold text-white">
-              {lang === 'ar'
-                ? 'محاكاة الظاهرة الكهروضوئية (Photoelectric Effect)'
-                : lang === 'ku'
-                ? 'دیاردەی کارۆڕووناکی (Photoelectric Effect)'
-                : lang === 'kmr'
-                ? 'Diyardeya Fotoelektrîkê'
-                : 'Photoelectric Effect Simulation'}
+              {t.title}
             </h3>
             <p className="text-xs text-slate-400 font-mono">
               E_k = h·f - Φ &nbsp;|&nbsp; e·V_stop = K_max &nbsp;|&nbsp; λ₀ = hc / Φ
@@ -175,14 +287,14 @@ export default function PhotoelectricEffectSim({ lang, onLogMeasurement }: Props
             }`}
           >
             {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-            <span>{isPlaying ? (lang === 'ar' ? 'إيقاف' : 'Pause') : (lang === 'ar' ? 'تشغيل' : 'Play')}</span>
+            <span>{isPlaying ? t.pause : t.play}</span>
           </button>
           <button
             onClick={handleLog}
             className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow flex items-center gap-1.5 transition-all"
           >
             <Activity className="w-3.5 h-3.5" />
-            <span>{lang === 'ar' ? 'تسجيل القياس' : 'Log'}</span>
+            <span>{t.logMeasurement}</span>
           </button>
         </div>
       </div>
@@ -200,16 +312,12 @@ export default function PhotoelectricEffectSim({ lang, onLogMeasurement }: Props
               }`}
             >
               {canEmit
-                ? lang === 'ar'
-                  ? '⚡ انبعاث كهروضوئي نشط (E_photon > Φ)'
-                  : '⚡ Photoelectric Emission Active (hf > Φ)'
-                : lang === 'ar'
-                ? '⛔ لا يوجد انبعاث (طاقة الفوتون أقل من دالة الشغل)'
-                : '⛔ No Emission (hf < Φ - Below Threshold)'}
+                ? t.activeEmission
+                : t.noEmission}
             </span>
 
             <span className="font-mono text-slate-400 bg-slate-900/80 px-2.5 py-1 rounded-md border border-slate-800">
-              {lang === 'ar' ? 'التيار الضوئي:' : 'Photocurrent:'} <strong className="text-amber-400">{photocurrentMicroA.toFixed(1)} μA</strong>
+              {t.photocurrentLabel} <strong className="text-amber-400">{photocurrentMicroA.toFixed(1)} μA</strong>
             </span>
           </div>
 
@@ -232,13 +340,13 @@ export default function PhotoelectricEffectSim({ lang, onLogMeasurement }: Props
               {/* Cathode Target Metal Plate (Left: x=25) */}
               <rect x="23" y="24" width="4" height="32" rx="1" fill={metal.color} stroke="#f8fafc" strokeWidth="0.4" />
               <text x="25" y="61" fill="#cbd5e1" fontSize="2.5" fontWeight="bold" textAnchor="middle">
-                {lang === 'ar' ? 'المهبط (Cathode)' : 'Cathode (-)'}
+                {t.cathodeLabel}
               </text>
 
               {/* Anode Collector Plate (Right: x=75) */}
               <rect x="73" y="24" width="4" height="32" rx="1" fill="#64748b" stroke="#94a3b8" strokeWidth="0.4" />
               <text x="75" y="61" fill="#cbd5e1" fontSize="2.5" fontWeight="bold" textAnchor="middle">
-                {lang === 'ar' ? 'المصعد (Anode)' : 'Anode (+)'}
+                {t.anodeLabel}
               </text>
 
               {/* Liberated Photoelectrons */}
@@ -260,19 +368,19 @@ export default function PhotoelectricEffectSim({ lang, onLogMeasurement }: Props
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl text-center text-xs font-mono">
             <div>
-              <span className="text-slate-400 text-[10px] block">{lang === 'ar' ? 'طاقة الفوتون (E)' : 'Photon Energy'}</span>
+              <span className="text-slate-400 text-[10px] block">{t.photonEnergyMeter}</span>
               <span className="text-purple-400 font-bold">{photonEnergyEV.toFixed(2)} eV</span>
             </div>
             <div>
-              <span className="text-slate-400 text-[10px] block">{lang === 'ar' ? 'دالة الشغل (Φ)' : 'Work Function'}</span>
+              <span className="text-slate-400 text-[10px] block">{t.workFunctionMeter}</span>
               <span className="text-amber-400 font-bold">{metal.workFunctionEV.toFixed(2)} eV</span>
             </div>
             <div>
-              <span className="text-slate-400 text-[10px] block">{lang === 'ar' ? 'أقصى طاقة حركية (K_max)' : 'Max Kinetic Energy'}</span>
+              <span className="text-slate-400 text-[10px] block">{t.maxKineticEnergyMeter}</span>
               <span className="text-emerald-400 font-bold">{maxKineticEnergyEV.toFixed(2)} eV</span>
             </div>
             <div>
-              <span className="text-slate-400 text-[10px] block">{lang === 'ar' ? 'جهد الإيقاف (V_stop)' : 'Stopping Potential'}</span>
+              <span className="text-slate-400 text-[10px] block">{t.stoppingPotentialMeter}</span>
               <span className="text-sky-400 font-bold">{stoppingPotentialV.toFixed(2)} V</span>
             </div>
           </div>
@@ -282,12 +390,12 @@ export default function PhotoelectricEffectSim({ lang, onLogMeasurement }: Props
         <div className="lg:col-span-4 space-y-4">
           <div className="bg-slate-950 border border-slate-800 rounded-xl p-3.5 space-y-3">
             <h4 className="text-xs font-bold text-purple-300 uppercase tracking-wider">
-              {lang === 'ar' ? 'المعاملات والمتغيرات' : 'Experimental Controls'}
+              {t.controlsTitle}
             </h4>
 
             {/* Target Metal Selector */}
             <div className="space-y-1">
-              <label className="text-xs text-slate-300">{lang === 'ar' ? 'معدن الهدف (دالة الشغل Φ):' : 'Target Metal (Φ):'}</label>
+              <label className="text-xs text-slate-300">{t.targetMetalLabel}</label>
               <select
                 value={metalIndex}
                 onChange={(e) => setMetalIndex(parseInt(e.target.value))}
@@ -295,7 +403,7 @@ export default function PhotoelectricEffectSim({ lang, onLogMeasurement }: Props
               >
                 {TARGET_METALS.map((m, idx) => (
                   <option key={m.id} value={idx}>
-                    {lang === 'ar' ? m.nameAr : m.nameEn} ({m.workFunctionEV} eV)
+                    {getMetalName(m)} ({m.workFunctionEV} eV)
                   </option>
                 ))}
               </select>
@@ -304,7 +412,7 @@ export default function PhotoelectricEffectSim({ lang, onLogMeasurement }: Props
             {/* Light Wavelength (nm) */}
             <div className="space-y-1">
               <div className="flex justify-between text-xs">
-                <span className="text-slate-300">{lang === 'ar' ? 'طول موجة الضوء (λ):' : 'Light Wavelength (λ):'}</span>
+                <span className="text-slate-300">{t.wavelengthLabel}</span>
                 <span className="font-mono text-purple-400 font-bold">{wavelengthNm} nm</span>
               </div>
               <input
@@ -326,7 +434,7 @@ export default function PhotoelectricEffectSim({ lang, onLogMeasurement }: Props
             {/* Light Intensity */}
             <div className="space-y-1">
               <div className="flex justify-between text-xs">
-                <span className="text-slate-300">{lang === 'ar' ? 'شدة الإضاءة:' : 'Light Intensity:'}</span>
+                <span className="text-slate-300">{t.intensityLabel}</span>
                 <span className="font-mono text-amber-400 font-bold">{intensity}%</span>
               </div>
               <input
@@ -343,7 +451,7 @@ export default function PhotoelectricEffectSim({ lang, onLogMeasurement }: Props
             {/* Bias Voltage */}
             <div className="space-y-1">
               <div className="flex justify-between text-xs">
-                <span className="text-slate-300">{lang === 'ar' ? 'جهد الانحياز الخارجي (V):' : 'Bias Potential (V):'}</span>
+                <span className="text-slate-300">{t.biasVoltageLabel}</span>
                 <span className="font-mono text-sky-400 font-bold">{biasVoltage >= 0 ? `+${biasVoltage.toFixed(1)}` : biasVoltage.toFixed(1)} V</span>
               </div>
               <input
@@ -364,27 +472,27 @@ export default function PhotoelectricEffectSim({ lang, onLogMeasurement }: Props
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
         <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
           <div className="text-[11px] text-slate-400 font-medium">
-            {lang === 'ar' ? 'طول موجة العتبة (λ₀)' : 'Threshold Wavelength (λ₀)'}
+            {t.thresholdWavelengthCard}
           </div>
           <div className="text-lg font-mono font-bold text-amber-400">
             {thresholdWavelengthNm.toFixed(1)} nm
           </div>
-          <div className="text-[10px] text-slate-500 font-mono">λ₀ = hc / Φ (أطول موجة تسبب انبعاث)</div>
+          <div className="text-[10px] text-slate-500 font-mono">{t.thresholdWavelengthSubtext}</div>
         </div>
 
         <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
           <div className="text-[11px] text-slate-400 font-medium">
-            {lang === 'ar' ? 'تردد العتبة (f₀)' : 'Threshold Frequency (f₀)'}
+            {t.thresholdFrequencyCard}
           </div>
           <div className="text-lg font-mono font-bold text-sky-400">
             {thresholdFreqTHz.toFixed(1)} THz
           </div>
-          <div className="text-[10px] text-slate-500 font-mono">f₀ = Φ / h (أقل تردد مطلوب)</div>
+          <div className="text-[10px] text-slate-500 font-mono">{t.thresholdFrequencySubtext}</div>
         </div>
 
         <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
           <div className="text-[11px] text-slate-400 font-medium">
-            {lang === 'ar' ? 'سرعة الإلكترونات القصوى (v_max)' : 'Max Electron Velocity'}
+            {t.maxVelocityCard}
           </div>
           <div className="text-lg font-mono font-bold text-emerald-400">
             {electronVelocityKmS.toFixed(0)} km/s
@@ -394,7 +502,7 @@ export default function PhotoelectricEffectSim({ lang, onLogMeasurement }: Props
 
         <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
           <div className="text-[11px] text-slate-400 font-medium">
-            {lang === 'ar' ? 'معادلة أينشتاين (Einstein Law)' : 'Einstein Equation'}
+            {t.einsteinLawCard}
           </div>
           <div className="text-xs font-mono font-bold text-purple-300">
             {photonEnergyEV.toFixed(2)} = {metal.workFunctionEV.toFixed(2)} + {maxKineticEnergyEV.toFixed(2)} eV

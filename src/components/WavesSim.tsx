@@ -12,6 +12,30 @@ export default function WavesSim({ lang, onLogMeasurement }: Props) {
   const t = TRANSLATIONS[lang].experiments.waves;
   const ctrl = TRANSLATIONS[lang].controls;
 
+  const localTranslations = {
+    ar: {
+      varFringeWidth: 'المسافة بين أهداب التداخل (Δy)',
+      youngSlitParams: 'متغيرات شقي يونغ والضوء', // غير موثّق بمصدر
+      notesText: 'تمت دراسة نمط تداخل شقي يونغ وعلاقة المسافة بين الأهداب بالطول الموجي.',
+    },
+    en: {
+      varFringeWidth: 'Interference Fringe Width (Δy)',
+      youngSlitParams: 'Young’s Slit Parameters', // غير موثّق بمصدر
+      notesText: "Verified Young's Double Slit relationship Δy = λL/d.",
+    },
+    ku: {
+      varFringeWidth: 'دووری نێوان هێڵەکانی دەستتێوەردان (Δy)',
+      youngSlitParams: 'گۆڕاوەکانی دوو قلیشی یۆنگ و ڕووناکی', // غير موثّق بمصدر
+      notesText: 'شێوازی دەستتێوەردانی دوو قلیشی یۆنگ و پەیوەندی دووری نێوان هێڵەکان بە درێژی شەپۆل لێکۆڵینەوەی بۆ کرا.', // غير موثّق بمصدر
+    },
+    kmr: {
+      varFringeWidth: 'Mawaya navbera xêzên desttêwerdanê (Δy)',
+      youngSlitParams: 'Guhêrbarên du şeqên Young û ronahiyê', // غير موثّق بمصدر
+      notesText: 'Awa desttêwerdana du şeqên Young û têkiliya mawaya navbera xêzan bi dirêjahiya pêlê re hate lêkolînkirin.', // غير موثّق بمصدر
+    },
+  };
+  const tText = localTranslations[lang] || localTranslations['ar'];
+
   // Parameters
   const [wavelengthNm, setWavelengthNm] = useState(532); // nm (400 to 700)
   const [slitDistanceMm, setSlitDistanceMm] = useState(0.25); // mm (0.1 to 0.8)
@@ -190,7 +214,7 @@ export default function WavesSim({ lang, onLogMeasurement }: Props) {
   const handleLog = () => {
     onLogMeasurement({
       experiment: 'waves',
-      variableName: lang === 'ar' ? 'المسافة بين أهداب التداخل (Δy)' : 'Interference Fringe Width (Δy)',
+      variableName: tText.varFringeWidth,
       measuredValue: Number(fringeSpacingMm.toFixed(3)),
       theoreticalValue: Number(fringeSpacingMm.toFixed(3)),
       unit: 'mm',
@@ -200,7 +224,7 @@ export default function WavesSim({ lang, onLogMeasurement }: Props) {
         'Screen Distance (L)': `${screenDistanceM} m`,
         'Fringe Spacing (Δy)': `${fringeSpacingMm.toFixed(3)} mm`,
       },
-      notes: lang === 'ar' ? 'تمت دراسة نمط تداخل شقي يونغ وعلاقة المسافة بين الأهداب بالطول الموجي.' : "Verified Young's Double Slit relationship Δy = λL/d.",
+      notes: tText.notesText,
     });
 
     setLoggedSuccess(true);
@@ -285,7 +309,7 @@ export default function WavesSim({ lang, onLogMeasurement }: Props) {
         <div className="lg:col-span-5 space-y-4">
           <div className="p-5 rounded-xl border border-zinc-800 bg-zinc-900/40 space-y-4">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-              {lang === 'ar' ? 'متغيرات شقي يونغ والضوء' : 'Young’s Slit Parameters'}
+              {tText.youngSlitParams}
             </h3>
 
             {/* Wavelength Slider */}

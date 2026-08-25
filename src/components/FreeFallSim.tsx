@@ -14,6 +14,52 @@ export default function FreeFallSim({ lang, onLogMeasurement }: Props) {
   const common = TRANSLATIONS[lang].common;
   const ctrl = TRANSLATIONS[lang].controls;
 
+  const localTranslations = {
+    ar: {
+      varFreeFallTime: 'زمن السقوط الحر (t)',
+      settingsTitle: 'إعدادات برج الإسقاط والجاذبية', // غير موثّق بمصدر
+      theoreticalVacuumTitle: 'القيم النظرية في الفراغ التام:', // غير موثّق بمصدر
+      recordedResultsTitle: 'نتائج السقوط المسجلة:', // غير موثّق بمصدر
+      vacuumNote: 'في الفراغ سقطت الريشة والكرة الحديدية في نفس الزمن تماماً إثباتاً لمبدأ غاليليو.',
+      airNote: 'أدت مقاومة الهواء إلى تأخر وصول الريشة ووصولها للسرعة الحدية.',
+    },
+    en: {
+      varFreeFallTime: 'Free Fall Duration (t)',
+      settingsTitle: 'Drop Height & Gravity Settings', // غير موثّق بمصدر
+      theoreticalVacuumTitle: 'Theoretical Vacuum Values:', // غير موثّق بمصدر
+      recordedResultsTitle: 'Recorded Fall Results:', // غير موثّق بمصدر
+      vacuumNote: 'In a vacuum, both the feather and iron ball fall in the exact same time, demonstrating Galileo’s principle.',
+      airNote: 'Air resistance caused the feather to lag behind and reach terminal velocity.',
+    },
+    ku: {
+      varFreeFallTime: 'ماوەی کەوتنی سەربەست (t)',
+      settingsTitle: 'ڕێکخستنی بەرزی کەوتن و کێشکردن', // غير موثّق بمصدر
+      theoreticalVacuumTitle: 'نرخە تیۆرییەکان لە بۆشایی تەواودا:', // غير موثّق بمصدر
+      recordedResultsTitle: 'ئەنجامە تۆمارکراوەکانی کەوتن:', // غير موثّق بمصدر
+      vacuumNote: 'لە بۆشاییدا پەڕ و تۆپە ئاسنینەکە لە هەمان کاتدا کەوتنە خوارەوە بۆ سەلماندنی بنەمای گالیلیۆ.', // غير موثّق بمصدر
+      airNote: 'بەرگری هەوا بووە هۆی دواکەوتنی پەڕەکە و گەیشتنی بە خێرایی سنووری.', // غير موثّق بمصدر
+    },
+    kmr: {
+      varFreeFallTime: 'Maweyê ketina serbest (t)',
+      settingsTitle: 'Mîhengên bilindiya ketinê û kêşkirinê', // غير موثّق بمصدر
+      theoreticalVacuumTitle: 'Nirxên teorîk di valahiya temam de:', // غير موثّق بمصدر
+      recordedResultsTitle: 'Encamên ketinê yên hatine tomarkirin:', // غير موثّق بمصدر
+      vacuumNote: 'Di valahiyê de pûk û goga hesinî di heman demê de ketin xwarê bo îspatkirina prensîba Galîleo.', // غير موثّق بمصدر
+      airNote: 'Berxwedana hewayê bû sedema derengketina pûkê û gihîştina wê ya leza sînorî.', // غير موثّق بمصدر
+    },
+  };
+  const tText = localTranslations[lang] || localTranslations['ar'];
+
+  const getPlanetName = (p: typeof PLANETS[0]) => {
+    const planetNames: Record<string, string> = {
+      ar: p.nameAr,
+      ku: p.nameKu,
+      kmr: p.nameKmr || p.nameEn,
+      en: p.nameEn,
+    };
+    return planetNames[lang] || p.nameAr;
+  };
+
   // Parameters
   const [dropHeight, setDropHeight] = useState(45); // meters (10 to 100)
   const [gravity, setGravity] = useState(9.81); // m/s^2
@@ -241,7 +287,7 @@ export default function FreeFallSim({ lang, onLogMeasurement }: Props) {
   const handleLog = () => {
     onLogMeasurement({
       experiment: 'freefall',
-      variableName: lang === 'ar' ? 'زمن السقوط الحر (t)' : 'Free Fall Duration (t)',
+      variableName: tText.varFreeFallTime,
       measuredValue: Number(results.timeA.toFixed(3)) || Number(theoreticalVacuumTime.toFixed(3)),
       theoreticalValue: Number(theoreticalVacuumTime.toFixed(3)),
       unit: 's',
@@ -252,9 +298,7 @@ export default function FreeFallSim({ lang, onLogMeasurement }: Props) {
         'Object A (Iron Ball)': `${results.timeA.toFixed(2)}s | ${results.speedA.toFixed(1)} m/s`,
         'Object B (Feather)': `${results.timeB.toFixed(2)}s | ${results.speedB.toFixed(1)} m/s`,
       },
-      notes: isVacuum
-        ? 'في الفراغ سقطت الريشة والكرة الحديدية في نفس الزمن تماماً إثباتاً لمبدأ غاليليو.'
-        : 'أدت مقاومة الهواء إلى تأخر وصول الريشة ووصولها للسرعة الحدية.',
+      notes: isVacuum ? tText.vacuumNote : tText.airNote,
     });
 
     setLoggedSuccess(true);
@@ -284,7 +328,7 @@ export default function FreeFallSim({ lang, onLogMeasurement }: Props) {
                 }`}
               >
                 <span>{p.icon}</span>
-                <span>{lang === 'ar' ? p.nameAr : p.nameEn}</span>
+                <span>{getPlanetName(p)}</span>
               </button>
             ))}
           </div>
@@ -360,7 +404,7 @@ export default function FreeFallSim({ lang, onLogMeasurement }: Props) {
         <div className="lg:col-span-5 space-y-4">
           <div className="p-5 rounded-xl border border-zinc-800 bg-zinc-900/40 space-y-4">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-              {lang === 'ar' ? 'إعدادات برج الإسقاط والجاذبية' : 'Drop Height Settings'}
+              {tText.settingsTitle}
             </h3>
 
             {/* Height Slider */}
@@ -384,7 +428,7 @@ export default function FreeFallSim({ lang, onLogMeasurement }: Props) {
             {/* Theoretical Reference Box */}
             <div className="p-3.5 rounded-xl border border-zinc-800 bg-zinc-950/60 space-y-2 text-xs">
               <span className="text-zinc-400 block font-medium">
-                {lang === 'ar' ? 'القيم النظرية في الفراغ التام:' : 'Theoretical Vacuum Values:'}
+                {tText.theoreticalVacuumTitle}
               </span>
               <div className="flex justify-between text-sky-300 font-mono">
                 <span>t_theory = √(2h/g):</span>
@@ -400,7 +444,7 @@ export default function FreeFallSim({ lang, onLogMeasurement }: Props) {
             {hasLanded && (
               <div className="p-3.5 rounded-xl border border-zinc-800 bg-zinc-950/80 space-y-2 text-xs">
                 <span className="text-zinc-300 font-medium block">
-                  {lang === 'ar' ? 'نتائج السقوط المسجلة:' : 'Recorded Fall Results:'}
+                  {tText.recordedResultsTitle}
                 </span>
                 <div className="flex justify-between text-zinc-400">
                   <span>{t.timeA}:</span>

@@ -13,6 +13,8 @@ interface MaterialPreset {
   id: string;
   nameAr: string;
   nameEn: string;
+  nameKu: string;
+  nameKmr: string;
   density: number; // kg/m³
   color: string;
 }
@@ -21,31 +23,72 @@ interface FluidPreset {
   id: string;
   nameAr: string;
   nameEn: string;
+  nameKu: string;
+  nameKmr: string;
   density: number; // kg/m³
   color: string;
 }
 
 const MATERIAL_PRESETS: MaterialPreset[] = [
-  { id: 'wood', nameAr: 'خشب صنوبر (600 kg/m³)', nameEn: 'Wood Pine (600 kg/m³)', density: 600, color: '#ca8a04' },
-  { id: 'ice', nameAr: 'جليد نقي (917 kg/m³)', nameEn: 'Pure Ice (917 kg/m³)', density: 917, color: '#bae6fd' },
-  { id: 'aluminum', nameAr: 'ألمنيوم (2700 kg/m³)', nameEn: 'Aluminum (2700 kg/m³)', density: 2700, color: '#94a3b8' },
-  { id: 'iron', nameAr: 'حديد صلب (7870 kg/m³)', nameEn: 'Iron / Steel (7870 kg/m³)', density: 7870, color: '#64748b' },
-  { id: 'gold', nameAr: 'ذهب خالص (19300 kg/m³)', nameEn: 'Pure Gold (19300 kg/m³)', density: 19300, color: '#eab308' },
-  { id: 'styrofoam', nameAr: 'فلين رغوي (50 kg/m³)', nameEn: 'Styrofoam (50 kg/m³)', density: 50, color: '#f8fafc' },
+  { id: 'wood', nameAr: 'خشب صنوبر (600 kg/m³)', nameEn: 'Wood Pine (600 kg/m³)', nameKu: 'داری سنۆبەر (600 kg/m³)', nameKmr: 'Darê sênoberê (600 kg/m³)', density: 600, color: '#ca8a04' },
+  { id: 'ice', nameAr: 'جليد نقي (917 kg/m³)', nameEn: 'Pure Ice (917 kg/m³)', nameKu: 'سەهۆڵی پەتی (917 kg/m³)', nameKmr: 'Qeşa paqij (917 kg/m³)', density: 917, color: '#bae6fd' },
+  { id: 'aluminum', nameAr: 'ألمنيوم (2700 kg/m³)', nameEn: 'Aluminum (2700 kg/m³)', nameKu: 'ئەلومینیۆم (2700 kg/m³)', nameKmr: 'Alyumînyum (2700 kg/m³)', density: 2700, color: '#94a3b8' },
+  { id: 'iron', nameAr: 'حديد صلب (7870 kg/m³)', nameEn: 'Iron / Steel (7870 kg/m³)', nameKu: 'ئاسن (7870 kg/m³)', nameKmr: 'Hesên (7870 kg/m³)', density: 7870, color: '#64748b' },
+  { id: 'gold', nameAr: 'ذهب خالص (19300 kg/m³)', nameEn: 'Pure Gold (19300 kg/m³)', nameKu: 'ئاڵتوونی پەتی (19300 kg/m³)', nameKmr: 'Zêrê paqij (19300 kg/m³)', density: 19300, color: '#eab308' },
+  { id: 'styrofoam', nameAr: 'فلين رغوي (50 kg/m³)', nameEn: 'Styrofoam (50 kg/m³)', nameKu: 'فلین / فۆم (50 kg/m³)', nameKmr: 'Polîstîren (50 kg/m³)', density: 50, color: '#f8fafc' },
 ];
 
 const FLUID_PRESETS: FluidPreset[] = [
-  { id: 'water', nameAr: 'ماء عذب (1000 kg/m³)', nameEn: 'Fresh Water (1000 kg/m³)', density: 1000, color: 'rgba(56, 189, 248, 0.45)' },
-  { id: 'seawater', nameAr: 'ماء بحر مالح (1025 kg/m³)', nameEn: 'Salt Seawater (1025 kg/m³)', density: 1025, color: 'rgba(14, 165, 233, 0.55)' },
-  { id: 'oil', nameAr: 'زيت نباتي (900 kg/m³)', nameEn: 'Vegetable Oil (900 kg/m³)', density: 900, color: 'rgba(234, 179, 8, 0.45)' },
-  { id: 'honey', nameAr: 'عسل نقي (1420 kg/m³)', nameEn: 'Pure Honey (1420 kg/m³)', density: 1420, color: 'rgba(217, 119, 6, 0.65)' },
-  { id: 'gasoline', nameAr: 'بنزين خفيف (750 kg/m³)', nameEn: 'Gasoline (750 kg/m³)', density: 750, color: 'rgba(244, 63, 94, 0.35)' },
-  { id: 'mercury', nameAr: 'زئبق سائل (13600 kg/m³)', nameEn: 'Liquid Mercury (13600 kg/m³)', density: 13600, color: 'rgba(148, 163, 184, 0.85)' },
+  { id: 'water', nameAr: 'ماء عذب (1000 kg/m³)', nameEn: 'Fresh Water (1000 kg/m³)', nameKu: 'ئاوی سازگار (1000 kg/m³)', nameKmr: 'Ava şêrîn (1000 kg/m³)', density: 1000, color: 'rgba(56, 189, 248, 0.45)' },
+  { id: 'seawater', nameAr: 'ماء بحر مالح (1025 kg/m³)', nameEn: 'Salt Seawater (1025 kg/m³)', nameKu: 'ئاوی سوێری دەریا (1025 kg/m³)', nameKmr: 'Ava deryayê (1025 kg/m³)', density: 1025, color: 'rgba(14, 165, 233, 0.55)' },
+  { id: 'oil', nameAr: 'زيت نباتي (900 kg/m³)', nameEn: 'Vegetable Oil (900 kg/m³)', nameKu: 'ڕۆنی ڕووەکی (900 kg/m³)', nameKmr: 'Rûnê nebatî (900 kg/m³)', density: 900, color: 'rgba(234, 179, 8, 0.45)' },
+  { id: 'honey', nameAr: 'عسل نقي (1420 kg/m³)', nameEn: 'Pure Honey (1420 kg/m³)', nameKu: 'هەنگوینی پەتی (1420 kg/m³)', nameKmr: 'Hengivê paqij (1420 kg/m³)', density: 1420, color: 'rgba(217, 119, 6, 0.65)' },
+  { id: 'gasoline', nameAr: 'بنزين خفيف (750 kg/m³)', nameEn: 'Gasoline (750 kg/m³)', nameKu: 'بەنزین (750 kg/m³)', nameKmr: 'Benzîn (750 kg/m³)', density: 750, color: 'rgba(244, 63, 94, 0.35)' },
+  { id: 'mercury', nameAr: 'زئبق سائل (13600 kg/m³)', nameEn: 'Liquid Mercury (13600 kg/m³)', nameKu: 'جیوەی شل (13600 kg/m³)', nameKmr: 'Zîbeq (13600 kg/m³)', density: 13600, color: 'rgba(148, 163, 184, 0.85)' },
 ];
 
 export default function BuoyancySim({ lang, onLogMeasurement }: Props) {
   const t = TRANSLATIONS[lang].experiments.buoyancy;
   const controls = TRANSLATIONS[lang].controls;
+
+  const localT = {
+    ar: {
+      overflowBeaker: 'وعاء الإزاحة', // غير موثّق بمصدر
+      scaleLabel: 'ميزان', // غير موثّق بمصدر
+      materialFluidConfig: 'خصائص الجسم والمائع', // غير موثّق بمصدر
+      naturalEquilibrium: 'الاتزان الفيزيائي الطبيعي', // غير موثّق بمصدر
+      manualImmersion: 'الإنزال اليدوي', // غير موثّق بمصدر
+      archimedesLaw: 'قاعدة أرخميدس',
+      buoyantForceVar: 'قوة الطفو المحسوبة (F_b)',
+    },
+    en: {
+      overflowBeaker: 'Overflow Beaker', // غير موثّق بمصدر
+      scaleLabel: 'SCALE', // غير موثّق بمصدر
+      materialFluidConfig: 'Material & Fluid Config', // غير موثّق بمصدر
+      naturalEquilibrium: 'Natural Physics Equilibrium', // غير موثّق بمصدر
+      manualImmersion: 'Manual Immersion', // غير موثّق بمصدر
+      archimedesLaw: "Archimedes' Law",
+      buoyantForceVar: 'Buoyant Force (F_b)',
+    },
+    ku: {
+      overflowBeaker: 'دەفری دەرپەڕیو', // غير موثّق بمصدر
+      scaleLabel: 'تەرازوو', // غير موثّق بمصدر
+      materialFluidConfig: 'تایبەتمەندییەکانی تەن و شلە', // غير موثّق بمصدر
+      naturalEquilibrium: 'هاوسەنگیی سروشتیی فیزیا', // غير موثّق بمصدر
+      manualImmersion: 'داگرتنی دەستی', // غير موثّق بمصدر
+      archimedesLaw: 'یاسای ئەرخەمیدس',
+      buoyantForceVar: 'هێزی پاڵنانی سەرەوە (F_b)',
+    },
+    kmr: {
+      overflowBeaker: 'Fîncana Derketî', // غير موثّق بمصدر
+      scaleLabel: 'Têrazû', // غير موثّق بمصدر
+      materialFluidConfig: 'Taybetmendiyên Tişt û Şilekê', // غير موثّق بمصدر
+      naturalEquilibrium: 'Havserengiya Xirokî ya Fîzîkê', // غير موثّق بمصدر
+      manualImmersion: 'Binavbûna Destî', // غير موثّق بمصدر
+      archimedesLaw: 'Qanûna Arşîmedes',
+      buoyantForceVar: 'Hêza Rakirina Jor (F_b)',
+    },
+  }[lang];
 
   // Selected parameters
   const [selectedMaterial, setSelectedMaterial] = useState<string>('wood');
@@ -177,7 +220,7 @@ export default function BuoyancySim({ lang, onLogMeasurement }: Props) {
     ctx.fillStyle = '#a1a1aa';
     ctx.font = '10px monospace';
     ctx.textAlign = 'center';
-    ctx.fillText(lang === 'ar' ? 'وعاء الإزاحة' : 'Overflow Beaker', catchX + catchW / 2, catchY + catchH + 16);
+    ctx.fillText(localT.overflowBeaker, catchX + catchW / 2, catchY + catchH + 16);
     ctx.fillText(`${(submergedVolume * 1000).toFixed(1)} L`, catchX + catchW / 2, catchY + catchH - displacedLiquidHeight / 2 + 4);
 
     // Draw Submerged Block
@@ -211,7 +254,7 @@ export default function BuoyancySim({ lang, onLogMeasurement }: Props) {
     ctx.fillText(`${apparentWeight.toFixed(1)}N`, scaleX, scaleY + 26);
     ctx.fillStyle = '#94a3b8';
     ctx.font = '8px monospace';
-    ctx.fillText('SCALE', scaleX, scaleY + 38);
+    ctx.fillText(localT.scaleLabel, scaleX, scaleY + 38);
 
     // Hanging wire to block
     ctx.strokeStyle = '#e4e4e7';
@@ -285,27 +328,52 @@ export default function BuoyancySim({ lang, onLogMeasurement }: Props) {
     ctx.fill();
   }, [selectedMaterial, selectedFluid, blockVolume, submersionDepth, autoFloatMode, selectedPlanet, lang]);
 
+  const getMaterialName = (m: typeof MATERIAL_PRESETS[0]) => {
+    const names: Record<string, string> = {
+      ar: m.nameAr,
+      ku: m.nameKu,
+      kmr: m.nameKmr || m.nameEn,
+      en: m.nameEn,
+    };
+    return names[lang] || m.nameAr;
+  };
+
+  const getFluidName = (f: typeof FLUID_PRESETS[0]) => {
+    const names: Record<string, string> = {
+      ar: f.nameAr,
+      ku: f.nameKu,
+      kmr: f.nameKmr || f.nameEn,
+      en: f.nameEn,
+    };
+    return names[lang] || f.nameAr;
+  };
+
   // Log measurement
   const handleLog = () => {
     onLogMeasurement({
       experiment: 'buoyancy',
-      variableName: lang === 'ar' ? 'قوة الطفو المحسوبة (F_b)' : 'Buoyant Force (F_b)',
+      variableName: localT.buoyantForceVar,
       measuredValue: Number(buoyantForce.toFixed(2)),
       theoreticalValue: Number((fluidDensity * submergedVolume * g).toFixed(2)),
       unit: 'N',
       parameters: {
-        'Object Material': matObj.nameEn,
-        'Fluid Medium': fluidObj.nameEn,
+        'Object Material': getMaterialName(matObj),
+        'Fluid Medium': getFluidName(fluidObj),
         'Object Density': `${objectDensity} kg/m³`,
         'Fluid Density': `${fluidDensity} kg/m³`,
         'Submerged Fraction': `${(effectiveSubmergedFraction * 100).toFixed(0)}%`,
         'Apparent Weight': `${apparentWeight.toFixed(2)} N`,
       },
       equation: 'F_b = ρ_fluid · V_sub · g',
-      notes:
-        lang === 'ar'
-          ? `تجربة أرخميدس لمادة ${matObj.nameAr} في ${fluidObj.nameAr}. قوة الطفو = ${buoyantForce.toFixed(2)}N، والوزن الظاهري = ${apparentWeight.toFixed(2)}N.`
-          : `Archimedes trial with ${matObj.nameEn} in ${fluidObj.nameEn}.`,
+      notes: (() => {
+        const notesMap: Record<string, string> = {
+          ar: `تجربة أرخميدس لمادة ${matObj.nameAr} في ${fluidObj.nameAr}. قوة الطفو = ${buoyantForce.toFixed(2)}N، والوزن الظاهري = ${apparentWeight.toFixed(2)}N.`,
+          ku: `تاقیکردنەوەی ئەرخەمیدس بۆ ماددەی ${matObj.nameKu} لە ${fluidObj.nameKu}. هێزی پاڵنەر = ${buoyantForce.toFixed(2)}N، کێشی دیار = ${apparentWeight.toFixed(2)}N.`,
+          kmr: `Taqîkirina Arşîmedes ji bo madeya ${matObj.nameKmr} di ${fluidObj.nameKmr} de. Hêza rakirinê = ${buoyantForce.toFixed(2)}N, Giraniya xuyanî = ${apparentWeight.toFixed(2)}N.`,
+          en: `Archimedes trial with ${matObj.nameEn} in ${fluidObj.nameEn}.`,
+        };
+        return notesMap[lang] || notesMap.ar;
+      })(),
     });
     setLogged(true);
     setTimeout(() => setLogged(false), 2000);
@@ -382,7 +450,7 @@ export default function BuoyancySim({ lang, onLogMeasurement }: Props) {
         <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-4">
           <h3 className="text-xs font-bold text-zinc-300 uppercase tracking-wider flex items-center gap-1.5">
             <Gauge className="w-3.5 h-3.5 text-sky-400" />
-            <span>{lang === 'ar' ? 'خصائص الجسم والمائع' : 'Material & Fluid Config'}</span>
+            <span>{localT.materialFluidConfig}</span>
           </h3>
 
           {/* Object Material Select */}
@@ -395,7 +463,7 @@ export default function BuoyancySim({ lang, onLogMeasurement }: Props) {
             >
               {MATERIAL_PRESETS.map((m) => (
                 <option key={m.id} value={m.id}>
-                  {lang === 'ar' ? m.nameAr : m.nameEn}
+                  {getMaterialName(m)}
                 </option>
               ))}
             </select>
@@ -411,7 +479,7 @@ export default function BuoyancySim({ lang, onLogMeasurement }: Props) {
             >
               {FLUID_PRESETS.map((f) => (
                 <option key={f.id} value={f.id}>
-                  {lang === 'ar' ? f.nameAr : f.nameEn}
+                  {getFluidName(f)}
                 </option>
               ))}
             </select>
@@ -437,7 +505,7 @@ export default function BuoyancySim({ lang, onLogMeasurement }: Props) {
           {/* Auto Float Toggle vs Manual Immersion */}
           <div className="space-y-2 pt-2 border-t border-zinc-800">
             <label className="flex items-center justify-between text-xs text-zinc-300 cursor-pointer">
-              <span>{lang === 'ar' ? 'الاتزان الفيزيائي الطبيعي' : 'Natural Physics Equilibrium'}</span>
+              <span>{localT.naturalEquilibrium}</span>
               <input
                 type="checkbox"
                 checked={autoFloatMode}
@@ -449,7 +517,7 @@ export default function BuoyancySim({ lang, onLogMeasurement }: Props) {
             {!autoFloatMode && (
               <div className="space-y-1.5 pt-2">
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-400">{lang === 'ar' ? 'الإنزال اليدوي' : 'Manual Immersion'}</span>
+                  <span className="text-zinc-400">{localT.manualImmersion}</span>
                   <span className="font-mono text-indigo-400 font-bold">{(submersionDepth * 100).toFixed(0)}%</span>
                 </div>
                 <input
@@ -468,7 +536,7 @@ export default function BuoyancySim({ lang, onLogMeasurement }: Props) {
 
         {/* Theoretical Formula Box */}
         <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-2 text-xs font-mono">
-          <span className="text-zinc-400 block font-sans font-bold">{lang === 'ar' ? 'قاعدة أرخميدس' : "Archimedes' Law"}</span>
+          <span className="text-zinc-400 block font-sans font-bold">{localT.archimedesLaw}</span>
           <div className="p-3 rounded-xl bg-zinc-950 border border-zinc-800 text-sky-300 text-center text-sm font-bold">
             F_b = ρ_fluid · V_sub · g
           </div>

@@ -14,6 +14,40 @@ export default function PendulumSim({ lang, onLogMeasurement }: Props) {
   const common = TRANSLATIONS[lang].common;
   const ctrl = TRANSLATIONS[lang].controls;
 
+  const localTranslations = {
+    ar: {
+      varPeriod: 'الزمن الدوري للبندول (T)',
+      expVariablesTitle: 'عوامل التجربة وضبط المتغيرات', // غير موثّق بمصدر
+      notesText: 'تم القياس بدقة متناهية مع حساب الزمن والتردد.',
+    },
+    en: {
+      varPeriod: 'Pendulum Period (T)',
+      expVariablesTitle: 'Experimental Variables', // غير موثّق بمصدر
+      notesText: 'Measured under specified gravity and string length conditions.',
+    },
+    ku: {
+      varPeriod: 'خولی لەرینەوەی پاندۆڵ (T)',
+      expVariablesTitle: 'گۆڕاوەکانی تاقیکردنەوە', // غير موثّق بمصدر
+      notesText: 'پێوانەکردن بە وردی ئەنجامدرا بە ئەژمارکردنی کات و فریکوێنسی.', // غير موثّق بمصدر
+    },
+    kmr: {
+      varPeriod: 'Dema dewranê ya pandulê (T)',
+      expVariablesTitle: 'Guhêrbarên ceribandinê', // غير موثّق بمصدر
+      notesText: 'Pîvandina bi hûrgilî hate kirin bi hesabkirina dem û frekansê.', // غير موثّق بمصدر
+    },
+  };
+  const tText = localTranslations[lang] || localTranslations['ar'];
+
+  const getPlanetName = (p: typeof PLANETS[0]) => {
+    const planetNames: Record<string, string> = {
+      ar: p.nameAr,
+      ku: p.nameKu,
+      kmr: p.nameKmr || p.nameEn,
+      en: p.nameEn,
+    };
+    return planetNames[lang] || p.nameAr;
+  };
+
   // Simulation Parameters
   const [length, setLength] = useState(1.5); // meters (0.5 to 3.0)
   const [mass, setMass] = useState(1.0); // kg (0.1 to 5.0)
@@ -342,7 +376,7 @@ export default function PendulumSim({ lang, onLogMeasurement }: Props) {
     const measuredT = liveStats.oscillations > 0 ? liveStats.time / liveStats.oscillations : theoreticalPeriod * (1 + (Math.random() * 0.04 - 0.02));
     onLogMeasurement({
       experiment: 'pendulum',
-      variableName: lang === 'ar' ? 'الزمن الدوري للبندول (T)' : 'Pendulum Period (T)',
+      variableName: tText.varPeriod,
       measuredValue: Number(measuredT.toFixed(3)),
       theoreticalValue: Number(theoreticalPeriod.toFixed(3)),
       unit: 's',
@@ -352,7 +386,7 @@ export default function PendulumSim({ lang, onLogMeasurement }: Props) {
         Gravity: `${gravity} m/s²`,
         'Initial θ': `${initialAngleDeg}°`,
       },
-      notes: lang === 'ar' ? 'تم القياس بدقة متناهية مع حساب الزمن والتردد.' : 'Measured under specified gravity and string length conditions.',
+      notes: tText.notesText,
     });
 
     setLoggedSuccess(true);
@@ -384,7 +418,7 @@ export default function PendulumSim({ lang, onLogMeasurement }: Props) {
                 }`}
               >
                 <span>{p.icon}</span>
-                <span>{lang === 'ar' ? p.nameAr : p.nameEn}</span>
+                <span>{getPlanetName(p)}</span>
                 <span className="text-[10px] opacity-75">({p.g})</span>
               </button>
             ))}
@@ -562,7 +596,7 @@ export default function PendulumSim({ lang, onLogMeasurement }: Props) {
           {/* Sliders Form */}
           <div className="p-5 rounded-xl border border-zinc-800 bg-zinc-900/40 space-y-4">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-              {lang === 'ar' ? 'عوامل التجربة وضبط المتغيرات' : 'Experimental Variables'}
+              {tText.expVariablesTitle}
             </h3>
 
             {/* String Length */}

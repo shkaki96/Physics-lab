@@ -8,6 +8,153 @@ interface Props {
 }
 
 export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
+  const localT = {
+    ar: {
+      title: 'المرايا الكروية المقعرة والمحدبة',
+      subtitle: 'دراسة تكون الصور في المرايا الكروية بقانون 1/f = 1/do + 1/di، التكبير m = -di/do، ومسارات الأشعة النموذجية الثلاثة.',
+      logged: 'تم التسجيل في الدفتر ✓',
+      logMeasurement: 'تسجيل في دفتر المختبر',
+      controlsTitle: 'معايير المرآة والجسم',
+      mirrorTypeLabel: 'نوع المرآة الكروية:',
+      concaveBtn: 'مقعرة (+f)',
+      convexBtn: 'محدبة (-f)',
+      radiusLabel: 'نصف قطر التكور (R):',
+      objectDistLabel: 'بعد الجسم عن المرآة (do):',
+      objectHeightLabel: 'طول الجسم (ho):',
+      showPrincipalRaysLabel: 'إظهار الأشعة البصرية الثلاثة:',
+      imageSpecsCard: 'طوبوغرافيا ومواصفات الصورة الناتجة:',
+      realTag: 'حقيقية (Real)',
+      virtualTag: 'خيالية (Virtual)',
+      invertedTag: 'مقلوبة (Inverted)',
+      uprightTag: 'معتدلة (Upright)',
+      enlargedTag: 'مكبرة (Enlarged)',
+      reducedTag: 'مصغرة (Reduced)',
+      sameSizeTag: 'مساوية للأصل',
+      focalLengthCard: 'البعد البؤري (f)',
+      imageDistCard: 'بعد الصورة (di)',
+      magnificationCard: 'معامل التكبير (m)',
+      imageHeightCard: 'طول الصورة (hi)',
+      objectCanvas: 'الجسم', // غير موثّق بمصدر
+      imageCanvas: 'الصورة', // غير موثّق بمصدر
+      realWord: 'حقيقية',
+      virtualWord: 'خيالية',
+      concaveWord: 'مقعرة',
+      convexWord: 'محدبة',
+      realInvertedWord: 'حقيقية ومقلوبة',
+      virtualUprightWord: 'خيالية ومعتدلة',
+      varImageDist: 'بعد الصورة di', // غير موثّق بمصدر
+      notesLog: 'محاكاة بصريات المرايا الكروية مع رسم مسارات الأشعة.', // غير موثّق بمصدر
+    },
+    en: {
+      title: 'Curved Spherical Mirrors (Ray Tracing)',
+      subtitle: 'Spherical mirror optics, mirror equation 1/f = 1/do + 1/di, magnification m = -di/do, and 3 principal ray diagrams.',
+      logged: 'Logged ✓',
+      logMeasurement: 'Log Measurement',
+      controlsTitle: 'Mirror & Object Controls',
+      mirrorTypeLabel: 'Mirror Type:',
+      concaveBtn: 'Concave (+f)',
+      convexBtn: 'Convex (-f)',
+      radiusLabel: 'Radius of Curvature (R):',
+      objectDistLabel: 'Object Distance (do):',
+      objectHeightLabel: 'Object Height (ho):',
+      showPrincipalRaysLabel: 'Show 3 Principal Rays:',
+      imageSpecsCard: 'Image Characteristics:',
+      realTag: 'Real',
+      virtualTag: 'Virtual',
+      invertedTag: 'Inverted',
+      uprightTag: 'Upright',
+      enlargedTag: 'Enlarged',
+      reducedTag: 'Reduced',
+      sameSizeTag: 'Same Size',
+      focalLengthCard: 'Focal Length (f)',
+      imageDistCard: 'Image Distance (di)',
+      magnificationCard: 'Magnification (m)',
+      imageHeightCard: 'Image Height (hi)',
+      objectCanvas: 'Object', // غير موثّق بمصدر
+      imageCanvas: 'Image', // غير موثّق بمصدر
+      realWord: 'Real',
+      virtualWord: 'Virtual',
+      concaveWord: 'Concave',
+      convexWord: 'Convex',
+      realInvertedWord: 'Real & Inverted',
+      virtualUprightWord: 'Virtual & Upright',
+      varImageDist: 'Image Distance di', // غير موثّق بمصدر
+      notesLog: 'Spherical curved mirror optics simulation with principal reflection rays.', // غير موثّق بمصدر
+    },
+    ku: {
+      title: 'ئاوێنە گۆییە قۆقز و چاڵەکان و دروستبوونی وێنە',
+      subtitle: 'لێکۆڵینەوە لە دروستبوونی وێنە لە ئاوێنە چاڵ و قۆقزەکان بە یاسای ١/f = ١/do + ١/di و گەورەکردن m = -di/do.',
+      logged: 'تۆمارکرا ✓',
+      logMeasurement: 'تۆمارکردن لە دەفتەر',
+      controlsTitle: 'تایبەتمەندییەکانی ئاوێنە و تشتەکە',
+      mirrorTypeLabel: 'جۆری ئاوێنەی گۆیی:',
+      concaveBtn: 'چاڵ (+f)',
+      convexBtn: 'قۆقز (-f)',
+      radiusLabel: 'نیوەتیرەی چەمانەوە (R):',
+      objectDistLabel: 'دووری تشتەکە لە ئاوێنە (do):',
+      objectHeightLabel: 'بەرزایی تشتەکە (ho):',
+      showPrincipalRaysLabel: 'پیشاندانی سێ تیشکە سەرەکییەکە:',
+      imageSpecsCard: 'تایبەتمەندییەکانی وێنەی دروستبوو:',
+      realTag: 'ڕاستەقینە (Real)',
+      virtualTag: 'خەیاڵی (Virtual)',
+      invertedTag: 'پێچەوانە (Inverted)',
+      uprightTag: 'ڕاست (Upright)',
+      enlargedTag: 'گەورەکراو (Enlarged)',
+      reducedTag: 'بچووککراوە (Reduced)',
+      sameSizeTag: 'هاوئەندازەی تشتەکە',
+      focalLengthCard: 'دووریی بؤڕە (f)',
+      imageDistCard: 'دووریی وێنەکە (di)',
+      magnificationCard: 'هاوڵکەی گەورەکردن (m)',
+      imageHeightCard: 'بەرزایی وێنەکە (hi)',
+      objectCanvas: 'تشتەکە', // غير موثّق بمصدر
+      imageCanvas: 'وێنەکە', // غير موثّق بمصدر
+      realWord: 'ڕاستەقینە',
+      virtualWord: 'خەیاڵی',
+      concaveWord: 'چاڵ',
+      convexWord: 'قۆقز',
+      realInvertedWord: 'ڕاستەقینە و پێچەوانە',
+      virtualUprightWord: 'خەیاڵی و ڕاست',
+      varImageDist: 'دووری وێنەکە di', // غير موثّق بمصدر
+      notesLog: 'تاقیکردنەوەی ئاوێنە گۆییەکان و وێنەی دروستبوو.', // غير موثّق بمصدر
+    },
+    kmr: {
+      title: 'Neynikên Goyer ên Çal û Gir',
+      subtitle: 'Lêkolîna çêbûna dîmen di neynikên goyer de bi hevkêşeya 1/f = 1/do + 1/di û mezinahî m = -di/do.',
+      logged: 'Tomaarkirî ✓',
+      logMeasurement: 'Pîvanê Tomar Bikin',
+      controlsTitle: 'Taybetmendiyên Neynik û Gewdeyê',
+      mirrorTypeLabel: 'Cureyê Neynika Goyer:',
+      concaveBtn: 'Çal (+f)',
+      convexBtn: 'Gir (-f)',
+      radiusLabel: 'Nîvçapa xwarbûnê (R):',
+      objectDistLabel: 'Dûrahiya gewdeyê ji neynikê (do):',
+      objectHeightLabel: 'Bilindahiya gewdeyê (ho):',
+      showPrincipalRaysLabel: 'Herdû 3 tîrêjên serdest nîşan bide:',
+      imageSpecsCard: 'Taybetmendiyên Dîmenê:',
+      realTag: 'Rastî (Real)',
+      virtualTag: 'Xeyalî (Virtual)',
+      invertedTag: 'Serjêr (Inverted)',
+      uprightTag: 'Serrast (Upright)',
+      enlargedTag: 'Mezinkirî (Enlarged)',
+      reducedTag: 'Bicûkkirî (Reduced)',
+      sameSizeTag: 'Hem اندازه',
+      focalLengthCard: 'Dûrahiya Tîrê (f)',
+      imageDistCard: 'Dûrahiya Dîmenê (di)',
+      magnificationCard: 'Hevkêşeya Mezinahiyê (m)',
+      imageHeightCard: 'Bilindahiya Dîmenê (hi)',
+      objectCanvas: 'Gewde', // غير موثّق بمصدر
+      imageCanvas: 'Dîmen', // غير موثّق بمصدر
+      realWord: 'Rastî',
+      virtualWord: 'Xeyalî',
+      concaveWord: 'Çal',
+      convexWord: 'Gir',
+      realInvertedWord: 'Rastî û Serjêr',
+      virtualUprightWord: 'Xeyalî û Serrast',
+      varImageDist: 'Dûrahiya Dîmenê di', // غير موثّق بمصدر
+      notesLog: 'Taqîkirina neynikên goyer bi rêya tîrêjên vajîbûnê.', // غير موثّق بمصدر
+    },
+  }[lang];
+
   // Parameters
   const [mirrorType, setMirrorType] = useState<'concave' | 'convex'>('concave');
   const [radiusCm, setRadiusCm] = useState<number>(40); // cm (Radius of curvature R)
@@ -160,7 +307,7 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
 
     ctx.fillStyle = '#10b981';
     ctx.font = 'bold 11px sans-serif';
-    ctx.fillText(`Object (do=${objectDistanceCm}cm)`, objPixelX - 35, objPixelY - 10);
+    ctx.fillText(`${localT.objectCanvas} (do=${objectDistanceCm}cm)`, objPixelX - 35, objPixelY - 10);
 
     // Draw Image Arrow
     if (!isAtFocus && Math.abs(imageDistanceCm) < 300) {
@@ -188,7 +335,7 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
 
       ctx.font = 'bold 11px sans-serif';
       ctx.fillText(
-        `Image (${isReal ? 'Real' : 'Virtual'}, di=${imageDistanceCm.toFixed(1)}cm)`,
+        `${localT.imageCanvas} (${isReal ? localT.realWord : localT.virtualWord}, di=${imageDistanceCm.toFixed(1)}cm)`,
         imgPixelX - 45,
         imgPixelY + (isInverted ? 20 : -10)
       );
@@ -265,26 +412,26 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
       }
     }
 
-  }, [mirrorType, radiusCm, objectDistanceCm, objectHeightCm, showPrincipalRays, focalLengthCm, imageDistanceCm, imageHeightCm, isAtFocus, isReal, isInverted]);
+  }, [mirrorType, radiusCm, objectDistanceCm, objectHeightCm, showPrincipalRays, focalLengthCm, imageDistanceCm, imageHeightCm, isAtFocus, isReal, isInverted, localT]);
 
   const handleLog = () => {
     onLogMeasurement({
       experiment: 'curved_mirrors',
-      variableName: `Image Distance di (${mirrorType === 'concave' ? 'Concave' : 'Convex'})`,
+      variableName: `${localT.varImageDist} (${mirrorType === 'concave' ? localT.concaveWord : localT.convexWord})`,
       measuredValue: Number(imageDistanceCm.toFixed(2)),
       theoreticalValue: Number(imageDistanceCm.toFixed(2)),
       unit: 'cm',
       parameters: {
-        'Mirror Type': mirrorType === 'concave' ? 'Concave (مقعرة)' : 'Convex (محدبة)',
+        'Mirror Type': mirrorType === 'concave' ? localT.concaveWord : localT.convexWord,
         'Curvature Radius R': `${radiusCm} cm`,
         'Focal Length f': `${focalLengthCm.toFixed(1)} cm`,
         'Object Distance do': `${objectDistanceCm} cm`,
         'Object Height ho': `${objectHeightCm} cm`,
         'Magnification m': `${magnification.toFixed(3)}`,
-        'Image Nature': isReal ? 'Real & Inverted (حقيقية ومقلوبة)' : 'Virtual & Upright (خيالية ومعتدلة)',
+        'Image Nature': isReal ? localT.realInvertedWord : localT.virtualUprightWord,
       },
       equation: `1/f = 1/do + 1/di => di = (f · do) / (do - f) = (${focalLengthCm} · ${objectDistanceCm}) / (${objectDistanceCm} - ${focalLengthCm}) = ${imageDistanceCm.toFixed(2)} cm, m = -di/do = ${magnification.toFixed(2)}`,
-      notes: `Spherical curved mirror optics simulation with 3 principal reflection rays.`,
+      notes: localT.notesLog,
     });
     setLogged(true);
     setTimeout(() => setLogged(false), 2000);
@@ -297,16 +444,10 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
         <div>
           <h2 className="text-base sm:text-lg font-bold text-zinc-100 flex items-center gap-2">
             <Eye className="w-5 h-5 text-sky-400" />
-            <span>
-              {lang === 'ar' ? 'المرايا الكروية المقعرة والمحدبة (Curved Spherical Mirrors)' : lang === 'ku' ? 'ئاوێنە گۆییە قۆقز و چاڵەکان و دروستبوونی وێنە' : 'Curved Spherical Mirrors (Ray Tracing)'}
-            </span>
+            <span>{localT.title}</span>
           </h2>
           <p className="text-xs text-zinc-400 mt-1 max-w-2xl">
-            {lang === 'ar'
-              ? 'دراسة تكون الصور في المرايا الكروية بقانون 1/f = 1/do + 1/di، التكبير m = -di/do، ومسارات الأشعة النموذجية الثلاثة.'
-              : lang === 'ku'
-              ? 'لێکۆڵینەوە لە دروستبوونی وێنە لە ئاوێنە چاڵ و قۆقزەکان بە یاسای ١/f = ١/do + ١/di و گەورەکردن m = -di/do.'
-              : 'Spherical mirror optics, mirror equation 1/f = 1/do + 1/di, magnification m = -di/do, and 3 principal ray diagrams.'}
+            {localT.subtitle}
           </p>
         </div>
 
@@ -319,7 +460,7 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
           }`}
         >
           <BookmarkCheck className="w-4 h-4" />
-          <span>{logged ? (lang === 'ar' ? 'تم التسجيل في الدفتر ✓' : 'Logged ✓') : (lang === 'ar' ? 'تسجيل في دفتر المختبر' : 'Log Measurement')}</span>
+          <span>{logged ? localT.logged : localT.logMeasurement}</span>
         </button>
       </div>
 
@@ -330,14 +471,14 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
           <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
             <span className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
               <Sliders className="w-4 h-4 text-sky-400" />
-              {lang === 'ar' ? 'معايير المرآة والجسم' : 'Mirror & Object Controls'}
+              {localT.controlsTitle}
             </span>
           </div>
 
           {/* Mirror Type Radio Tabs */}
           <div>
             <label className="text-xs text-zinc-400 block mb-1.5 font-medium">
-              {lang === 'ar' ? 'نوع المرآة الكروية:' : 'Mirror Type:'}
+              {localT.mirrorTypeLabel}
             </label>
             <div className="grid grid-cols-2 gap-2">
               <button
@@ -348,7 +489,7 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
                     : 'bg-zinc-950 text-zinc-400 border-zinc-800 hover:bg-zinc-800'
                 }`}
               >
-                {lang === 'ar' ? 'مقعرة (Concave +f)' : 'Concave (+f)'}
+                {localT.concaveBtn}
               </button>
               <button
                 onClick={() => setMirrorType('convex')}
@@ -358,7 +499,7 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
                     : 'bg-zinc-950 text-zinc-400 border-zinc-800 hover:bg-zinc-800'
                 }`}
               >
-                {lang === 'ar' ? 'محدبة (Convex -f)' : 'Convex (-f)'}
+                {localT.convexBtn}
               </button>
             </div>
           </div>
@@ -366,7 +507,7 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
           {/* Radius of Curvature Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'نصف قطر التكور (R):' : 'Radius of Curvature (R):'}</span>
+              <span className="text-zinc-400">{localT.radiusLabel}</span>
               <span className="font-mono text-purple-400 font-semibold">{radiusCm} cm (f = {(focalLengthCm).toFixed(1)} cm)</span>
             </div>
             <input
@@ -383,7 +524,7 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
           {/* Object Distance (do) Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'بعد الجسم عن المرآة (do):' : 'Object Distance (do):'}</span>
+              <span className="text-zinc-400">{localT.objectDistLabel}</span>
               <span className="font-mono text-emerald-400 font-semibold">{objectDistanceCm} cm</span>
             </div>
             <input
@@ -400,7 +541,7 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
           {/* Object Height (ho) Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'طول الجسم (ho):' : 'Object Height (ho):'}</span>
+              <span className="text-zinc-400">{localT.objectHeightLabel}</span>
               <span className="font-mono text-amber-400 font-semibold">{objectHeightCm} cm</span>
             </div>
             <input
@@ -416,7 +557,7 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
 
           {/* Principal Rays Toggle */}
           <div className="flex items-center justify-between p-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-xs">
-            <span className="text-zinc-300">{lang === 'ar' ? 'إظهار الأشعة البصرية الثلاثة:' : 'Show 3 Principal Rays:'}</span>
+            <span className="text-zinc-300">{localT.showPrincipalRaysLabel}</span>
             <input
               type="checkbox"
               checked={showPrincipalRays}
@@ -428,7 +569,7 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
           {/* Image Nature State Card */}
           <div className="p-3.5 rounded-xl bg-zinc-950 border border-zinc-800 space-y-1.5">
             <span className="text-[10px] text-zinc-400 uppercase font-semibold block">
-              {lang === 'ar' ? 'طبيعة ومواصفات الصورة الناتجة:' : 'Image Characteristics:'}
+              {localT.imageSpecsCard}
             </span>
             <div className="flex flex-wrap gap-1.5">
               <span
@@ -436,17 +577,17 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
                   isReal ? 'bg-rose-500/20 text-rose-300' : 'bg-purple-500/20 text-purple-300'
                 }`}
               >
-                {isReal ? (lang === 'ar' ? 'حقيقية (Real)' : 'Real') : (lang === 'ar' ? 'خيالية (Virtual)' : 'Virtual')}
+                {isReal ? localT.realTag : localT.virtualTag}
               </span>
               <span className="px-2 py-0.5 rounded text-xs font-semibold bg-zinc-800 text-zinc-300">
-                {isInverted ? (lang === 'ar' ? 'مقلوبة (Inverted)' : 'Inverted') : (lang === 'ar' ? 'معتدلة (Upright)' : 'Upright')}
+                {isInverted ? localT.invertedTag : localT.uprightTag}
               </span>
               <span className="px-2 py-0.5 rounded text-xs font-semibold bg-zinc-800 text-zinc-300">
                 {isEnlarged
-                  ? (lang === 'ar' ? 'مكبرة (Enlarged)' : 'Enlarged')
+                  ? localT.enlargedTag
                   : isReduced
-                  ? (lang === 'ar' ? 'مصغرة (Reduced)' : 'Reduced')
-                  : (lang === 'ar' ? 'مساوية للأصل' : 'Same Size')}
+                  ? localT.reducedTag
+                  : localT.sameSizeTag}
               </span>
             </div>
           </div>
@@ -468,7 +609,7 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
             {/* Focal Length */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'البعد البؤري (f)' : 'Focal Length (f = R/2)'}
+                {localT.focalLengthCard}
               </span>
               <div className="text-xl font-bold font-mono text-purple-400">
                 {focalLengthCm.toFixed(1)} <span className="text-xs text-zinc-400">cm</span>
@@ -479,7 +620,7 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
             {/* Image Distance di */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'بعد الصورة (di)' : 'Image Distance (di)'}
+                {localT.imageDistCard}
               </span>
               <div className="text-xl font-bold font-mono text-sky-400">
                 {isAtFocus ? '∞' : imageDistanceCm.toFixed(2)} <span className="text-xs text-zinc-400">cm</span>
@@ -490,7 +631,7 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
             {/* Magnification m */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'معامل التكبير (m)' : 'Magnification (m)'}
+                {localT.magnificationCard}
               </span>
               <div className="text-xl font-bold font-mono text-emerald-400">
                 {isAtFocus ? '∞' : magnification.toFixed(3)}x
@@ -501,7 +642,7 @@ export default function CurvedMirrorsSim({ lang, onLogMeasurement }: Props) {
             {/* Image Height hi */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'طول الصورة (hi)' : 'Image Height (hi)'}
+                {localT.imageHeightCard}
               </span>
               <div className="text-xl font-bold font-mono text-amber-400">
                 {isAtFocus ? '∞' : Math.abs(imageHeightCm).toFixed(2)} <span className="text-xs text-zinc-400">cm</span>

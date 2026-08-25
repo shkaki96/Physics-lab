@@ -8,6 +8,127 @@ interface Props {
 }
 
 export default function StaticBalloonsSim({ lang, onLogMeasurement }: Props) {
+  const t = {
+    ar: {
+      title: 'الكهرباء الساكنة وقانون كولوم (Static Electricity Balloons)',
+      subTitle: 'الكهرباء الساكنة وقانون كولوم',
+      desc: 'تفاعل البالونات المشحونة بالكهرباء الساكنة، وحساب قوة التجاذب والتنافر الكهروستاتيكية وفق قانون كولوم F = k·|q1·q2|/r².',
+      charge1: 'شحنة البالون الأول (q₁):',
+      charge2: 'شحنة البالون الثاني (q₂):',
+      distance: 'المسافة بين البالونين (r):',
+      mass: 'كتلة البالون (m):',
+      presets: 'أنماط الشحنات الجاهزة:', // غير موثّق بمصدر
+      presetRepel: 'تنافر (سالب - سالب)', // غير موثّق بمصدر
+      presetAttract: 'تجاذب (سالب - موجب)', // غير موثّق بمصدر
+      paramsTitle: 'معايير الشحنات والمسافة', // غير موثّق بمصدر
+      forceLabel: 'القوة الكهربائية (F)',
+      interactionType: 'نوع التأثير المتبادل',
+      deflectionAngle: 'زاوية انحراف الخيط (θ)',
+      weightForce: 'قوة الوزن (W = mg)',
+      repulsion: 'تنافر كهربائي',
+      attraction: 'تجاذب كهربائي',
+      neutral: 'متعادل',
+      loggedSuccess: 'تم التسجيل في الدفتر ✓', // غير موثّق بمصدر
+      logData: 'تسجيل في دفتر المختبر', // غير موثّق بمصدر
+      variableName: 'قوة كولوم الكهروستاتيكية F',
+      notes: 'تجربة الكهرباء الساكنة وقانون كولوم للبالونات المشحونة المعلقة بخيوط.',
+    },
+    en: {
+      title: 'Static Electricity Balloons (Coulomb’s Law)',
+      subTitle: 'Static Electricity and Coulomb Law',
+      desc: 'Coulomb’s electrostatic interaction between charged balloons, analyzing attraction, repulsion, and string deflection.',
+      charge1: 'Balloon 1 Charge (q₁):',
+      charge2: 'Balloon 2 Charge (q₂):',
+      distance: 'Separation Distance (r):',
+      mass: 'Balloon Mass (m):',
+      presets: 'Charge Presets:', // غير موثّق بمصدر
+      presetRepel: 'Repel (- / -)', // غير موثّق بمصدر
+      presetAttract: 'Attract (- / +)', // غير موثّق بمصدر
+      paramsTitle: 'Charges & Distance', // غير موثّق بمصدر
+      forceLabel: 'Coulomb Force (F)',
+      interactionType: 'Interaction Type',
+      deflectionAngle: 'Deflection Angle (θ)',
+      weightForce: 'Weight Force (mg)',
+      repulsion: 'Repulsion',
+      attraction: 'Attraction',
+      neutral: 'Neutral',
+      loggedSuccess: 'Logged ✓', // غير موثّق بمصدر
+      logData: 'Log Measurement', // غير موثّق بمصدر
+      variableName: 'Coulomb Electrostatic Force F',
+      notes: "Coulomb's Law electrostatics experiment with charged balloons suspended on strings.",
+    },
+    ku: {
+      title: 'کارەبای نەگۆڕ و یاسای کۆلۆم',
+      subTitle: 'کارەبای نەگۆڕ و یاسای کۆلۆم',
+      desc: 'کارلێکی باڵۆنە بارگاوییەکان و ژماردنی هێزی کارۆڕاکێشان و کارۆپاڵنان بەپێی یاسای کۆڵۆم.',
+      charge1: 'بارگەی باڵۆنی یەکەم (q₁):',
+      charge2: 'بارگەی باڵۆنی دووەم (q₂):',
+      distance: 'دووری نێوان دوو باڵۆنەکە (r):',
+      mass: 'بارستەی باڵۆنەکە (m):',
+      presets: 'شێوازە ئامادەکراوەکانی بارگە:', // غير موثّق بمصدر
+      presetRepel: 'پاڵنان (سالب - سالب)', // غير موثّق بمصدر
+      presetAttract: 'ڕاکێشان (سالب - موجب)', // غير موثّق بمصدر
+      paramsTitle: 'تایبەتمەندییەکانی بارگە و دووری', // غير موثّق بمصدر
+      forceLabel: 'هێزی کارەبایی (F)',
+      interactionType: 'جۆری کارلێکی دوولايەنە',
+      deflectionAngle: 'گۆشەی لادانی پەتەکە (θ)',
+      weightForce: 'هێزی کێش (W = mg)',
+      repulsion: 'پاڵنانی کارەبایی',
+      attraction: 'ڕاکێشانی کارەبایی',
+      neutral: 'بێبارگە (هاوسەنگ)',
+      loggedSuccess: 'تۆمارکرا ✓', // غير موثّق بمصدر
+      logData: 'تۆمارکردنی پێوانە', // غير موثّق بمصدر
+      variableName: 'هێزی کارۆڕاکێشانی کۆلۆم F',
+      notes: 'تاقیکردنەوەی کارەبای نەگۆڕ و یاسای کۆلۆم بۆ باڵۆنە بارگاوییەکان.',
+    },
+    kmr: {
+      title: 'Karaba Saqîn û Qanûna Coulomb',
+      subTitle: 'Karaba Saqîn û Qanûna Coulomb',
+      desc: 'Bandora statîk a di navbera pifikên barkirî de û hesabkirina hêza kişandin û paldanê li gorî qanûna Coulomb.',
+      charge1: 'Bara pifika yekem (q₁):',
+      charge2: 'Bara pifika duyem (q₂):',
+      distance: 'Masiya navbera du pifikan (r):',
+      mass: 'Massa pifikê (m):',
+      presets: 'Saziyên amade yên barê:', // غير موثّق بمصدر
+      presetRepel: 'Paldan (- / -)', // غير موثّق بمصدر
+      presetAttract: 'Kişandin (- / +)', // غير موثّق بمصدر
+      paramsTitle: 'Parametreyên bar û dûrahî', // غير موثّق بمصدر
+      forceLabel: 'Hêza elektrîkî (F)',
+      interactionType: 'C cureya kartekirinê',
+      deflectionAngle: 'Goşeya xwehrbûna benik (θ)',
+      weightForce: 'Hêza giranî (W = mg)',
+      repulsion: 'Paldana elektrîkî',
+      attraction: 'Kişandina elektrîkî',
+      neutral: 'Bêbar (Neleyî)',
+      loggedSuccess: 'Hat tomarkirin ✓', // غير موثّق بمصدر
+      logData: 'Pêvanê tomar bike', // غير موثّق بمصدر
+      variableName: 'Hêza elektrîkî ya Coulomb F',
+      notes: 'Ezmûna karaba saqîn û qanûna Coulomb ji bo pifikên barkirî.',
+    },
+  }[lang] || {
+    title: 'الكهرباء الساكنة وقانون كولوم (Static Electricity Balloons)',
+    subTitle: 'الكهرباء الساكنة وقانون كولوم',
+    desc: 'تفاعل البالونات المشحونة بالكهرباء الساكنة، وحساب قوة التجاذب والتنافر الكهروستاتيكية وفق قانون كولوم F = k·|q1·q2|/r².',
+    charge1: 'شحنة البالون الأول (q₁):',
+    charge2: 'شحنة البالون الثاني (q₂):',
+    distance: 'المسافة بين البالونين (r):',
+    mass: 'كتلة البالون (m):',
+    presets: 'أنماط الشحنات الجاهزة:',
+    presetRepel: 'تنافر (سالب - سالب)',
+    presetAttract: 'تجاذب (سالب - موجب)',
+    paramsTitle: 'معايير الشحنات والمسافة',
+    forceLabel: 'القوة الكهربائية (F)',
+    interactionType: 'نوع التأثير المتبادل',
+    deflectionAngle: 'زاوية انحراف الخيط (θ)',
+    weightForce: 'قوة الوزن (W = mg)',
+    repulsion: 'تنافر كهربائي',
+    attraction: 'تجاذب كهربائي',
+    neutral: 'متعادل',
+    loggedSuccess: 'تم التسجيل في الدفتر ✓',
+    logData: 'تسجيل في دفتر المختبر',
+    variableName: 'قوة كولوم الكهروستاتيكية F',
+    notes: 'تجربة الكهرباء الساكنة وقانون كولوم للبالونات المشحونة المعلقة بخيوط.',
+  };
   // Inputs: Charges in microCoulombs (μC)
   const [charge1MicroC, setCharge1MicroC] = useState<number>(-4.0); // μC
   const [charge2MicroC, setCharge2MicroC] = useState<number>(-4.0); // μC
@@ -263,7 +384,7 @@ export default function StaticBalloonsSim({ lang, onLogMeasurement }: Props) {
   const handleLog = () => {
     onLogMeasurement({
       experiment: 'static_balloons',
-      variableName: 'Coulomb Electrostatic Force F (Static Balloons)',
+      variableName: t.variableName,
       measuredValue: Number(coulombForceN.toFixed(4)),
       theoreticalValue: Number(((kCoulomb * Math.abs(q1 * q2)) / (rM * rM)).toFixed(4)),
       unit: 'N',
@@ -272,11 +393,11 @@ export default function StaticBalloonsSim({ lang, onLogMeasurement }: Props) {
         'Balloon 2 Charge q2': `${charge2MicroC} μC`,
         'Separation Distance r': `${distanceCm} cm (${rM} m)`,
         'Balloon Mass m': `${balloonMassG} g`,
-        'Interaction Type': isRepulsive ? 'Repulsion (تنافر)' : isAttractive ? 'Attraction (تجاذب)' : 'Neutral',
+        'Interaction Type': isRepulsive ? t.repulsion : isAttractive ? t.attraction : t.neutral,
         'String Deflection Angle θ': `${deflectionAngleDeg.toFixed(2)}°`,
       },
       equation: `F = k · |q1 · q2| / r² = (8.99e9 · |${charge1MicroC}μC · ${charge2MicroC}μC|) / (${rM} m)² = ${coulombForceN.toFixed(4)} N`,
-      notes: `Coulomb's Law electrostatics experiment with charged balloons suspended on strings. Demonstrates like charges repel and opposite charges attract.`,
+      notes: t.notes,
     });
     setLogged(true);
     setTimeout(() => setLogged(false), 2000);
@@ -290,15 +411,11 @@ export default function StaticBalloonsSim({ lang, onLogMeasurement }: Props) {
           <h2 className="text-base sm:text-lg font-bold text-zinc-100 flex items-center gap-2">
             <Zap className="w-5 h-5 text-yellow-400" />
             <span>
-              {lang === 'ar' ? 'الكهرباء الساكنة وقانون كولوم (Static Electricity Balloons)' : lang === 'ku' ? 'کارەبای نەجووڵاو و یاسای کۆڵۆم' : 'Static Electricity Balloons (Coulomb’s Law)'}
+              {t.title}
             </span>
           </h2>
           <p className="text-xs text-zinc-400 mt-1 max-w-2xl">
-            {lang === 'ar'
-              ? 'تفاعل البالونات المشحونة بالكهرباء الساكنة، وحساب قوة التجاذب والتنافر الكهروستاتيكية وفق قانون كولوم F = k·|q1·q2|/r².'
-              : lang === 'ku'
-              ? 'کارلێکی باڵۆنە بارگاوییەکان و ژماردنی هێزی کارۆڕاکێشان و کارۆپاڵنان بەپێی یاسای کۆڵۆم.'
-              : 'Coulomb’s electrostatic interaction between charged balloons, analyzing attraction, repulsion, and string deflection.'}
+            {t.desc}
           </p>
         </div>
 
@@ -311,7 +428,7 @@ export default function StaticBalloonsSim({ lang, onLogMeasurement }: Props) {
           }`}
         >
           <BookmarkCheck className="w-4 h-4" />
-          <span>{logged ? (lang === 'ar' ? 'تم التسجيل في الدفتر ✓' : 'Logged ✓') : (lang === 'ar' ? 'تسجيل في دفتر المختبر' : 'Log Measurement')}</span>
+          <span>{logged ? t.loggedSuccess : t.logData}</span>
         </button>
       </div>
 
@@ -322,14 +439,14 @@ export default function StaticBalloonsSim({ lang, onLogMeasurement }: Props) {
           <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
             <span className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
               <Sliders className="w-4 h-4 text-yellow-400" />
-              {lang === 'ar' ? 'معايير الشحنات والمسافة' : 'Charges & Distance'}
+              {t.paramsTitle}
             </span>
           </div>
 
           {/* Balloon 1 Charge Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'شحنة البالون الأول (q₁):' : 'Balloon 1 Charge (q₁):'}</span>
+              <span className="text-zinc-400">{t.charge1}</span>
               <span className={`font-mono font-semibold ${charge1MicroC < 0 ? 'text-sky-400' : charge1MicroC > 0 ? 'text-rose-400' : 'text-zinc-400'}`}>
                 {charge1MicroC > 0 ? '+' : ''}{charge1MicroC.toFixed(1)} μC
               </span>
@@ -348,7 +465,7 @@ export default function StaticBalloonsSim({ lang, onLogMeasurement }: Props) {
           {/* Balloon 2 Charge Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'شحنة البالون الثاني (q₂):' : 'Balloon 2 Charge (q₂):'}</span>
+              <span className="text-zinc-400">{t.charge2}</span>
               <span className={`font-mono font-semibold ${charge2MicroC < 0 ? 'text-sky-400' : charge2MicroC > 0 ? 'text-rose-400' : 'text-zinc-400'}`}>
                 {charge2MicroC > 0 ? '+' : ''}{charge2MicroC.toFixed(1)} μC
               </span>
@@ -367,7 +484,7 @@ export default function StaticBalloonsSim({ lang, onLogMeasurement }: Props) {
           {/* Distance Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'المسافة بين البالونين (r):' : 'Separation Distance (r):'}</span>
+              <span className="text-zinc-400">{t.distance}</span>
               <span className="font-mono text-zinc-200 font-semibold">{distanceCm} cm</span>
             </div>
             <input
@@ -384,7 +501,7 @@ export default function StaticBalloonsSim({ lang, onLogMeasurement }: Props) {
           {/* Balloon Mass */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'كتلة البالون (m):' : 'Balloon Mass (m):'}</span>
+              <span className="text-zinc-400">{t.mass}</span>
               <span className="font-mono text-zinc-300 font-semibold">{balloonMassG.toFixed(1)} g</span>
             </div>
             <input
@@ -401,7 +518,7 @@ export default function StaticBalloonsSim({ lang, onLogMeasurement }: Props) {
           {/* Quick Charge Presets */}
           <div>
             <span className="text-[10px] text-zinc-400 block mb-1.5">
-              {lang === 'ar' ? 'أنماط الشحنات الجاهزة:' : 'Charge Presets:'}
+              {t.presets}
             </span>
             <div className="grid grid-cols-2 gap-2">
               <button
@@ -411,7 +528,7 @@ export default function StaticBalloonsSim({ lang, onLogMeasurement }: Props) {
                 }}
                 className="px-2.5 py-1.5 rounded-lg bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-semibold"
               >
-                {lang === 'ar' ? 'تنافر (سالب - سالب)' : 'Repel (- / -)'}
+                {t.presetRepel}
               </button>
               <button
                 onClick={() => {
@@ -420,7 +537,7 @@ export default function StaticBalloonsSim({ lang, onLogMeasurement }: Props) {
                 }}
                 className="px-2.5 py-1.5 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/30 text-xs font-semibold"
               >
-                {lang === 'ar' ? 'تجاذب (سالب - موجب)' : 'Attract (- / +)'}
+                {t.presetAttract}
               </button>
             </div>
           </div>
@@ -442,7 +559,7 @@ export default function StaticBalloonsSim({ lang, onLogMeasurement }: Props) {
             {/* Coulomb Force F */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'القوة الكهربائية (F)' : 'Coulomb Force (F)'}
+                {t.forceLabel}
               </span>
               <div className="text-xl font-bold font-mono text-yellow-400">
                 {coulombForceN.toFixed(4)} <span className="text-xs text-zinc-400">N</span>
@@ -453,10 +570,10 @@ export default function StaticBalloonsSim({ lang, onLogMeasurement }: Props) {
             {/* Interaction State */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'نوع التأثير المتبادل' : 'Interaction Type'}
+                {t.interactionType}
               </span>
               <div className={`text-sm font-bold font-mono ${isRepulsive ? 'text-rose-400' : isAttractive ? 'text-sky-400' : 'text-zinc-400'}`}>
-                {isRepulsive ? (lang === 'ar' ? 'تنافر كهربائي' : 'Repulsion') : isAttractive ? (lang === 'ar' ? 'تجاذب كهربائي' : 'Attraction') : (lang === 'ar' ? 'متعادل' : 'Neutral')}
+                {isRepulsive ? t.repulsion : isAttractive ? t.attraction : t.neutral}
               </div>
               <span className="text-[9px] text-zinc-500 font-mono">q1·q2 {isRepulsive ? '> 0' : isAttractive ? '< 0' : '= 0'}</span>
             </div>
@@ -464,7 +581,7 @@ export default function StaticBalloonsSim({ lang, onLogMeasurement }: Props) {
             {/* Deflection Angle */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'زاوية انحراف الخيط (θ)' : 'Deflection Angle (θ)'}
+                {t.deflectionAngle}
               </span>
               <div className="text-xl font-bold font-mono text-indigo-400">
                 {deflectionAngleDeg.toFixed(1)}°
@@ -475,7 +592,7 @@ export default function StaticBalloonsSim({ lang, onLogMeasurement }: Props) {
             {/* Gravity Force mg */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'قوة الوزن (W = mg)' : 'Weight Force (mg)'}
+                {t.weightForce}
               </span>
               <div className="text-xl font-bold font-mono text-emerald-400">
                 {gravityForceN.toFixed(3)} <span className="text-xs text-zinc-400">N</span>

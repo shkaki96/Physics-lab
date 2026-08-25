@@ -23,6 +23,40 @@ export default function ProjectileSim({ lang, onLogMeasurement }: Props) {
   const common = TRANSLATIONS[lang].common;
   const ctrl = TRANSLATIONS[lang].controls;
 
+  const localTranslations = {
+    ar: {
+      varRange: 'المدى الأفقي للمقذوف (R)',
+      launchControlsTitle: 'معايير إطلاق القذيفة', // غير موثّق بمصدر
+      notesText: 'تمت دراسة حركة المقذوف تحت تأثير الجاذبية.',
+    },
+    en: {
+      varRange: 'Projectile Range (R)',
+      launchControlsTitle: 'Launch Controls', // غير موثّق بمصدر
+      notesText: 'Evaluated parabolic trajectory parameters and maximum height.',
+    },
+    ku: {
+      varRange: 'مەودای ئاسۆیی هاوێژراو (R)',
+      launchControlsTitle: 'پێوەرەکانی هاویشتنی هاوێژراو', // غير موثّق بمصدر
+      notesText: 'جووڵەی هاوێژراو لەژێر کاریگەری کێشکردندا لێکۆڵینەوەی بۆ کرا.', // غير موثّق بمصدر
+    },
+    kmr: {
+      varRange: 'Mawaya horizontî ya haviştî (R)',
+      launchControlsTitle: 'Mîhengên haviştina guleyê', // غير موثّق بمصدر
+      notesText: 'Tevgera haviştî di bin bandora kêşkirinê de hate lêkolînkirin.', // غير موثّق بمصدر
+    },
+  };
+  const tText = localTranslations[lang] || localTranslations['ar'];
+
+  const getPlanetName = (p: typeof PLANETS[0]) => {
+    const planetNames: Record<string, string> = {
+      ar: p.nameAr,
+      ku: p.nameKu,
+      kmr: p.nameKmr || p.nameEn,
+      en: p.nameEn,
+    };
+    return planetNames[lang] || p.nameAr;
+  };
+
   // Parameters
   const [velocity, setVelocity] = useState(25); // m/s (5 to 60)
   const [angleDeg, setAngleDeg] = useState(45); // deg (5 to 85)
@@ -338,7 +372,7 @@ export default function ProjectileSim({ lang, onLogMeasurement }: Props) {
   const handleLog = () => {
     onLogMeasurement({
       experiment: 'projectile',
-      variableName: lang === 'ar' ? 'المدى الأفقي للمقذوف (R)' : 'Projectile Range (R)',
+      variableName: tText.varRange,
       measuredValue: Number(projectileRef.current.x.toFixed(2)) || Number(theoreticalRange.toFixed(2)),
       theoreticalValue: Number(theoreticalRange.toFixed(2)),
       unit: 'm',
@@ -349,7 +383,7 @@ export default function ProjectileSim({ lang, onLogMeasurement }: Props) {
         Gravity: `${gravity} m/s²`,
         'Air Drag': airDrag > 0 ? 'Enabled' : 'None (Vacuum)',
       },
-      notes: lang === 'ar' ? 'تمت دراسة حركة المقذوف تحت تأثير الجاذبية.' : 'Evaluated parabolic trajectory parameters and maximum height.',
+      notes: tText.notesText,
     });
 
     setLoggedSuccess(true);
@@ -379,7 +413,7 @@ export default function ProjectileSim({ lang, onLogMeasurement }: Props) {
                 }`}
               >
                 <span>{p.icon}</span>
-                <span>{lang === 'ar' ? p.nameAr : p.nameEn}</span>
+                <span>{getPlanetName(p)}</span>
               </button>
             ))}
           </div>
@@ -493,7 +527,7 @@ export default function ProjectileSim({ lang, onLogMeasurement }: Props) {
         <div className="lg:col-span-5 space-y-4">
           <div className="p-5 rounded-xl border border-zinc-800 bg-zinc-900/40 space-y-4">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-              {lang === 'ar' ? 'معايير إطلاق القذيفة' : 'Launch Controls'}
+              {tText.launchControlsTitle}
             </h3>
 
             {/* Velocity Slider */}

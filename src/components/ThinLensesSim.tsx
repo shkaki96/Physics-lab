@@ -8,6 +8,125 @@ interface Props {
 }
 
 export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
+  const t = {
+    ar: {
+      title: 'العدسات الرقيقة والبعد البؤري',
+      subtitle: 'دراسة انكسار الضوء في العدسات المحدبة والمقعرة بقانون 1/f = 1/do + 1/di وقوة العدسة بالديوبتر P = 1/f(m).',
+      logMeasurement: 'تسجيل في دفتر المختبر', // غير موثّق بمصدر
+      logged: 'تم التسجيل في الدفتر ✓', // غير موثّق بمصدر
+      controlsTitle: 'معايير العدسة والجسم', // غير موثّق بمصدر
+      lensTypeLabel: 'نوع العدسة البصرية:', // غير موثّق بمصدر
+      convexLens: 'محدبة مجمعة (+f)',
+      concaveLens: 'مقعرة مفرقة (-f)',
+      focalLengthLabel: 'البعد البؤري للعدسة (f):',
+      objectDistanceLabel: 'بعد الجسم عن العدسة (do):',
+      objectHeightLabel: 'طول الجسم (ho):',
+      showRaysLabel: 'إظهار الأشعة الانكسارية الثلاثة:', // غير موثّق بمصدر
+      imageCharacteristicsLabel: 'طبيعة ومواصفات الصورة الناتجة:', // غير موثّق بمصدر
+      real: 'حقيقية',
+      virtual: 'خيالية',
+      inverted: 'مقلوبة',
+      upright: 'معتدلة',
+      enlarged: 'مكبرة',
+      reduced: 'مصغرة',
+      sameSize: 'مساوية للأصل', // غير موثّق بمصدر
+      opticalPowerCard: 'قوة العدسة (P)',
+      imagePositionCard: 'موقع الصورة (di)',
+      magnificationCard: 'معامل التكبير (m)',
+      imageHeightCard: 'طول الصورة (hi)',
+      objectCanvasLabel: 'الجسم',
+      imageCanvasLabel: 'الصورة',
+      atFocusMessage: '⚡ الجسم عند البؤرة (do = f): الأشعة المنكسرة المتوازية تشكّل صورة في المالانهاية', // غير موثّق بمصدر
+    },
+    en: {
+      title: 'Thin Lenses & Focal Length',
+      subtitle: 'Thin lens refraction, lens formula 1/f = 1/do + 1/di, and optical power in Diopters P = 1/f.',
+      logMeasurement: 'Log Measurement', // غير موثّق بمصدر
+      logged: 'Logged ✓', // غير موثّق بمصدر
+      controlsTitle: 'Lens & Object Controls', // غير موثّق بمصدر
+      lensTypeLabel: 'Lens Type:', // غير موثّق بمصدر
+      convexLens: 'Convex (+f)',
+      concaveLens: 'Concave (-f)',
+      focalLengthLabel: 'Focal Length (f):',
+      objectDistanceLabel: 'Object Distance (do):',
+      objectHeightLabel: 'Object Height (ho):',
+      showRaysLabel: 'Show 3 Refraction Rays:', // غير موثّق بمصدر
+      imageCharacteristicsLabel: 'Image Characteristics:', // غير موثّق بمصدر
+      real: 'Real',
+      virtual: 'Virtual',
+      inverted: 'Inverted',
+      upright: 'Upright',
+      enlarged: 'Enlarged',
+      reduced: 'Reduced',
+      sameSize: 'Same Size', // غير موثّق بمصدر
+      opticalPowerCard: 'Optical Power (P = 1/f)',
+      imagePositionCard: 'Image Position (di)',
+      magnificationCard: 'Magnification (m)',
+      imageHeightCard: 'Image Height (hi)',
+      objectCanvasLabel: 'Object',
+      imageCanvasLabel: 'Image',
+      atFocusMessage: '⚡ Object is at Focus (do = f): Parallel Refracted Rays form Image at Infinity', // غير موثّق بمصدر
+    },
+    ku: {
+      title: 'هاوێنە تەنکەکان و درێژی تیشکۆ',
+      subtitle: 'لێکۆڵینەوە لە شکانەوەی ڕووناکی لە هاوێنە قۆقز و چاڵەکان بە یاسای ١/f = ١/do + ١/di و توانای هاوێنە بە دیۆپتەر P = ١/f.',
+      logMeasurement: 'تۆمارکردنی پێوانە', // غير موثّق بمصدر
+      logged: 'تۆمارکرا ✓', // غير موثّق بمصدر
+      controlsTitle: 'تایبەتمەندییەکانی هاوێنە و تەنم', // غير موثّق بمصدر
+      lensTypeLabel: 'جۆری هاوێنەی بصرية:', // غير موثّق بمصدر
+      convexLens: 'قۆقزی کۆکەرەوە (+f)',
+      concaveLens: 'چاڵی بڵاوکەرەوە (-f)',
+      focalLengthLabel: 'درێژیی تیشکۆی هاوێنە (f):',
+      objectDistanceLabel: 'دووریی تەنم لە هاوێنە (do):',
+      objectHeightLabel: 'بەرزایی تەنم (ho):',
+      showRaysLabel: 'پیشاندانی ۳ تیشکی شکانەوە:', // غير موثّق بمصدر
+      imageCharacteristicsLabel: 'سیفەتەکانی وێنەی دروستبوو:', // غير موثّق بمصدر
+      real: 'ڕاستەقینە',
+      virtual: 'وەهمی',
+      inverted: 'سەرەوژێر',
+      upright: 'ڕاست',
+      enlarged: 'گەورەکراو',
+      reduced: 'بچووککراوە',
+      sameSize: 'یەک ئەندازە', // غير موثّق بمصدر
+      opticalPowerCard: 'توانای هاوێنە (P)',
+      imagePositionCard: 'شوێنی وێنە (di)',
+      magnificationCard: 'هاوکۆلکەی گەورەکردن (m)',
+      imageHeightCard: 'بەرزایی وێنە (hi)',
+      objectCanvasLabel: 'تەنم',
+      imageCanvasLabel: 'وێنە',
+      atFocusMessage: '⚡ تەنم لەسەر تیشکۆی کۆکەرەوەیە (do = f): تیشکە شکاوە تەریبەکان وێنە لە بێکۆتایی دروست دەکەن', // غير موثّق بمصدر
+    },
+    kmr: {
+      title: 'Havênên Zirav û Dirêjahiya Tîşkoyê',
+      subtitle: 'Lêkolîna şikestina ronahiyê di havênên gir û çal de bi qanûna 1/f = 1/do + 1/di û hêza optîkî bi Diopter P = 1/f.',
+      logMeasurement: 'Tomarkirina pîvanê', // غير موثّق بمصدر
+      logged: 'Hate tomarkirin ✓', // غير موثّق بمصدر
+      controlsTitle: 'Parametreyên havên û tiştî', // غير موثّق بمصدر
+      lensTypeLabel: 'Cûreyê havênê:', // غير موثّق بمصدر
+      convexLens: 'Gir a komker (+f)',
+      concaveLens: 'Çal a cudaker (-f)',
+      focalLengthLabel: 'Dirêjahiya tîşkoyê (f):',
+      objectDistanceLabel: 'Dûriya tiştî ji havênê (do):',
+      objectHeightLabel: 'Bilindahiya tiştî (ho):',
+      showRaysLabel: 'Nîşandana 3 tîşken şikestinê:', // غير موثّق بمصدر
+      imageCharacteristicsLabel: 'Taybetmendiyên wêneyê:', // غير موثّق بمصدر
+      real: 'Rastî',
+      virtual: 'Xeyalî',
+      inverted: 'Serûbin (Zivirî)',
+      upright: 'Rast',
+      enlarged: 'Mezinbûyî',
+      reduced: 'Biçûkbûyî',
+      sameSize: 'Heman mezinahî', // غير موثّق بمصدر
+      opticalPowerCard: 'Hêza optîkî (P)',
+      imagePositionCard: 'Cihê wêneyê (di)',
+      magnificationCard: 'Qatjimara mezinanî (m)',
+      imageHeightCard: 'Bilindahiya wêneyê (hi)',
+      objectCanvasLabel: 'Tişt',
+      imageCanvasLabel: 'Wêne',
+      atFocusMessage: '⚡ Tişt li ser tîşkoyê ye (do = f): Tîşkên şikestî yên paralel wêneyê di bêsînoriyê de çêdikin', // غير موثّق بمصدر
+    },
+  }[lang];
+
   // Parameters
   const [lensType, setLensType] = useState<'convex' | 'concave'>('convex');
   const [focalLengthCm, setFocalLengthCm] = useState<number>(20); // cm (positive magnitude)
@@ -172,7 +291,7 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
 
     ctx.fillStyle = '#10b981';
     ctx.font = 'bold 11px sans-serif';
-    ctx.fillText(`Object (do=${objectDistanceCm}cm)`, objPixelX - 35, objPixelY - 10);
+    ctx.fillText(`${t.objectCanvasLabel} (do=${objectDistanceCm}cm)`, objPixelX - 35, objPixelY - 10);
 
     // Draw Image Arrow
     if (!isAtFocus && Math.abs(imageDistanceCm) < 300) {
@@ -199,8 +318,9 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
       ctx.setLineDash([]);
 
       ctx.font = 'bold 11px sans-serif';
+      const imgNatureStr = isReal ? t.real : t.virtual;
       ctx.fillText(
-        `Image (${isReal ? 'Real' : 'Virtual'}, di=${imageDistanceCm.toFixed(1)}cm)`,
+        `${t.imageCanvasLabel} (${imgNatureStr}, di=${imageDistanceCm.toFixed(1)}cm)`,
         imgPixelX - 45,
         imgPixelY + (isInverted ? 20 : -10)
       );
@@ -270,10 +390,10 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
     } else if (isAtFocus) {
       ctx.fillStyle = '#f59e0b';
       ctx.font = 'bold 12px sans-serif';
-      ctx.fillText('⚡ Object is at Focus (do = f): Parallel Refracted Rays form Image at Infinity', 40, 50);
+      ctx.fillText(t.atFocusMessage, 40, 50);
     }
 
-  }, [lensType, focalLengthCm, objectDistanceCm, objectHeightCm, showPrincipalRays, signedFocalLengthCm, imageDistanceCm, imageHeightCm, isAtFocus, isReal, isInverted]);
+  }, [lensType, focalLengthCm, objectDistanceCm, objectHeightCm, showPrincipalRays, signedFocalLengthCm, imageDistanceCm, imageHeightCm, isAtFocus, isReal, isInverted, t]);
 
   const handleLog = () => {
     onLogMeasurement({
@@ -306,15 +426,11 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
           <h2 className="text-base sm:text-lg font-bold text-zinc-100 flex items-center gap-2">
             <Eye className="w-5 h-5 text-emerald-400" />
             <span>
-              {lang === 'ar' ? 'العدسات الرقيقة والبعد البؤري (Thin Lenses & Focal Length)' : lang === 'ku' ? 'هاوێنە تەنکەکان و درێژی تیشکۆ' : 'Thin Lenses & Focal Length (Optical Power)'}
+              {t.title}
             </span>
           </h2>
           <p className="text-xs text-zinc-400 mt-1 max-w-2xl">
-            {lang === 'ar'
-              ? 'دراسة انكسار الضوء في العدسات المحدبة والمقعرة بقانون 1/f = 1/do + 1/di وقوة العدسة بالديوبتر P = 1/f(m).'
-              : lang === 'ku'
-              ? 'لێکۆڵینەوە لە شکانەوەی ڕووناکی لە هاوێنە قۆقز و چاڵەکان بە یاسای ١/f = ١/do + ١/di و توانای هاوێنە بە دیۆپتەر P = ١/f.'
-              : 'Thin lens refraction, lens formula 1/f = 1/do + 1/di, and optical power in Diopters P = 1/f.'}
+            {t.subtitle}
           </p>
         </div>
 
@@ -327,7 +443,7 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
           }`}
         >
           <BookmarkCheck className="w-4 h-4" />
-          <span>{logged ? (lang === 'ar' ? 'تم التسجيل في الدفتر ✓' : 'Logged ✓') : (lang === 'ar' ? 'تسجيل في دفتر المختبر' : 'Log Measurement')}</span>
+          <span>{logged ? t.logged : t.logMeasurement}</span>
         </button>
       </div>
 
@@ -338,14 +454,14 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
           <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
             <span className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
               <Sliders className="w-4 h-4 text-emerald-400" />
-              {lang === 'ar' ? 'معايير العدسة والجسم' : 'Lens & Object Controls'}
+              {t.controlsTitle}
             </span>
           </div>
 
           {/* Lens Type Radio Tabs */}
           <div>
             <label className="text-xs text-zinc-400 block mb-1.5 font-medium">
-              {lang === 'ar' ? 'نوع العدسة البصرية:' : 'Lens Type:'}
+              {t.lensTypeLabel}
             </label>
             <div className="grid grid-cols-2 gap-2">
               <button
@@ -356,7 +472,7 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
                     : 'bg-zinc-950 text-zinc-400 border-zinc-800 hover:bg-zinc-800'
                 }`}
               >
-                {lang === 'ar' ? 'محدبة مجمعة (+f)' : 'Convex (+f)'}
+                {t.convexLens}
               </button>
               <button
                 onClick={() => setLensType('concave')}
@@ -366,7 +482,7 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
                     : 'bg-zinc-950 text-zinc-400 border-zinc-800 hover:bg-zinc-800'
                 }`}
               >
-                {lang === 'ar' ? 'مقعرة مفرقة (-f)' : 'Concave (-f)'}
+                {t.concaveLens}
               </button>
             </div>
           </div>
@@ -374,7 +490,7 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
           {/* Focal Length Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'البعد البؤري للعدسة (f):' : 'Focal Length (f):'}</span>
+              <span className="text-zinc-400">{t.focalLengthLabel}</span>
               <span className="font-mono text-purple-400 font-semibold">{focalLengthCm} cm ({lensPowerDiopters.toFixed(2)} D)</span>
             </div>
             <input
@@ -391,7 +507,7 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
           {/* Object Distance (do) Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'بعد الجسم عن العدسة (do):' : 'Object Distance (do):'}</span>
+              <span className="text-zinc-400">{t.objectDistanceLabel}</span>
               <span className="font-mono text-emerald-400 font-semibold">{objectDistanceCm} cm</span>
             </div>
             <input
@@ -408,7 +524,7 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
           {/* Object Height (ho) Slider */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-zinc-400">{lang === 'ar' ? 'طول الجسم (ho):' : 'Object Height (ho):'}</span>
+              <span className="text-zinc-400">{t.objectHeightLabel}</span>
               <span className="font-mono text-amber-400 font-semibold">{objectHeightCm} cm</span>
             </div>
             <input
@@ -424,7 +540,7 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
 
           {/* Principal Rays Toggle */}
           <div className="flex items-center justify-between p-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-xs">
-            <span className="text-zinc-300">{lang === 'ar' ? 'إظهار الأشعة الانكسارية الثلاثة:' : 'Show 3 Refraction Rays:'}</span>
+            <span className="text-zinc-300">{t.showRaysLabel}</span>
             <input
               type="checkbox"
               checked={showPrincipalRays}
@@ -436,7 +552,7 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
           {/* Image Nature State Card */}
           <div className="p-3.5 rounded-xl bg-zinc-950 border border-zinc-800 space-y-1.5">
             <span className="text-[10px] text-zinc-400 uppercase font-semibold block">
-              {lang === 'ar' ? 'طبيعة ومواصفات الصورة الناتجة:' : 'Image Characteristics:'}
+              {t.imageCharacteristicsLabel}
             </span>
             <div className="flex flex-wrap gap-1.5">
               <span
@@ -444,17 +560,17 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
                   isReal ? 'bg-rose-500/20 text-rose-300' : 'bg-purple-500/20 text-purple-300'
                 }`}
               >
-                {isReal ? (lang === 'ar' ? 'حقيقية (Real)' : 'Real') : (lang === 'ar' ? 'خيالية (Virtual)' : 'Virtual')}
+                {isReal ? t.real : t.virtual}
               </span>
               <span className="px-2 py-0.5 rounded text-xs font-semibold bg-zinc-800 text-zinc-300">
-                {isInverted ? (lang === 'ar' ? 'مقلوبة (Inverted)' : 'Inverted') : (lang === 'ar' ? 'معتدلة (Upright)' : 'Upright')}
+                {isInverted ? t.inverted : t.upright}
               </span>
               <span className="px-2 py-0.5 rounded text-xs font-semibold bg-zinc-800 text-zinc-300">
                 {isEnlarged
-                  ? (lang === 'ar' ? 'مكبرة (Enlarged)' : 'Enlarged')
+                  ? t.enlarged
                   : isReduced
-                  ? (lang === 'ar' ? 'مصغرة (Reduced)' : 'Reduced')
-                  : (lang === 'ar' ? 'مساوية للأصل' : 'Same Size')}
+                  ? t.reduced
+                  : t.sameSize}
               </span>
             </div>
           </div>
@@ -476,7 +592,7 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
             {/* Optical Power */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'قوة العدسة (P)' : 'Optical Power (P = 1/f)'}
+                {t.opticalPowerCard}
               </span>
               <div className="text-xl font-bold font-mono text-purple-400">
                 {lensPowerDiopters.toFixed(2)} <span className="text-xs text-zinc-400">D (Diopter)</span>
@@ -487,7 +603,7 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
             {/* Image Distance di */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'موقع الصورة (di)' : 'Image Position (di)'}
+                {t.imagePositionCard}
               </span>
               <div className="text-xl font-bold font-mono text-sky-400">
                 {isAtFocus ? '∞' : imageDistanceCm.toFixed(2)} <span className="text-xs text-zinc-400">cm</span>
@@ -498,7 +614,7 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
             {/* Magnification m */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'معامل التكبير (m)' : 'Magnification (m)'}
+                {t.magnificationCard}
               </span>
               <div className="text-xl font-bold font-mono text-emerald-400">
                 {isAtFocus ? '∞' : magnification.toFixed(3)}x
@@ -509,7 +625,7 @@ export default function ThinLensesSim({ lang, onLogMeasurement }: Props) {
             {/* Image Height hi */}
             <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
               <span className="text-[10px] text-zinc-400 uppercase font-semibold">
-                {lang === 'ar' ? 'طول الصورة (hi)' : 'Image Height (hi)'}
+                {t.imageHeightCard}
               </span>
               <div className="text-xl font-bold font-mono text-amber-400">
                 {isAtFocus ? '∞' : Math.abs(imageHeightCm).toFixed(2)} <span className="text-xs text-zinc-400">cm</span>

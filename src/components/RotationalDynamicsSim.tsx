@@ -11,6 +11,123 @@ interface Props {
 type GeometryType = 'cylinder' | 'ring' | 'sphere' | 'rod_center' | 'rod_end';
 
 export default function RotationalDynamicsSim({ lang, onLogMeasurement }: Props) {
+  const translations = {
+    ar: {
+      title: 'عزم القصور الذاتي والحركة الدورانية (τ = I α)',
+      subTitle: 'عزم القصور الذاتي والحركة الدورانية (τ = I α)',
+      shortDesc: 'دراسة عزم القصور الذاتي للأجسام الهندسية المختلفة وتسارعها الزاوي',
+      start: 'تشغيل', // غير موثّق بمصدر
+      pause: 'إيقاف', // غير موثّق بمصدر
+      inertiaLabel: 'عزم القصور الذاتي (I)',
+      angularAccLabel: 'التسارع الزاوي (α)',
+      angularVelLabel: 'السرعة الزاوية (ω)',
+      rotKELabel: 'طاقة الحركة الدورانية (K_rot)',
+      theoryTitle: 'مقارنة عزم القصور الذاتي للأشكال الهندسية المختلفة:',
+      theoryText: 'تعتمد مقاومة الجسم للدوران (عزم القصور الذاتي I) على كتلته وكيفية توزيعها حول محور الدوران: الحلقة (I = MR²) تمتلك أكبر عزم قصور لأن كل كتلتها عند أقصى بعد، بينما الأسطوانة المصمتة (I = ½MR²) والكرة المصمتة (I = ⅖MR²) تدور بتسارع أكبر لنفس عزم التدوير.',
+      controlsTitle: 'الشكل الهندسي ونظام التجربة', // غير موثّق بمصدر
+      modePulley: 'عزم بكتلة معلقة', // غير موثّق بمصدر
+      modeIncline: 'دحرجة على منحدر', // غير موثّق بمصدر
+      geometryLabel: 'الشكل الهندسي للجسم الدوار:',
+      geoCylinder: 'أسطوانة مصمتة / قرص',
+      geoRing: 'حلقة دائرية رقيقة (Hoop)',
+      geoSphere: 'كرة مصمتة (Solid Sphere)',
+      geoRodCenter: 'ساق رفيعة (محور المركز)',
+      massLabel: 'كتلة الجسم الدوار (M)',
+      radiusLabel: 'نصف قطر الجسم (R)',
+      hangingMassLabel: 'الكتلة المعلقة المولدة للعزم (m)',
+      inclineAngleLabel: 'زاوية المنحدر (θ)',
+      loggedMsg: 'تم تسجيل القياس في دفتر المختبر!', // غير موثّق بمصدر
+      logBtn: 'تسجيل عزم القصور والتسارع', // غير موثّق بمصدر
+      reset: 'إعادة ضبط', // غير موثّق بمصدر
+    },
+    en: {
+      title: 'Moment of Inertia & Rotational Dynamics (τ = I α)',
+      subTitle: 'Moment of Inertia & Rotational Dynamics',
+      shortDesc: 'Study moment of inertia for various geometric shapes and their angular acceleration.',
+      start: 'Start', // غير موثّق بمصدر
+      pause: 'Pause', // غير موثّق بمصدر
+      inertiaLabel: 'Inertia (I)',
+      angularAccLabel: 'Angular Acc (α)',
+      angularVelLabel: 'Angular Vel (ω)',
+      rotKELabel: 'Rotational KE',
+      theoryTitle: 'Comparison of Moments of Inertia:',
+      theoryText: 'Resistance to rotation (Moment of Inertia I) depends on mass distribution: Thin Ring (I = MR²) has maximum inertia, whereas Solid Cylinder (I = 0.5 MR²) and Solid Sphere (I = 0.4 MR²) rotate faster under the same torque.',
+      controlsTitle: 'Geometry & Mode Selection', // غير موثّق بمصدر
+      modePulley: 'Pulley & Torque', // غير موثّق بمصدر
+      modeIncline: 'Incline Rolling', // غير موثّق بمصدر
+      geometryLabel: 'Rotating Body Geometry:',
+      geoCylinder: 'Solid Cylinder / Disk',
+      geoRing: 'Thin Ring / Hoop',
+      geoSphere: 'Solid Sphere',
+      geoRodCenter: 'Thin Rod (Center)',
+      massLabel: 'Object Mass (M)',
+      radiusLabel: 'Object Radius (R)',
+      hangingMassLabel: 'Hanging Mass (m)',
+      inclineAngleLabel: 'Incline Angle (θ)',
+      loggedMsg: 'Logged to Lab Notebook!', // غير موثّق بمصدر
+      logBtn: 'Log Inertia & Acceleration', // غير موثّق بمصدر
+      reset: 'Reset', // غير موثّق بمصدر
+    },
+    ku: {
+      title: 'زەبری سستی و جووڵەی خولانەوەیی (τ = I α)',
+      subTitle: 'زەبری سستی و جووڵەی خولانەوەیی (τ = I α)',
+      shortDesc: 'لێکۆڵینەوە لە زەبری سستی بۆ شێوە جیاوازەکان و تاودانی گۆشەیییان.',
+      start: 'دەستپێکردن', // غير موثّق بمصدر
+      pause: 'وەستاندن', // غير موثّق بمصدر
+      inertiaLabel: 'زەبری سستی (I)',
+      angularAccLabel: 'تاودانی گۆشەیی (α)',
+      angularVelLabel: 'خێرایی گۆشەیی (ω)',
+      rotKELabel: 'ووزەی جوولەی خولانەوەیی',
+      theoryTitle: 'بەراوردکردنی زەبری سستی بۆ شێوە ئەندازیارییە جیاوازەکان:',
+      theoryText: 'بەرگری جەستە بەرامبەر خولانەوە بەندە لەسەر دابەشبوونی مسەکەی؛ ئەڵقەی تەنک خاوەنی گەورەترین زەبری سستییە (I = MR²)، بەڵام لوولەکی پڕ (I = ½MR²) و گۆی پڕ (I = ⅖MR²) بە خێراتر دەخولێنەوە.',
+      controlsTitle: 'شێوەی ئەندازیاری و جۆری تاقیکردنەوە', // غير موثّق بمصدر
+      modePulley: 'زەبر بە بارستەی هەڵواسراو', // غير موثّق بمصدر
+      modeIncline: 'خلۆربوونەوە لەسەر لێژایی', // غير موثّق بمصدر
+      geometryLabel: 'شێوەی ئەندازیاری تەنە خولاوەکە:',
+      geoCylinder: 'لوولەکی پڕ / دیسک',
+      geoRing: 'ئەڵقەی تەنک (Hoop)',
+      geoSphere: 'گۆی پڕ (Solid Sphere)',
+      geoRodCenter: 'گۆپالی تەنک (تەوەرەی ناوەند)',
+      massLabel: 'بارستەی تەنی خولاوە (M)',
+      radiusLabel: 'نیوەتیرەی تەنەکە (R)',
+      hangingMassLabel: 'بارستەی هەڵواسراوی دروستکەری زەبر (m)',
+      inclineAngleLabel: 'گۆشەی لێژایی (θ)',
+      loggedMsg: 'تۆمارکرا لە دەفتەری تاقیگە!', // غير موثّق بمصدر
+      logBtn: 'تۆمارکردنی زەبری سستی و تاودان', // غير موثّق بمصدر
+      reset: 'ڕێکخستنەوە', // غير موثّق بمصدر
+    },
+    kmr: {
+      title: 'Momena sistiyê û dînamîka zevirînê (τ = I α)',
+      subTitle: 'Momena sistiyê û dînamîka zevirînê (τ = I α)',
+      shortDesc: 'Lêkolîna momena sistiyê ji bo şêweyên cuda cuda û leztirbûna goşeyî ya wan.',
+      start: 'Destpêkirin', // غير موثّق بمصدر
+      pause: 'Pewstandin', // غير موثّق بمصدر
+      inertiaLabel: 'Momena sistiyê (I)',
+      angularAccLabel: 'Leztirbûna goşeyî (α)',
+      angularVelLabel: 'Leza goşeyî (ω)',
+      rotKELabel: 'Anarjiya tevgera zevirînê',
+      theoryTitle: 'Berdewamiya momena sistiyê di şêweyên geometrîk de:',
+      theoryText: 'Berxwedana laş beramberî zevirînê (Momena sistiyê I) li ser belavbûna giraniyê ye: Bera tenik xwediya momena sistiyê ya herî mezin e (I = MR²).',
+      controlsTitle: 'Şêweyê geometrîk û moda azmûnê', // غير موثّق بمصدر
+      modePulley: 'Zevir bi massa daliqandî', // غير موثّق بمصدر
+      modeIncline: 'Gevizîn li ser berpalê', // غير موثّق بمصدر
+      geometryLabel: 'Şêweyê geometrîk ê laşê zevirî:',
+      geoCylinder: 'Sîlîndera tijî / Dîsk',
+      geoRing: 'Bera tenik (Hoop)',
+      geoSphere: 'Goya tijî (Solid Sphere)',
+      geoRodCenter: 'Darê tenik (Tewereya navend)',
+      massLabel: 'Massa laşê zevirî (M)',
+      radiusLabel: 'Nîvçerxa laş (R)',
+      hangingMassLabel: 'Massa daliqandî ya çêkerê torque (m)',
+      inclineAngleLabel: 'Goşeya berpalê (θ)',
+      loggedMsg: 'Hat tomarkirin di defterê de!', // غير موثّق بمصدر
+      logBtn: 'Tomarkirina momena sistiyê û leztirbûnê', // غير موثّق بمصدر
+      reset: 'Rêk xistin', // غير موثّق بمصدر
+    },
+  };
+  const t = translations[lang] || translations['ar'];
+  const tText = t;
+
   const [geometry, setGeometry] = useState<GeometryType>('cylinder');
   const [mode, setMode] = useState<'pulley' | 'incline'>('pulley');
 
@@ -405,7 +522,7 @@ export default function RotationalDynamicsSim({ lang, onLogMeasurement }: Props)
               </div>
               <div>
                 <h3 className="text-base font-bold text-zinc-100">
-                  {lang === 'ar' ? 'عزم القصور الذاتي والحركة الدورانية (τ = I α)' : lang === 'ku' ? 'زەبری سستی و جووڵەی خولانەوەیی (τ = I α)' : 'Moment of Inertia & Rotational Dynamics'}
+                  {t.subTitle}
                 </h3>
                 <p className="text-xs text-zinc-400 font-mono">
                   {inertiaFormula} • I = {momentOfInertia.toFixed(4)} kg·m² • τ = I · α
@@ -423,13 +540,13 @@ export default function RotationalDynamicsSim({ lang, onLogMeasurement }: Props)
                 }`}
               >
                 {isRunning ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-                <span>{isRunning ? (lang === 'ar' ? 'إيقاف' : 'Pause') : (lang === 'ar' ? 'تشغيل' : 'Start')}</span>
+                <span>{isRunning ? t.pause : t.start}</span>
               </button>
 
               <button
                 onClick={resetSim}
                 className="p-2 rounded-xl bg-zinc-800 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700 transition-colors"
-                title="Reset"
+                title={t.reset}
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
@@ -443,28 +560,28 @@ export default function RotationalDynamicsSim({ lang, onLogMeasurement }: Props)
           {/* Real-time Metrics */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3">
             <div className="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/60 text-center">
-              <div className="text-[11px] text-zinc-400">{lang === 'ar' ? 'عزم القصور الذاتي (I)' : 'Inertia (I)'}</div>
+              <div className="text-[11px] text-zinc-400">{t.inertiaLabel}</div>
               <div className="text-base font-bold font-mono text-purple-400">
                 {momentOfInertia.toFixed(4)} <span className="text-[10px] text-zinc-400">kg·m²</span>
               </div>
             </div>
 
             <div className="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/60 text-center">
-              <div className="text-[11px] text-zinc-400">{lang === 'ar' ? 'التسارع الزاوي (α)' : 'Angular Acc (α)'}</div>
+              <div className="text-[11px] text-zinc-400">{t.angularAccLabel}</div>
               <div className="text-base font-bold font-mono text-amber-400">
                 {currentAlpha.toFixed(2)} <span className="text-[10px] text-zinc-400">rad/s²</span>
               </div>
             </div>
 
             <div className="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/60 text-center">
-              <div className="text-[11px] text-zinc-400">{lang === 'ar' ? 'السرعة الزاوية (ω)' : 'Angular Vel (ω)'}</div>
+              <div className="text-[11px] text-zinc-400">{t.angularVelLabel}</div>
               <div className="text-base font-bold font-mono text-sky-400">
                 {metrics.omega.toFixed(2)} <span className="text-[10px] text-zinc-400">rad/s</span>
               </div>
             </div>
 
             <div className="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/60 text-center">
-              <div className="text-[11px] text-zinc-400">{lang === 'ar' ? 'طاقة الحركة الدورانية (K_rot)' : 'Rotational KE'}</div>
+              <div className="text-[11px] text-zinc-400">{t.rotKELabel}</div>
               <div className="text-base font-bold font-mono text-emerald-400">
                 {metrics.rotKE.toFixed(2)} <span className="text-[10px] text-zinc-400">J</span>
               </div>
@@ -476,13 +593,9 @@ export default function RotationalDynamicsSim({ lang, onLogMeasurement }: Props)
         <div className="p-4 rounded-2xl bg-purple-950/20 border border-purple-800/30 text-xs text-zinc-300 space-y-2">
           <div className="font-semibold text-purple-300 flex items-center gap-1.5">
             <Layers className="w-4 h-4" />
-            <span>{lang === 'ar' ? 'مقارنة عزم القصور الذاتي للأشكال الهندسية المختلفة:' : 'Comparison of Moments of Inertia:'}</span>
+            <span>{t.theoryTitle}</span>
           </div>
-          <p>
-            {lang === 'ar'
-              ? 'تعتمد مقاومة الجسم للدوران (عزم القصور الذاتي I) على كتلته وكيفية توزيعها حول محور الدوران: الحلقة (I = MR²) تمتلك أكبر عزم قصور لأن كل كتلتها عند أقصى بعد، بينما الأسطوانة المصمتة (I = ½MR²) والكرة المصمتة (I = ⅖MR²) تدور بتسارع أكبر لنفس عزم التدوير.'
-              : 'Resistance to rotation (Moment of Inertia I) depends on mass distribution: Thin Ring (I = MR²) has maximum inertia, whereas Solid Cylinder (I = 0.5 MR²) and Solid Sphere (I = 0.4 MR²) rotate faster under the same torque.'}
-          </p>
+          <p>{t.theoryText}</p>
         </div>
       </div>
 
@@ -490,7 +603,7 @@ export default function RotationalDynamicsSim({ lang, onLogMeasurement }: Props)
       <div className="space-y-4">
         <div className="rounded-2xl bg-zinc-900 border border-zinc-800 p-5 shadow-xl space-y-5">
           <h4 className="text-sm font-bold text-zinc-200 pb-2 border-b border-zinc-800">
-            {lang === 'ar' ? 'الشكل الهندسي ونظام التجربة' : 'Geometry & Mode Selection'}
+            {t.controlsTitle}
           </h4>
 
           {/* Mode Selector */}
@@ -503,7 +616,7 @@ export default function RotationalDynamicsSim({ lang, onLogMeasurement }: Props)
                   : 'bg-zinc-950 text-zinc-400 border-zinc-800 hover:bg-zinc-800/50'
               }`}
             >
-              {lang === 'ar' ? 'عزم بكتلة معلقة' : 'Pulley & Torque'}
+              {t.modePulley}
             </button>
             <button
               onClick={() => setMode('incline')}
@@ -513,13 +626,13 @@ export default function RotationalDynamicsSim({ lang, onLogMeasurement }: Props)
                   : 'bg-zinc-950 text-zinc-400 border-zinc-800 hover:bg-zinc-800/50'
               }`}
             >
-              {lang === 'ar' ? 'دحرجة على منحدر' : 'Incline Rolling'}
+              {t.modeIncline}
             </button>
           </div>
 
           {/* Geometry Selector */}
           <div className="space-y-1.5">
-            <label className="text-xs text-zinc-400">{lang === 'ar' ? 'الشكل الهندسي للجسم الدوار:' : 'Rotating Body Geometry:'}</label>
+            <label className="text-xs text-zinc-400">{t.geometryLabel}</label>
             <div className="grid grid-cols-1 gap-1.5 text-xs">
               <button
                 onClick={() => setGeometry('cylinder')}
@@ -527,7 +640,7 @@ export default function RotationalDynamicsSim({ lang, onLogMeasurement }: Props)
                   geometry === 'cylinder' ? 'bg-sky-950/40 text-sky-300 border-sky-500/50' : 'bg-zinc-950 text-zinc-400 border-zinc-850'
                 }`}
               >
-                <span>{lang === 'ar' ? 'أسطوانة مصمتة / قرص' : 'Solid Cylinder / Disk'}</span>
+                <span>{t.geoCylinder}</span>
                 <span className="font-bold text-sky-400">½ M R²</span>
               </button>
 
@@ -537,7 +650,7 @@ export default function RotationalDynamicsSim({ lang, onLogMeasurement }: Props)
                   geometry === 'ring' ? 'bg-amber-950/40 text-amber-300 border-amber-500/50' : 'bg-zinc-950 text-zinc-400 border-zinc-850'
                 }`}
               >
-                <span>{lang === 'ar' ? 'حلقة دائرية رقيقة (Hoop)' : 'Thin Ring / Hoop'}</span>
+                <span>{t.geoRing}</span>
                 <span className="font-bold text-amber-400">M R²</span>
               </button>
 
@@ -547,7 +660,7 @@ export default function RotationalDynamicsSim({ lang, onLogMeasurement }: Props)
                   geometry === 'sphere' ? 'bg-purple-950/40 text-purple-300 border-purple-500/50' : 'bg-zinc-950 text-zinc-400 border-zinc-850'
                 }`}
               >
-                <span>{lang === 'ar' ? 'كرة مصمتة (Solid Sphere)' : 'Solid Sphere'}</span>
+                <span>{t.geoSphere}</span>
                 <span className="font-bold text-purple-400">⅖ M R²</span>
               </button>
 
@@ -557,7 +670,7 @@ export default function RotationalDynamicsSim({ lang, onLogMeasurement }: Props)
                   geometry === 'rod_center' ? 'bg-emerald-950/40 text-emerald-300 border-emerald-500/50' : 'bg-zinc-950 text-zinc-400 border-zinc-850'
                 }`}
               >
-                <span>{lang === 'ar' ? 'ساق رفيعة (محور المركز)' : 'Thin Rod (Center)'}</span>
+                <span>{t.geoRodCenter}</span>
                 <span className="font-bold text-emerald-400">¹/₁₂ M L²</span>
               </button>
             </div>
@@ -567,7 +680,7 @@ export default function RotationalDynamicsSim({ lang, onLogMeasurement }: Props)
           <div className="space-y-3 pt-2 border-t border-zinc-800">
             <div className="space-y-1">
               <div className="flex justify-between text-xs">
-                <span className="text-zinc-400">{lang === 'ar' ? 'كتلة الجسم الدوار (M)' : 'Object Mass (M)'}</span>
+                <span className="text-zinc-400">{t.massLabel}</span>
                 <span className="font-mono text-zinc-200 font-bold">{objectMass.toFixed(1)} kg</span>
               </div>
               <input
@@ -583,7 +696,7 @@ export default function RotationalDynamicsSim({ lang, onLogMeasurement }: Props)
 
             <div className="space-y-1">
               <div className="flex justify-between text-xs">
-                <span className="text-zinc-400">{lang === 'ar' ? 'نصف قطر الجسم (R)' : 'Object Radius (R)'}</span>
+                <span className="text-zinc-400">{t.radiusLabel}</span>
                 <span className="font-mono text-zinc-200 font-bold">{objectRadius.toFixed(2)} m</span>
               </div>
               <input
@@ -600,7 +713,7 @@ export default function RotationalDynamicsSim({ lang, onLogMeasurement }: Props)
             {mode === 'pulley' ? (
               <div className="space-y-1">
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-400">{lang === 'ar' ? 'الكتلة المعلقة المولدة للعزم (m)' : 'Hanging Mass (m)'}</span>
+                  <span className="text-zinc-400">{t.hangingMassLabel}</span>
                   <span className="font-mono text-red-400 font-bold">{hangingMass.toFixed(2)} kg</span>
                 </div>
                 <input
@@ -616,7 +729,7 @@ export default function RotationalDynamicsSim({ lang, onLogMeasurement }: Props)
             ) : (
               <div className="space-y-1">
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-400">{lang === 'ar' ? 'زاوية المنحدر (θ)' : 'Incline Angle (θ)'}</span>
+                  <span className="text-zinc-400">{t.inclineAngleLabel}</span>
                   <span className="font-mono text-sky-400 font-bold">{inclineAngle}°</span>
                 </div>
                 <input
@@ -642,11 +755,7 @@ export default function RotationalDynamicsSim({ lang, onLogMeasurement }: Props)
             }`}
           >
             <BookmarkCheck className="w-4 h-4" />
-            <span>
-              {logged
-                ? (lang === 'ar' ? 'تم تسجيل القياس في دفتر المختبر!' : 'Logged to Lab Notebook!')
-                : (lang === 'ar' ? 'تسجيل عزم القصور والتسارع' : 'Log Inertia & Acceleration')}
-            </span>
+            <span>{logged ? t.loggedMsg : t.logBtn}</span>
           </button>
         </div>
       </div>

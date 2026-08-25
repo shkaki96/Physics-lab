@@ -14,6 +14,48 @@ export default function OpticsSim({ lang, onLogMeasurement }: Props) {
   const common = TRANSLATIONS[lang].common;
   const ctrl = TRANSLATIONS[lang].controls;
 
+  const localTranslations = {
+    ar: {
+      normalLine: 'العمود المقام (Normal)',
+      varRefractionAngle: 'زاوية الانكسار (θ₂)',
+      opticalMediaSelection: 'خصائص الأوساط الضوئية والزوايا', // غير موثّق بمصدر
+      notesTIR: 'حدث انعكاس كلي داخلي لأن زاوية السقوط أكبر من الزاوية الحرجة.', // غير موثّق بمصدر
+      notesSnell: 'تم التحقق من قانون سنيل n1·sin(θ1) = n2·sin(θ2).', // غير موثّق بمصدر
+    },
+    en: {
+      normalLine: 'Normal Line',
+      varRefractionAngle: 'Angle of Refraction (θ₂)',
+      opticalMediaSelection: 'Optical Media Selection', // غير موثّق بمصدر
+      notesTIR: 'Total internal reflection occurred as incident angle exceeded critical angle.', // غير موثّق بمصدر
+      notesSnell: "Verified Snell's Law n1·sin(θ1) = n2·sin(θ2).", // غير موثّق بمصدر
+    },
+    ku: {
+      normalLine: 'هێڵی ئەستوون (Normal)',
+      varRefractionAngle: 'گۆشەی شکانەوە (θ₂)',
+      opticalMediaSelection: 'تایبەتمەندییەکانی ناوەندە ڕووناکیەکان و گۆشەکان', // غير موثّق بمصدر
+      notesTIR: 'پاشدانەوەی تەواوی ناوەکی ڕوویدا چونکە گۆشەی کەوتن گەورەتر بوو لە گۆشەی قەدەغەکراو (بڕڕاو).', // غير موثّق بمصدر
+      notesSnell: 'یاسای سنێڵ n1·sin(θ1) = n2·sin(θ2) پشتڕاستکرایەوە.', // غير موثّق بمصدر
+    },
+    kmr: {
+      normalLine: 'Xêza stûnî (Normal)',
+      varRefractionAngle: 'Goya şikestinê (θ₂)',
+      opticalMediaSelection: 'Taybetmendiyên hawîrdorên ronahiyê û goşeyan', // غير موثّق بمصدر
+      notesTIR: 'Eksbûna navxweyî ya giştî çêbû ji ber ku goşeya ketinê ji goşeya krîtîk mezin de bû.', // غير موثّق بمصدر
+      notesSnell: 'Qanûna Snell n1·sin(θ1) = n2·sin(θ2) hate îspatkirin.', // غير موثّق بمصدر
+    },
+  };
+  const tText = localTranslations[lang] || localTranslations['ar'];
+
+  const getMediumName = (m: (typeof OPTICAL_MEDIUMS)[0]) => {
+    const names: Record<string, string> = {
+      ar: m.nameAr,
+      ku: m.nameAr,
+      kmr: m.nameEn,
+      en: m.nameEn,
+    };
+    return names[lang] || m.nameAr;
+  };
+
   // Parameters
   const [medium1Id, setMedium1Id] = useState('air');
   const [medium2Id, setMedium2Id] = useState('glass');
