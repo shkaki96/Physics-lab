@@ -44,7 +44,7 @@ const SPHERES: Record<SphereMaterialType, SphereData> = {
 };
 
 export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
-  const localT = {
+  const localTranslations = {
     ar: {
       title: 'اللزوجة وقانون ستوكس والسرعة الحدية',
       subtitle: 'سقوط الكرات المعدنية في الموائع اللزجة (ماء، زيت، جلسرين، عسل) وحساب قوة مقاومة المائع Fd = 6πηrv والسرعة الحدية vt = 2r²g(ρs - ρf)/(9η).',
@@ -117,7 +117,22 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
       dragCanvasLabel: 'Fd (Xwegirî)', // غير موثّق بمصدر
       resetPosition: 'Meqamê Nû Bikin', // غير موثّق بمصدر
     },
-  }[lang];
+  };
+  const localT = localTranslations[lang] || localTranslations['ar'];
+
+  const getLiquidName = (item: LiquidData) => {
+    if (lang === 'ku') return item.nameKu;
+    if (lang === 'kmr') return item.nameKmr;
+    if (lang === 'en') return item.nameEn;
+    return item.nameAr;
+  };
+
+  const getSphereName = (item: SphereData) => {
+    if (lang === 'ku') return item.nameKu;
+    if (lang === 'kmr') return item.nameKmr;
+    if (lang === 'en') return item.nameEn;
+    return item.nameAr;
+  };
 
   const [liquid, setLiquid] = useState<LiquidType>('glycerin');
   const [sphereMaterial, setSphereMaterial] = useState<SphereMaterialType>('steel');
@@ -298,10 +313,10 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
       theoreticalValue: Number((((2 * Math.pow(radiusM, 2) * g * deltaRho) / (9 * eta)) * 100).toFixed(2)),
       unit: 'cm/s',
       parameters: {
-        'Liquid Fluid': lang === 'ar' ? LIQUIDS[liquid].nameAr : lang === 'ku' ? LIQUIDS[liquid].nameKu : lang === 'kmr' ? LIQUIDS[liquid].nameKmr : LIQUIDS[liquid].nameEn,
+        'Liquid Fluid': getLiquidName(LIQUIDS[liquid]),
         'Liquid Viscosity η': `${eta} Pa·s`,
         'Fluid Density ρ_f': `${rhoFluid} kg/m³`,
-        'Sphere Material': lang === 'ar' ? SPHERES[sphereMaterial].nameAr : lang === 'ku' ? SPHERES[sphereMaterial].nameKu : lang === 'kmr' ? SPHERES[sphereMaterial].nameKmr : SPHERES[sphereMaterial].nameEn,
+        'Sphere Material': getSphereName(SPHERES[sphereMaterial]),
         'Sphere Density ρ_s': `${rhoSphere} kg/m³`,
         'Sphere Radius r': `${radiusMm} mm`,
         'Stokes Drag Force Fd': `${stokesDragForceN.toExponential(3)} N`,
@@ -384,7 +399,7 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
                       : 'bg-zinc-800 text-zinc-400 border-zinc-700 hover:text-zinc-200'
                   }`}
                 >
-                  <div>{lang === 'ar' ? LIQUIDS[liq].nameAr : lang === 'ku' ? LIQUIDS[liq].nameKu : lang === 'kmr' ? LIQUIDS[liq].nameKmr : LIQUIDS[liq].nameEn}</div>
+                  <div>{getLiquidName(LIQUIDS[liq])}</div>
                   <div className="text-[10px] text-zinc-500 font-mono">η = {LIQUIDS[liq].eta} Pa·s</div>
                 </button>
               ))}
@@ -407,7 +422,7 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
                       : 'bg-zinc-800 text-zinc-400 border-zinc-700 hover:text-zinc-200'
                   }`}
                 >
-                  <div>{lang === 'ar' ? SPHERES[mat].nameAr : lang === 'ku' ? SPHERES[mat].nameKu : lang === 'kmr' ? SPHERES[mat].nameKmr : SPHERES[mat].nameEn}</div>
+                  <div>{getSphereName(SPHERES[mat])}</div>
                   <div className="text-[10px] text-zinc-500 font-mono">ρ = {SPHERES[mat].rho} kg/m³</div>
                 </button>
               ))}
@@ -475,7 +490,7 @@ export default function ViscosityStokesSim({ lang, onLogMeasurement }: Props) {
                 {eta} <span className="text-xs text-zinc-400">Pa·s</span>
               </div>
               <span className="text-[9px] text-zinc-500 font-mono">
-                {lang === 'ar' ? LIQUIDS[liquid].nameAr : lang === 'ku' ? LIQUIDS[liquid].nameKu : lang === 'kmr' ? LIQUIDS[liquid].nameKmr : LIQUIDS[liquid].nameEn}
+                {getLiquidName(LIQUIDS[liquid])}
               </span>
             </div>
 

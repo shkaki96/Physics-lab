@@ -21,6 +21,11 @@ export default function OpticsSim({ lang, onLogMeasurement }: Props) {
       opticalMediaSelection: 'خصائص الأوساط الضوئية والزوايا', // غير موثّق بمصدر
       notesTIR: 'حدث انعكاس كلي داخلي لأن زاوية السقوط أكبر من الزاوية الحرجة.', // غير موثّق بمصدر
       notesSnell: 'تم التحقق من قانون سنيل n1·sin(θ1) = n2·sin(θ2).', // غير موثّق بمصدر
+      snellsInterface: 'واجهة سنيل للانكسار', // غير موثّق بمصدر
+      laserRay: 'شعاع الليزر', // غير موثّق بمصدر
+      snellsLawSub: 'قانون سنيل', // غير موثّق بمصدر
+      criticalAngleCond: 'n1 > n2 فقط', // غير موثّق بمصدر
+      reflectionLawSub: 'قانون الانعكاس', // غير موثّق بمصدر
     },
     en: {
       normalLine: 'Normal Line',
@@ -28,20 +33,35 @@ export default function OpticsSim({ lang, onLogMeasurement }: Props) {
       opticalMediaSelection: 'Optical Media Selection', // غير موثّق بمصدر
       notesTIR: 'Total internal reflection occurred as incident angle exceeded critical angle.', // غير موثّق بمصدر
       notesSnell: "Verified Snell's Law n1·sin(θ1) = n2·sin(θ2).", // غير موثّق بمصدر
+      snellsInterface: "Snell's Interface",
+      laserRay: 'Laser Ray',
+      snellsLawSub: "Snell's Law",
+      criticalAngleCond: 'n1 > n2 only',
+      reflectionLawSub: 'Law of Reflection',
     },
     ku: {
       normalLine: 'هێڵی ئەستوون (Normal)',
       varRefractionAngle: 'گۆشەی شکانەوە (θ₂)',
       opticalMediaSelection: 'تایبەتمەندییەکانی ناوەندە ڕووناکیەکان و گۆشەکان', // غير موثّق بمصدر
-      notesTIR: 'پاشدانەوەی تەواوی ناوەکی ڕوویدا چونکە گۆشەی کەوتن گەورەتر بوو لە گۆشەی قەدەغەکراو (بڕڕاو).', // غير موثّق بمصدر
-      notesSnell: 'یاسای سنێڵ n1·sin(θ1) = n2·sin(θ2) پشتڕاستکرایەوە.', // غير موثّق بمصدر
+      notesTIR: 'پاشدانەوەی تەواوی ناوەکی ڕوویدا چونکە گۆشەی کەوتن گەورەتر بوو لە گۆشەی قەیراناوی.', // غير موثّق بمصدر
+      notesSnell: 'یاسای سنێل n1·sin(θ1) = n2·sin(θ2) پشتڕاستکرایەوە.', // غير موثّق بمصدر
+      snellsInterface: 'ڕووکاری سنێل بۆ شکانەوە', // غير موثّق بمصدر
+      laserRay: 'تیشکی لێزەر', // غير موثّق بمصدر
+      snellsLawSub: 'یاسای سنێل', // غير موثّق بمصدر
+      criticalAngleCond: 'تەنها n1 > n2', // غير موثّق بمصدر
+      reflectionLawSub: 'یاسای پاشدانەوە', // غير موثّق بمصدر
     },
     kmr: {
       normalLine: 'Xêza stûnî (Normal)',
-      varRefractionAngle: 'Goya şikestinê (θ₂)',
+      varRefractionAngle: 'Goşeya şkestinê (θ₂)', // docs/references/kurmanci-fizik-amadeyi1.md
       opticalMediaSelection: 'Taybetmendiyên hawîrdorên ronahiyê û goşeyan', // غير موثّق بمصدر
       notesTIR: 'Eksbûna navxweyî ya giştî çêbû ji ber ku goşeya ketinê ji goşeya krîtîk mezin de bû.', // غير موثّق بمصدر
-      notesSnell: 'Qanûna Snell n1·sin(θ1) = n2·sin(θ2) hate îspatkirin.', // غير موثّق بمصدر
+      notesSnell: 'Qanûna Snell n1·sin(θ1) = n2·sin(θ2) hate îspatkirin.', // docs/references/kurmanci-fizik-amadeyi1.md
+      snellsInterface: 'Rûyê Snell ê şkestinê', // غير موثّق بمصدر
+      laserRay: 'Tîşka lazerê', // غير موثّق بمصدر
+      snellsLawSub: 'Qanûna Snell', // docs/references/kurmanci-fizik-amadeyi1.md
+      criticalAngleCond: 'Bitênê n1 > n2', // غير موثّق بمصدر
+      reflectionLawSub: 'Qanûna eksbûnê', // غير موثّق بمصدر
     },
   };
   const tText = localTranslations[lang] || localTranslations['ar'];
@@ -49,8 +69,8 @@ export default function OpticsSim({ lang, onLogMeasurement }: Props) {
   const getMediumName = (m: (typeof OPTICAL_MEDIUMS)[0]) => {
     const names: Record<string, string> = {
       ar: m.nameAr,
-      ku: m.nameAr,
-      kmr: m.nameEn,
+      ku: (m as any).nameKu || m.nameAr,
+      kmr: (m as any).nameKmr || m.nameEn,
       en: m.nameEn,
     };
     return names[lang] || m.nameAr;
@@ -129,7 +149,7 @@ export default function OpticsSim({ lang, onLogMeasurement }: Props) {
       // Normal Label
       ctx.fillStyle = '#a1a1aa';
       ctx.font = '11px Inter, sans-serif';
-      ctx.fillText(lang === 'ar' ? 'العمود المقام (Normal)' : 'Normal Line', midX + 8, 35);
+      ctx.fillText(tText.normalLine, midX + 8, 35);
 
       // 2. Incident Ray (Top-Left towards midX, midY)
       const rayLen = 190;
@@ -269,20 +289,18 @@ export default function OpticsSim({ lang, onLogMeasurement }: Props) {
   const handleLog = () => {
     onLogMeasurement({
       experiment: 'optics',
-      variableName: lang === 'ar' ? 'زاوية الانكسار (θ₂)' : 'Angle of Refraction (θ₂)',
+      variableName: tText.varRefractionAngle,
       measuredValue: theta2Deg !== null ? Number(theta2Deg.toFixed(2)) : 90,
       theoreticalValue: theta2Deg !== null ? Number(theta2Deg.toFixed(2)) : 90,
       unit: '°',
       parameters: {
-        'Medium 1': `${lang === 'ar' ? med1.nameAr : med1.nameEn} (n=${n1})`,
-        'Medium 2': `${lang === 'ar' ? med2.nameAr : med2.nameEn} (n=${n2})`,
+        'Medium 1': `${getMediumName(med1)} (n=${n1})`,
+        'Medium 2': `${getMediumName(med2)} (n=${n2})`,
         'Incident Angle (θ₁)': `${incidentAngleDeg}°`,
         'Critical Angle (θ_c)': criticalAngleDeg ? `${criticalAngleDeg.toFixed(1)}°` : 'None',
         TIR: isTIR ? 'Yes (Total Internal Reflection)' : 'No (Refraction Occurred)',
       },
-      notes: isTIR
-        ? 'حدث انعكاس كلي داخلي لأن زاوية السقوط أكبر من الزاوية الحرجة.'
-        : 'تم التحقق من قانون سنيل n1·sin(θ1) = n2·sin(θ2).',
+      notes: isTIR ? tText.notesTIR : tText.notesSnell,
     });
 
     setLoggedSuccess(true);
@@ -307,7 +325,7 @@ export default function OpticsSim({ lang, onLogMeasurement }: Props) {
             }`}
           >
             <Eye className="w-3.5 h-3.5" />
-            <span>Snell&apos;s Interface</span>
+            <span>{tText.snellsInterface}</span>
           </button>
           <button
             onClick={() => setIsPrismMode(true)}
@@ -347,11 +365,11 @@ export default function OpticsSim({ lang, onLogMeasurement }: Props) {
               <div className="w-full border-t border-zinc-800/80 p-3 bg-zinc-900/40 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <span className="text-zinc-400">{t.medium1}:</span>
-                  <span className="font-semibold text-sky-300">{lang === 'ar' ? med1.nameAr : med1.nameEn} (n={n1})</span>
+                  <span className="font-semibold text-sky-300">{getMediumName(med1)} (n={n1})</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-zinc-400">{t.medium2}:</span>
-                  <span className="font-semibold text-amber-300">{lang === 'ar' ? med2.nameAr : med2.nameEn} (n={n2})</span>
+                  <span className="font-semibold text-amber-300">{getMediumName(med2)} (n={n2})</span>
                 </div>
               </div>
             )}
@@ -362,7 +380,7 @@ export default function OpticsSim({ lang, onLogMeasurement }: Props) {
             <div className="p-3.5 rounded-xl border border-zinc-800 bg-zinc-900/60">
               <span className="text-[11px] text-zinc-400 block">{t.incidentAngle} (θ₁)</span>
               <span className="text-xl font-bold text-sky-400 font-mono mt-0.5 block">{incidentAngleDeg}°</span>
-              <span className="text-[10px] text-zinc-400 block mt-0.5">Laser Ray</span>
+              <span className="text-[10px] text-zinc-400 block mt-0.5">{tText.laserRay}</span>
             </div>
 
             <div className="p-3.5 rounded-xl border border-zinc-800 bg-zinc-900/60">
@@ -370,7 +388,7 @@ export default function OpticsSim({ lang, onLogMeasurement }: Props) {
               <span className="text-xl font-bold text-amber-400 font-mono mt-0.5 block">
                 {isTIR ? 'TIR' : `${theta2Deg?.toFixed(1)}°`}
               </span>
-              <span className="text-[10px] text-zinc-400 block mt-0.5">Snell&apos;s Law</span>
+              <span className="text-[10px] text-zinc-400 block mt-0.5">{tText.snellsLawSub}</span>
             </div>
 
             <div className="p-3.5 rounded-xl border border-zinc-800 bg-zinc-900/60">
@@ -378,13 +396,13 @@ export default function OpticsSim({ lang, onLogMeasurement }: Props) {
               <span className="text-xl font-bold text-purple-400 font-mono mt-0.5 block">
                 {criticalAngleDeg ? `${criticalAngleDeg.toFixed(1)}°` : 'N/A'}
               </span>
-              <span className="text-[10px] text-zinc-400 block mt-0.5">n1 &gt; n2 only</span>
+              <span className="text-[10px] text-zinc-400 block mt-0.5">{tText.criticalAngleCond}</span>
             </div>
 
             <div className="p-3.5 rounded-xl border border-zinc-800 bg-zinc-900/60">
               <span className="text-[11px] text-zinc-400 block">{t.reflectedAngle} (θ_r)</span>
               <span className="text-xl font-bold text-emerald-400 font-mono mt-0.5 block">{incidentAngleDeg}°</span>
-              <span className="text-[10px] text-zinc-400 block mt-0.5">Law of Reflection</span>
+              <span className="text-[10px] text-zinc-400 block mt-0.5">{tText.reflectionLawSub}</span>
             </div>
           </div>
         </div>
@@ -393,7 +411,7 @@ export default function OpticsSim({ lang, onLogMeasurement }: Props) {
         <div className="lg:col-span-5 space-y-4">
           <div className="p-5 rounded-xl border border-zinc-800 bg-zinc-900/40 space-y-4">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-              {lang === 'ar' ? 'خصائص الأوساط الضوئية والزوايا' : 'Optical Media Selection'}
+              {tText.opticalMediaSelection}
             </h3>
 
             {/* Medium 1 Select */}
@@ -407,7 +425,7 @@ export default function OpticsSim({ lang, onLogMeasurement }: Props) {
               >
                 {OPTICAL_MEDIUMS.map((m) => (
                   <option key={m.id} value={m.id}>
-                    {lang === 'ar' ? m.nameAr : m.nameEn} (n = {m.n})
+                    {getMediumName(m)} (n = {m.n})
                   </option>
                 ))}
               </select>
@@ -424,7 +442,7 @@ export default function OpticsSim({ lang, onLogMeasurement }: Props) {
               >
                 {OPTICAL_MEDIUMS.map((m) => (
                   <option key={m.id} value={m.id}>
-                    {lang === 'ar' ? m.nameAr : m.nameEn} (n = {m.n})
+                    {getMediumName(m)} (n = {m.n})
                   </option>
                 ))}
               </select>

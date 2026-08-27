@@ -20,6 +20,50 @@ export default function ThermodynamicsSim({ lang, onLogMeasurement }: Props) {
   const t = TRANSLATIONS[lang].experiments.thermodynamics;
   const controls = TRANSLATIONS[lang].controls;
 
+  const localTranslations = {
+    ar: {
+      varPressure: 'ضغط الغاز المحسوب (P)',
+      pistonChamber: 'حجرة الأسطوانة والكباس', // غير موثّق بمصدر
+      pvDiagram: 'مخطط مؤشر P-V', // غير موثّق بمصدر
+      tempLabel: 'درجة الحرارة',
+      gasParameters: 'معايير حالة الغاز', // غير موثّق بمصدر
+      idealGasLaw: 'معادلة الغاز المثالي', // غير موثّق بمصدر
+      notesFormat: (temp: number, vol: string, press: string) =>
+        `حالة الغاز المثالي عند T=${temp}K و V=${vol}L. الضغط الناتج P=${press} kPa.`, // غير موثّق بمصدر
+    },
+    en: {
+      varPressure: 'Calculated Gas Pressure (P)',
+      pistonChamber: 'Piston Cylinder Chamber',
+      pvDiagram: 'P-V Indicator Diagram',
+      tempLabel: 'Temp',
+      gasParameters: 'Gas State Parameters',
+      idealGasLaw: 'Ideal Gas Law',
+      notesFormat: (temp: number, vol: string, press: string) =>
+        `Ideal Gas state trial at T=${temp}K, V=${vol}L. Pressure P=${press} kPa.`,
+    },
+    ku: {
+      varPressure: 'پەستانی گازی هەژمارکراو (P)',
+      pistonChamber: 'ژووری بڕبڕە و پستۆن', // غير موثّق بمصدر
+      pvDiagram: 'هێڵکاری نیشاندەری P-V', // غير موثّق بمصدر
+      tempLabel: 'پلەی گەرمی',
+      gasParameters: 'پێوەرەکانی باری گاز', // غير موثّق بمصدر
+      idealGasLaw: 'هاوکێشەی گازی نموونەیی', // غير موثّق بمصدر
+      notesFormat: (temp: number, vol: string, press: string) =>
+        `باری گازی نموونەیی لە T=${temp}K و V=${vol}L. پەستانی دەرچوو P=${press} kPa.`, // غير موثّق بمصدر
+    },
+    kmr: {
+      varPressure: 'Zexta gazê ya hesabkirî (P)', // غير موثّق بمصدر
+      pistonChamber: 'Odeya silindir û pistonê', // غير موثّق بمصدر
+      pvDiagram: 'Dîagrama nîşander a P-V', // غير موثّق بمصدر
+      tempLabel: 'Pîleya germiyê', // docs/references/kurmanci-fizik-amadeyi1.md
+      gasParameters: 'Parametreyên rewşa gazê', // غير موثّق بمصدر
+      idealGasLaw: 'Hevkêşeya gazên îdeal', // غير موثّق بمصدر
+      notesFormat: (temp: number, vol: string, press: string) =>
+        `Taqîkirina rewşa gazên îdeal li T=${temp}K, V=${vol}L. Zext P=${press} kPa.`, // غير موثّق بمصدر
+    },
+  };
+  const tText = localTranslations[lang] || localTranslations['ar'];
+
   // Thermodynamic State variables
   const [temperature, setTemperature] = useState<number>(300); // Kelvin (T)
   const [volume, setVolume] = useState<number>(5.0); // Liters (V)
@@ -331,7 +375,7 @@ export default function ThermodynamicsSim({ lang, onLogMeasurement }: Props) {
   const handleLog = () => {
     onLogMeasurement({
       experiment: 'thermodynamics',
-      variableName: lang === 'ar' ? 'ضغط الغاز المحسوب (P)' : 'Calculated Gas Pressure (P)',
+      variableName: tText.varPressure,
       measuredValue: Number(calculatedPressure.toFixed(2)),
       theoreticalValue: Number(((moles * R * temperature) / (volume * 10)).toFixed(2)),
       unit: 'kPa',
@@ -343,10 +387,7 @@ export default function ThermodynamicsSim({ lang, onLogMeasurement }: Props) {
         'Ideal Gas Constant R': '8.314 J/(mol·K)',
       },
       equation: 'P · V = n · R · T',
-      notes:
-        lang === 'ar'
-          ? `حالة الغاز المثالي عند T=${temperature}K و V=${volume.toFixed(1)}L. الضغط الناتج P=${calculatedPressure.toFixed(2)} kPa.`
-          : `Ideal Gas state trial at T=${temperature}K, V=${volume.toFixed(1)}L.`,
+      notes: tText.notesFormat(temperature, volume.toFixed(1), calculatedPressure.toFixed(2)),
     });
     setLogged(true);
     setTimeout(() => setLogged(false), 2000);
@@ -382,7 +423,7 @@ export default function ThermodynamicsSim({ lang, onLogMeasurement }: Props) {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
           <div className="md:col-span-7 rounded-2xl border border-zinc-800 bg-zinc-950 overflow-hidden shadow-2xl p-2 space-y-2">
             <div className="px-2 py-1 text-xs text-zinc-300 font-semibold flex items-center justify-between border-b border-zinc-850">
-              <span>{lang === 'ar' ? 'حجرة الأسطوانة والكباس' : 'Piston Cylinder Chamber'}</span>
+              <span>{tText.pistonChamber}</span>
               <span className="text-[10px] text-zinc-500 font-mono">V = {volume.toFixed(1)} L</span>
             </div>
             <canvas ref={canvasRef} width={450} height={320} className="w-full h-[320px] block rounded-xl" />
@@ -390,7 +431,7 @@ export default function ThermodynamicsSim({ lang, onLogMeasurement }: Props) {
 
           <div className="md:col-span-5 rounded-2xl border border-zinc-800 bg-zinc-950 overflow-hidden shadow-2xl p-2 space-y-2">
             <div className="px-2 py-1 text-xs text-amber-400 font-semibold flex items-center justify-between border-b border-zinc-850">
-              <span>{lang === 'ar' ? 'مخطط مؤشر P-V' : 'P-V Indicator Diagram'}</span>
+              <span>{tText.pvDiagram}</span>
               <span className="text-[10px] text-zinc-500 font-mono">P = {calculatedPressure.toFixed(1)} kPa</span>
             </div>
             <canvas ref={pvCanvasRef} width={300} height={320} className="w-full h-[320px] block rounded-xl" />
@@ -434,7 +475,7 @@ export default function ThermodynamicsSim({ lang, onLogMeasurement }: Props) {
           </div>
 
           <div className="font-mono text-xs text-zinc-300">
-            {lang === 'ar' ? 'درجة الحرارة' : 'Temp'}: <span className="text-amber-400 font-bold">{temperature} K</span> ({temperature - 273}°C)
+            {tText.tempLabel}: <span className="text-amber-400 font-bold">{temperature} K</span> ({temperature - 273}°C)
           </div>
         </div>
 
@@ -467,7 +508,7 @@ export default function ThermodynamicsSim({ lang, onLogMeasurement }: Props) {
         <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-4">
           <h3 className="text-xs font-bold text-zinc-300 uppercase tracking-wider flex items-center gap-1.5">
             <Gauge className="w-3.5 h-3.5 text-amber-400" />
-            <span>{lang === 'ar' ? 'معايير حالة الغاز' : 'Gas State Parameters'}</span>
+            <span>{tText.gasParameters}</span>
           </h3>
 
           {/* Volume Slider */}
@@ -524,7 +565,7 @@ export default function ThermodynamicsSim({ lang, onLogMeasurement }: Props) {
 
         {/* State Equation Box */}
         <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-2 text-xs font-mono">
-          <span className="text-zinc-400 block font-sans font-bold">{lang === 'ar' ? 'معادلة الغاز المثالي' : 'Ideal Gas Law'}</span>
+          <span className="text-zinc-400 block font-sans font-bold">{tText.idealGasLaw}</span>
           <div className="p-3 rounded-xl bg-zinc-950 border border-zinc-800 text-amber-400 text-center text-sm font-bold">
             P · V = n · R · T
           </div>

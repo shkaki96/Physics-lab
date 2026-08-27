@@ -1,26 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Globe, ChevronDown, Check } from 'lucide-react';
 import { Language } from '../types';
+import { LANGUAGES, LanguageOption } from '../config/languages';
+
+export type { LanguageOption };
 
 interface Props {
   currentLang: Language;
   onSelectLang: (lang: Language) => void;
   className?: string;
 }
-
-export interface LanguageOption {
-  code: Language;
-  label: string;
-  subLabel: string;
-  kurdishBadge?: boolean;
-}
-
-export const LANGUAGES: LanguageOption[] = [
-  { code: 'ku', label: 'سۆرانی', subLabel: 'Kurdî (Sorani)', kurdishBadge: true },
-  { code: 'kmr', label: 'Kurmancî', subLabel: 'Kurdî (Kurmanji)', kurdishBadge: true },
-  { code: 'en', label: 'English', subLabel: 'English' },
-  { code: 'ar', label: 'العربية', subLabel: 'Arabic' },
-];
 
 export default function LanguageSelector({ currentLang, onSelectLang, className = '' }: Props) {
   const [isOpen, setIsOpen] = useState(false);

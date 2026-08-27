@@ -713,22 +713,22 @@ export const PhysicsEquationKeyboard: React.FC<PhysicsEquationKeyboardProps> = (
               </button>
             </div>
 
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 shrink-0 min-w-0">
               <button
                 onClick={() => handleInsert(' ')}
-                className="px-3 py-1.5 bg-zinc-900 hover:bg-zinc-750 text-zinc-300 rounded-lg border border-zinc-800 font-mono text-xs flex items-center gap-1.5 transition-colors"
+                className="px-3 py-1.5 bg-zinc-900 hover:bg-zinc-750 text-zinc-300 rounded-lg border border-zinc-800 font-mono text-xs flex items-center gap-1.5 transition-colors shrink-0"
               >
                 <span>␣</span>
-                <span>{lang === 'ar' ? 'مسافة' : lang === 'ku' ? 'بۆشایی' : 'Space'}</span>
+                <span className="truncate">{lang === 'ar' ? 'مسافة' : lang === 'ku' ? 'بۆشایی' : 'Space'}</span>
               </button>
 
               {onInsert && (
                 <button
                   onClick={() => onInsert(currentValue)}
-                  className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-medium text-xs flex items-center gap-1.5 transition-colors shadow-sm"
+                  className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-medium text-xs flex items-center gap-1.5 transition-colors shadow-sm shrink-0 min-w-0"
                 >
-                  <CornerDownLeft className="w-3.5 h-3.5" />
-                  <span>{lang === 'ar' ? 'إدراج في الحقل' : lang === 'ku' ? 'تێکردن بۆ خانە' : lang === 'kmr' ? 'Têxe nav xanî' : 'Insert'}</span>
+                  <CornerDownLeft className="w-3.5 h-3.5 shrink-0" />
+                  <span className="truncate">{lang === 'ar' ? 'إدراج في الحقل' : lang === 'ku' ? 'تێکردن بۆ خانە' : lang === 'kmr' ? 'Têxe nav xanî' : 'Insert'}</span>
                 </button>
               )}
             </div>
